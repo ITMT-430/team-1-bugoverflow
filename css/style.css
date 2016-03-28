@@ -1,0 +1,25 @@
+.page-header {
+    text-align: center;
+}
+
+#bugicon {
+    height: 100px;
+    margin: 10px;
+}
+
+.vote {
+    text-align: center;
+}
+
+.voteup
+.votedown {
+    display: block;
+}
+
+.post-taglist {
+    text-align: center;
+}
+
+mark {
+	background-color: #ccd9ff;
+}
