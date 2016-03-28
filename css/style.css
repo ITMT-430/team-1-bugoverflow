@@ -23,3 +23,13 @@
 mark {
 	background-color: #ccd9ff;
 }
+
+#about-header{
+	text-align: center;
+}
+
+#about-text1, #about-text2, #about-text3 {
+	/*text-align: center;*/
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
