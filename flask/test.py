@@ -16,5 +16,18 @@ def process_form():
 
        return render_template('index.html',entries=entries)
 
+@app.route('/signup', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != 'admin':
+            error = 'Invalid username'
+        elif request.form['password'] != 'leech':
+            error = 'Invalid password'
+        else:
+            session['logged_in'] = True
+            flash('You were logged in')
+            return redirect(url_for('show_entries'))
+    return render_template('signup.html', error=error)
 if __name__ == '__main__':
    app.run(debug=True)
