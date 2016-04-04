@@ -33,3 +33,18 @@ mark {
 	padding-top: 15px;
 	padding-bottom: 15px;
 }
+
+#col-signup {
+	padding-top: 10px;
+	margin-bottom: 20px;
+	/*border: 1px gray solid;*/
+}
+
+#content2, #content2-header {
+	text-align: center;
+}
+
+#submit-comment {
+	float: right;
+	margin: 10px;
+}
