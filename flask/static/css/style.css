@@ -34,7 +34,13 @@ mark {
 	padding-bottom: 15px;
 }
 
-#profile-btn, #logout-btn {
-    margin-top: 9px;
-    margin-right: 5px;
+#profile-btn {
+    margin-top: 15px;
+    /*margin-right: 5px;*/
+}
+
+#thumb, img.img-responsive{
+    margin: 5px;
+    height: 150px;
+    width: 150px;
 }
