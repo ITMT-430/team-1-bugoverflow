@@ -23,7 +23,7 @@
                 <li><a href="tags.html">tags</a></li>
                 <li><a href="about.html">about</a></li>
             </ul>
-            <form class="navbar-form navbar-right" role="search" action={{url_for('login')}}            method=post>
+            <form class="navbar-form navbar-right" role="search" action={{url_for('login')}} method=post>
                 <div class="form-group">
                     <input type="text" class="form-control" name="username" placeholder="Username">
                 </div>
@@ -55,9 +55,11 @@
                     </button>
                 </li>
                 <li>
-                    <button id="logout-btn" type="button" class="btn btn-danger btn-sm">
-                    <span class="glyphicon glyphicon-log-out"></span>
+                <a href="{{url_for('logout')}}">
+                    <button id="logout-btn" type="button" class="btn btn-danger btn-sm" >
+                        <span class="glyphicon glyphicon-log-out"></span>
                     </button>
+                </a>
                 </li>
             </ul>
         </div>

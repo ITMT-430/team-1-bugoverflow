@@ -33,11 +33,28 @@ def login():
         flash('login succeeded')
     return redirect(url_for('index'))
         
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    return redirect(url_for('index'))
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     return render_template('signup.html')
     ##TODO
     pass
+
+bugs={
+"140602.png" : ['ladybug', 'beetle', 'spotted'],
+"Dore-Justice.jpg" : ['parasites', 'anthill'],
+"Dore-Portrait-of-Dante.jpg" : ['mantis', 'machine'],
+"Dore-Rose.jpg": ['Borer', 'Mining'],
+"Dore-Woe's-me.jpg": ["dampwood", "drywood", "varieties"],
+"Dore-Wretched-Hands.jpg": [],
+"Dore-Writhing.jpg": [],
+"General_Winter.jpg": [],
+"akagi-3928579.jpg": [],
+"escher-babel.jpg":[]
+}
 
 
 @app.route('/bug/<path:path>', methods=['GET', 'POST'])
@@ -45,6 +62,7 @@ def bug(path):
     tags = ['ladybug', 'beetle', 'spotted']
     question = "What bug is this??"
     bug_image = bugpath+path
+    tags = bugs[path]
 
     return render_template('bug.html',
             tags = tags,
@@ -56,6 +74,7 @@ def bug(path):
 
     ## TODO
     pass
+
 
 if __name__ == '__main__':
    app.run(debug=True)
