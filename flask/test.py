@@ -36,5 +36,14 @@ def signup():
     return render_template('signup.html')
     ##TODO
     pass
+
+
+@app.route('/bug', methods=['GET', 'POST'])
+def bug():
+    # [tags]
+    # question
+    ## TODO
+    pass
+
 if __name__ == '__main__':
    app.run(debug=True)
