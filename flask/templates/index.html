@@ -14,11 +14,8 @@
     <div class="container">
         <!-- Header -->
         <div class="page-header">
-            <img id="bugicon" src="images/Bug-512.png">
+            <!-- <img id="bugicon" src="images/Bug-512.png"> -->
             <p><i>"Serving your bug finding needs..."</i></p>
-            {% if session.logged_in %}
-            <p><i> {{session.logged_in}} {{session.username}} {{session}} </i></p>
-            {% endif %}
         </div>
 
         <br>
@@ -31,7 +28,7 @@
                 </a>
             </div>
 
-        <!-- This generates our thumbnails automagically, by flask -->
+        <!-- This generates our thumbnails automatically, by flask -->
             {% for entry in entries %}
                 <div class="col-lg-2 thumb">
                     <a class="thumbnail" href="{{ entry.link }}">
