@@ -34,7 +34,7 @@ mark {
 	padding-bottom: 15px;
 }
 
-#profile-btn {
-    margin-top: 7px;
+#profile-btn, #logout-btn {
+    margin-top: 9px;
     margin-right: 5px;
 }
