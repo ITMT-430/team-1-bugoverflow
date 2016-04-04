@@ -18,17 +18,12 @@
     <!-- Page Container -->
     <div class="container">
         <!-- Header -->
-        <div class="page-header">
-            <img id="bugicon" src="images/Bug-512.png">
-            <p><i>"Serving your bug finding needs..."</i></p>
-        </div>
+        {{ macro.header_image() }} 
 
-        <br>
         <!-- Content -->
         <div class="content">
             <div class="question-header">
                 <h1> {{ question }} </h1>
-                #<h1>What bug is this?</h1>
             </div>
             <div class="main">
                 <div class="question">
@@ -49,21 +44,15 @@
                                 <td class="postcell">
                                     <div>
                                         <div class="post-image">
-                                            <img class="img-responsive" src="https://www.bugs.com/images/pest-library/other-bugs.png" alt="">
+                                            <img class="img-responsive" src="{{url_for('static', filename=bug_image)}}" alt="">
                                         </div>
                                         <div class="post-taglist">
                                             Tags:
                                             {% for tag in tags %}
                                             <a href="#">
-                                                <mark>ladybug</mark>
+                                                <mark>{{tag}}</mark>
                                             </a>
                                             {% endfor %}
-                                            <a href="#">
-                                                <mark>beetle</mark>
-                                            </a>
-                                            <a href="#">
-                                                <mark>spotted</mark>
-                                            </a>
                                         </div>
                                     </div>
                                 </td>
