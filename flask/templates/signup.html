@@ -12,23 +12,21 @@
     <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
     <!-- JavaScript -->
     <script src=" {{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-
 </head>
 
 <body>
     <!-- Navigation -->
-    {% if not session.logged_in %}
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="index.html">Bug Overflow</a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active"><a href="index.html">Home</a></li>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="tags.html">Tags</a></li>
                 <li><a href="about.html">About</a></li>
             </ul>
-            <form class="navbar-form navbar-right" role="search" action={{url_for('login')}} method=post>
+            <form class="navbar-form navbar-right" role="search">
                 <div class="form-group">
                     <input type="text" class="form-control" name="username" placeholder="Username">
                 </div>
@@ -36,14 +34,10 @@
                     <input type="text" class="form-control" name="password" placeholder="Password">
                 </div>
                 <button type="submit" class="btn btn-default">Log In</button>
-                <a href="signup.html" class="btn btn-primary">Sign Up</a>
+                <a class="btn btn-primary" href="signup.html">Sign Up</a>
             </form>
         </div>
     </nav>
-    {% else %}
-        <h2> {{session.username}} </h2>
-    {% endif %}
-
 
 
     <!-- Page Container -->
@@ -52,29 +46,38 @@
         <div class="page-header">
             <img id="bugicon" src="images/Bug-512.png">
             <p><i>"Serving your bug finding needs..."</i></p>
-            {% if session.logged_in %}
-            <p><i> {{session.logged_in}} {{session.username}} {{session}} </i></p>
-            {% endif %}
         </div>
 
         <br>
-        <!-- Content -->
         <div class="content">
-
-            <div class="col-lg-2 thumb">
-                <a class="thumbnail" href="bug.html">
-                    <img class="img-responsive" src="https://www.bugs.com/images/pest-library/other-bugs.png">
-                </a>
+            <div class="col-md-6">
+                <form>
+                    <div class="form-group row">
+                        <label for="inputUName" class="col-sm-4 form-control-label">Username</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputUname" placeholder="Username">
+                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputEmail" class="col-sm-4 form-control-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-4 form-control-label">Password</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-offset-4 col-sm-10">
+                            <button type="submit" class="btn btn-primary">Sign Up</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-
-        <!-- This generates our thumbnails automagically, by flask -->
-            {% for entry in entries %}
-                <div class="col-lg-2 thumb">
-                    <a class="thumbnail" href="{{ entry.link }}">
-                        <img class="img-responsive" src="{{url_for('static', filename=entry.imagepath )}}">
-                    </a>
-                </div>
-            {% endfor %}
+            <div class="col-md-6"></div>
         </div>
 
 
