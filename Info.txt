@@ -1,12 +1,12 @@
 NOTE: We should get a VPN and the ssh would only be open to that VPN ip.
 
 Web Server
-Software: Python3, Nginx
+Software: Python3, Nginx, Flask
 Elastic IP: 64.131.111.32
 Hardware: m1.medium
 Security: 
 HTTP (anywhere incoming) HTTP (established only outgoing)
-SSH
+SSH, HTTP, HTTPS, TCP 5000, ICMP
 
 MySQL Server (Read)
 IP: 64.131.111.26
@@ -23,3 +23,9 @@ Software: MySql
 Security: 
 MySql (port 3306, only 64.131.111.32),
  SSH (port 22)
+ 
+ Continuous Integration Server
+ IP:64.131.111.25
+ Hardware:m1.xlarge
+ Software: Jenkins
+ Security: SSH, HTTP, HTTPS, TCP 5000, ICMP
