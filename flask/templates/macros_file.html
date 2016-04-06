@@ -45,30 +45,26 @@
             <ul class="nav navbar-nav">
                 {% if index == 'true' %}
                 <li class="active"><a href="index">home</a></li>
-                <li><a href="tags.html">tags</a></li>
-                <li><a href="about.html">about</a></li>
+                <li><a href="tags">tags</a></li>
+                <li><a href="about">about</a></li>
                 {% elif tags == 'true'  %}
                 <li><a href="index">home</a></li>
-                <li class="active"><a href="tags.html">tags</a></li>
-                <li><a href="about.html">about</a></li>
+                <li class="active"><a href="tags">tags</a></li>
+                <li><a href="about">about</a></li>
                 {% elif about == 'true'  %}
                 <li><a href="index">home</a></li>
-                <li><a href="tags.html">tags</a></li>
-                <li class="active"><a href="about.html">about</a></li>
+                <li><a href="tags">tags</a></li>
+                <li class="active"><a href="about">about</a></li>
                 {% else %}
                 <li><a> navbar highlight value wasn't set. </a></li>
                 {% endif %}
-                <li><a href="tags.html">tags</a></li>
-                <li><a href="about.html">about</a></li>
-                 <li id="upload-btn">
-                    <span class="btn btn-primary btn-file">upload<input type="file"></span>
+                <li><a href="tags">tags</a></li>
+                <li><a href="about">about</a></li>
+                <li>
                     <!-- <span class="btn btn-primary btn-file">upload<input type="file"></span> -->
-                    <!-- <a href="upload" class="btn btn-primary btn-md">upload</a> -->
+                    <a href="upload" id="upload-btn" class="btn btn-primary btn-md">upload</a>
                 </li>
             </ul>
-            <!-- <a class="navbar-center" href="#">
-                <button type="submit" class="btn btn-default btn-lg">Upload</button>
-            </a> -->
             <ul class="nav navbar-nav navbar-right">
                <li>
                     <div class="dropdown">
