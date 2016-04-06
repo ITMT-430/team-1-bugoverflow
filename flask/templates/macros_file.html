@@ -43,18 +43,18 @@
                 <a class="navbar-brand" href="/">Bug Overflow</a>
             </div>
             <ul class="nav navbar-nav">
-                {% if index %}
+                {% if index == 'true' %}
                 <li class="active"><a href="index">home</a></li>
                 <li><a href="tags.html">tags</a></li>
                 <li><a href="about.html">about</a></li>
-                {% elif tags %}
-                <li class="active"><a href="index">home</a></li>
-                <li><a href="tags.html">tags</a></li>
+                {% elif tags == 'true'  %}
+                <li><a href="index">home</a></li>
+                <li class="active"><a href="tags.html">tags</a></li>
                 <li><a href="about.html">about</a></li>
-                {% elif about %}
-                <li class="active"><a href="index">home</a></li>
+                {% elif about == 'true'  %}
+                <li><a href="index">home</a></li>
                 <li><a href="tags.html">tags</a></li>
-                <li><a href="about.html">about</a></li>
+                <li class="active"><a href="about.html">about</a></li>
                 {% else %}
                 <li><a> navbar highlight value wasn't set. </a></li>
                 {% endif %}

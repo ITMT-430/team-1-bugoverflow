@@ -44,15 +44,8 @@ def signup():
     ##TODO
     pass
 
-@app.route('/tags')
-def tags():
-	return render_template('tags.html')
-	##TODO
-	pass
-
 @app.route('/about', methods=['GET', 'POST'])
 def about():
-
     # About.html doesn't exist
     return render_template('about.html', about=True)
     ## TODO
