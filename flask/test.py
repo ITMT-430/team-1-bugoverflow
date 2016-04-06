@@ -85,8 +85,8 @@ def bug(path):
     pass
 
 @app.route('/tags/<path:path>', methods=['GET', 'POST'])
-def tag(tagname):
-    print tagname
+def tag(path):
+    print path
     # get all bugs with tagname
     # pass it to the template
     return render_template('tags.html', tags=True)
@@ -98,4 +98,4 @@ def tag(tagname):
 
 
 if __name__ == '__main__':
-   app.run(host='0.0.0.0')
+   app.run(host='0.0.0.0', debug=True)
