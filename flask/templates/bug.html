@@ -25,22 +25,12 @@
                     <table>
                         <tbody>
                             <tr>
-                                <td class="votecell">
-                                    <div class="vote">
-                                        <a class="voteup" href="#">
-                                            <span class="glyphicon glyphicon-triangle-top"></span>
-                                        </a>
-                                        <span class="vote-count">0</span>
-                                        <a class="votedown" href="#">
-                                            <span class="glyphicon glyphicon-triangle-bottom"></span>
-                                        </a>
-                                    </div>
-                                </td>
                                 <td class="postcell">
                                     <div>
                                         <div class="post-image">
-                                            <img class="img-responsive" src="{{url_for('static', filename=bug_image)}}" alt="">
+                                            <img src="{{url_for('static', filename=bug_image)}}" alt="">
                                         </div>
+                                        <br>
                                         <div class="post-taglist">
                                             Tags:
                                             {% for tag in tags %}

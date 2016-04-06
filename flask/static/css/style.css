@@ -7,15 +7,6 @@
     margin: 10px;
 }
 
-.vote {
-    text-align: center;
-}
-
-.voteup
-.votedown {
-    display: block;
-}
-
 .post-taglist {
     text-align: center;
 }
@@ -39,7 +30,17 @@ mark {
     margin-right: 15px;
 }*/
 
-#thumb, img.img-responsive{
+.sidebarcell {
+    padding-left: 70px;
+}
+
+img{
+    text-align: center;
+    height: 400px;
+    width: auto;
+}
+
+img.img-responsive{
     margin: 5px;
     height: 150px;
     width: 150px;
