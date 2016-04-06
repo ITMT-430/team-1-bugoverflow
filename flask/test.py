@@ -37,10 +37,16 @@ def login():
 def logout():
     session.pop('logged_in', None)
     return redirect(url_for('index'))
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     return render_template('signup.html')
     ##TODO
+    pass
+
+@app.route('/about', methods=['GET', 'POST'])
+def about():
+    ## TODO
     pass
 
 bugs={
@@ -74,6 +80,14 @@ def bug(path):
 
     ## TODO
     pass
+
+@app.route('/tags/<path:path>', methods=['GET', 'POST'])
+def tag(tagname):
+    ## TODO
+    pass
+
+
+
 
 
 if __name__ == '__main__':
