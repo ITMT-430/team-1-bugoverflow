@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% import 'macros_file.html' as macro %}
+<html lang="en">
+
+<head>
+ {{ macro.standard_header("Bug Overflow") }}
+</head>
+
+<body>
+    <!-- Navigation -->
+    {{ macro.navbar() }}
+
+
+    <!-- Page Container -->
+    <div class="container">
+        <!-- Header -->
+        {{ macro.header_image() }}
+
+        <br>
+        <div class="content">
+            <div class="col-lg-12">
+                <p><h1 id="about-header">Bug Overflow</h1></p>
+            </div>
+            <div class="col-lg-4">
+                <p id="about-text1">
+                    This project was created and collaborated between Zubin Fanibanda, Alfredo Fernandez, Neil Okhandiar and Brandon Sansone.
+                </p>
+            </div>
+            <div class="col-lg-4">
+                <p id="about-text2">
+                    The purpose of this project is to create a gallery of unidentied bugs where users can come and share their knowledge about that bug. 
+                </p>
+            </div>
+            <div class="col-lg-4">
+                <p id="about-text3">
+                    Based on the designs and functionality of Stack Overflow.
+                </p>
+            </div>
+        </div>
+
+
+        <br>
+
+
+        <!-- Footer -->
+        {{ macro.standard_footer() }}
+
+</body>
+
+</html>
