@@ -46,7 +46,7 @@ def signup():
 
 @app.route('/tags')
 def tags():
-	return render_template('tags.html')
+	return render_template('tags.hmtl')
 	##TODO
 	pass
 
