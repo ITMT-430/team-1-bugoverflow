@@ -43,7 +43,21 @@
                 <a class="navbar-brand" href="index">Bug Overflow</a>
             </div>
             <ul class="nav navbar-nav">
+                {% if index %}
                 <li class="active"><a href="index">home</a></li>
+                <li><a href="tags.html">tags</a></li>
+                <li><a href="about.html">about</a></li>
+                {% elif tags %}
+                <li class="active"><a href="index">home</a></li>
+                <li><a href="tags.html">tags</a></li>
+                <li><a href="about.html">about</a></li>
+                {% elif about %}
+                <li class="active"><a href="index">home</a></li>
+                <li><a href="tags.html">tags</a></li>
+                <li><a href="about.html">about</a></li>
+                {% else %}
+                <li><a> navbar highlight value wasn't set. </a></li>
+                {% endif %}
                 <li><a href="tags.html">tags</a></li>
                 <li><a href="about.html">about</a></li>
                  <li id="upload-btn">
