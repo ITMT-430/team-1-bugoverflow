@@ -94,6 +94,7 @@ def bug(path):
     ## TODO
     pass
 
+#selected tag
 @app.route('/tags/<path:path>', methods=['GET', 'POST'])
 def tag(path):
     print path
@@ -103,6 +104,15 @@ def tag(path):
     ## TODO
     pass
 
+#direct to tags
+@app.route('/tags', methods=['GET', 'POST'])
+def tag():
+
+    # this page needs to do a word cloud or whatever
+    # instead of displaying images of bugs with the given tag
+    return render_template('tag.html', tags=True)
+    ##TODO
+    pass
 
 
 
