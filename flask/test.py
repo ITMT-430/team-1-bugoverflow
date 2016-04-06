@@ -83,6 +83,8 @@ def bug(path):
 
 @app.route('/tags/<path:path>', methods=['GET', 'POST'])
 def tag(tagname):
+    # get all bugs with tagname
+    # pass it to the template
     ## TODO
     pass
 
