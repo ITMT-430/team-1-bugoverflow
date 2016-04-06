@@ -12,12 +12,12 @@ bugpath = "imgs/bugs/"
 ## ~~ nyaa ~~
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 @app.route('/',methods=['GET'])
+@app.route('/index', methods=['GET'])
 #def process_form():
 def index():
     imgnames = list(listdir('static/' + bugpath))
     entries = [(dict(imagepath=bugpath+name, link="bug/"+name)) for name in imgnames]
-
-    return render_template('index.html',entries=entries)
+    return render_template('index.html',entries=entries, index=True)
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -50,12 +50,13 @@ def tags():
 	##TODO
 	pass
 
-@app.route('/about')
+@app.route('/about', methods=['GET', 'POST'])
 def about():
-	return render_template('about.html')
-	##TODO
-	pass
 
+    # About.html doesn't exist
+    return render_template('about.html', about=True)
+    ## TODO
+    pass
 @app.route('/upload')
 def upload():
 	return render_template('upload.html')
@@ -99,6 +100,18 @@ def bug(path):
 
     ## TODO
     pass
+
+@app.route('/tags/<path:path>', methods=['GET', 'POST'])
+def tag(tagname):
+    print tagname
+    # get all bugs with tagname
+    # pass it to the template
+    return render_template('tags.html', tags=True)
+    ## TODO
+    pass
+
+
+
 
 
 if __name__ == '__main__':
