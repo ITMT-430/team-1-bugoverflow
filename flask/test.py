@@ -95,8 +95,9 @@ def bug(path):
     ## TODO
     pass
 
+#selected tag
 @app.route('/tags/<path:path>', methods=['GET', 'POST'])
-def tag(path):
+def tags(path):
     print path
     # get all bugs with tagname
     # pass it to the template
@@ -104,9 +105,18 @@ def tag(path):
     ## TODO
     pass
 
+#direct to tags
+@app.route('/tags', methods=['GET', 'POST'])
+def tag():
+
+    # this page needs to do a word cloud or whatever
+    # instead of displaying images of bugs with the given tag
+    return render_template('tag.html', tags=True)
+    ##TODO
+    pass
 
 
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
    app.run(host='0.0.0.0', debug=True)
