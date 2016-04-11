@@ -46,6 +46,11 @@ img.img-responsive{
     width: 150px;
 }
 
+img.media-object {
+    height: 64px;
+    width: 64px;
+}
+
 /*#logout-btn {
     height: 25px;
 }*/
