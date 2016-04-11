@@ -25,4 +25,10 @@ source flaskenv/bin/activate
 pip install uwsgi flask Jinja2
 yum install python-jinja2 -y
 
-python test.py
+echo "from test import app as application
+
+if __name__ == \"__main__\":
+    app.run()" > wsgi.py
+
+uwsgi --socket 0.0.0.0:8000 --protocol=http -w wsgi
+
