@@ -2,7 +2,6 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask import url_for, flash, redirect, session
-from flask_sqlalchemy import SQLAlchemy
 from os import listdir
 
 app = Flask(__name__)
@@ -39,10 +38,15 @@ def logout():
     session.pop('logged_in', None)
     return redirect(url_for('index'))
 
-@app.route('/signup', methods=['GET', 'POST'])
+@app.route('/signup', methods=['POST'])
 def signup():
-    return render_template('signup.html')
     ##TODO
+    return render_template('signup.html')
+    # user =  request.form['inputUname'];
+    # email = request.form['inputEmail'];
+    # password = request.form['inputPass'];
+    # return json.dumps({'status':'OK','user':user, 'email':email, 'pass':password});
+
     pass
 
 @app.route('/about', methods=['GET', 'POST'])
@@ -115,8 +119,10 @@ def tag():
     ##TODO
     pass
 
+# @app.route('//bug/<path:path>', methods=['GET','POST'])
+# def comment_thread():
 
-
+    
 
 if __name__ == "__main__":
    app.run(host='0.0.0.0', debug=True)
