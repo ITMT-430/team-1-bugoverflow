@@ -48,6 +48,7 @@ def signup():
         role = 'user'
         newuser(username, password, role)
         session['username'] = username
+        session['role'] = user.role
         session['logged_in'] = True
         return redirect(url_for('login'))
     ##TODO
