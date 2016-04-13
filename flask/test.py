@@ -26,14 +26,9 @@ def index():
 def login():
     error = None
     message = "" 
-    if request.form['username'] != 'admin':
-        message = 'Invalid username'
-    elif request.form['password'] != 'leech':
-        message = 'Invalid password'
-    else:
+    if mydb.isvalidlogin(request.form['username'], request.form['password']):
         session['username'] = request.form['username']
         session['logged_in'] = True
-        flash('login succeeded')
     return redirect(url_for('index'))
         
 @app.route('/logout')

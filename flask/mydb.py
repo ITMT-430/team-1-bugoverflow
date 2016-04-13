@@ -156,6 +156,12 @@ def getlast20images():
     return Image.query.limit(20).all()
 def getallimageswithtag(tagname):
     return Image.query.filter_by(tags=tagname).all()
+def isvalidlogin(username, password):
+    user = getuserbyname(username)
+    print password, user.password
+    if password == user.password:
+        return True
+    return False
 
 
 # population functions
