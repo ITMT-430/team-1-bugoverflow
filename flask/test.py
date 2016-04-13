@@ -6,7 +6,7 @@ from os import listdir
 import mydb
 
 app = Flask(__name__)
-
+ 
 bugpath = "imgs/bugs/"
 
 ## This thing is supposed to be secret

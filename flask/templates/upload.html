@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-{% import 'macros_file.html' as macro %}
-<html lang="en">    
+<!DOCTYPE html> {% import 'macros_file.html' as macro %}
+<html lang="en">
 
 <head>
     {{ macro.standard_header("Bug Overflow") }}
@@ -13,45 +12,46 @@
     <!-- Page Container -->
     <div class="container">
         <!-- Header -->
-        {{ macro.header_image() }} 
-         
+        {{ macro.header_image() }}
+
         <!-- Content -->
         <div class="content">
 
-        <div class="col-md-6">
+            <div class="col-md-6">
                 <form>
                     <div class="form-group row">
                         <label for="inputUName" class="col-sm-4 form-control-label">Question</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputQuestion" placeholder="what bug is this?">
-                            </div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputQuestion" placeholder="what bug is this?">
+                        </div>
                     </div>
                     <div class="form-group row">
                         <label for="inputDescription" class="col-sm-4 form-control-label">Description</label>
-                            <div class="col-sm-10">
-                                <textarea class="form-control" rows="5" id="inputDescription" placeholder="give a description"></textarea>
-                            </div>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="5" id="inputDescription" placeholder="give a description"></textarea>
+                        </div>
                     </div>
                     <div class="form-group row">
                         <label for="inputTags" class="col-sm-4 form-control-label">Tags</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputTags" placeholder="at least one tag such as (spider flying worm)">
-                            </div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputTags" placeholder="at least one tag such as (spider flying worm)">
+                        </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-10">
-                            <input type="file"></span>
+                            <input type="file">
+                            </span>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-offset-5 col-sm-10">
-                                <button type="button" class="btn btn-primary btn-md">submit</button>
+                            <button type="button" class="btn btn-primary btn-md">submit</button>
                         </div>
                     </div>
                 </form>
             </div>
             <h2>Posting Tips:</h2>
-            <div class="col-md-6">          
+            <div class="col-md-6">
                 <div class="form-group row">
                     <div class="alert alert-success">
                         <strong>Question:</strong> Try adding your location in your question!
@@ -71,11 +71,11 @@
         </div>
 
     </div>
-        
 
-        <br>
-        <!-- Footer -->
-        {{ macro.standard_footer() }}
+
+    <br>
+    <!-- Footer -->
+    {{ macro.standard_footer() }}
 </body>
 
 </html>
