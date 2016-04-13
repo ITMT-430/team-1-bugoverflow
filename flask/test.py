@@ -58,8 +58,7 @@ def signup():
 def about():
     # About.html doesn't exist
     return render_template('about.html', about=True)
-    ## TODO
-    pass
+
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'GET':
@@ -124,19 +123,13 @@ def bug(path):
             question = question,
             bug_image = bug_image,
             description = body)
-    # [tags]
-    # question
-    # bug_image (the name of it)
-
-    ## TODO
-    pass
 
 #selected tag
 @app.route('/tags/<path:path>', methods=['GET', 'POST'])
 def tags(path):
     imageobjs = mydb.getallimageswithtag(path)
     imagenames = [i.imagename for i in imageobjs]
-    images = [(dict(imagepath=bugpath+name, link="bug/"+name)) for name in imagenames]
+    images = [(dict(imagepath=bugpath+name, link=name)) for name in imagenames]
     # get all bugs with tagname
     # pass it to the template
     return render_template('tags.html',tags=True, tag=path, images=images)
@@ -146,17 +139,11 @@ def tags(path):
 #direct to tags
 @app.route('/tags', methods=['GET', 'POST'])
 def tag():
-    tags = mydb.Tag.query.all()
-    tags = set([t.name for t in tags])
-    #tags = list({ t.name for t in tags })
     # this page needs to do a word cloud or whatever
     # instead of displaying images of bugs with the given tag
+    tags = mydb.Tag.query.all()
+    tags = sorted(set([t.name for t in tags]))
     return render_template('tags.html', tags=True, taglist=tags, noimg=True)
-    ##TODO
-    pass
-
-
-
 
 if __name__ == "__main__":
    app.run(host='0.0.0.0', debug=True)
