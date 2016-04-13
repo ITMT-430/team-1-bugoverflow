@@ -68,7 +68,7 @@ class Image(db.Model):
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(20), unique=True)
-    password = db.Column(db.Text)
+    password = db.Column(db.String(160))
     role = db.Column(db.String(10))
     comments = db.relationship('Comment', backref='user')
     threads = db.relationship('Thread', backref='user')   # 1 user writes many threads
