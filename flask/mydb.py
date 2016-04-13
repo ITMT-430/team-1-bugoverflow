@@ -176,7 +176,7 @@ def getalltestthreads():
 def makeusers():
     names = ['brandon', 'neil', 'zubin', 'alfredo']
     passw = 'password'
-    roles = ['admin'  , 'admin','user' , 'user']
+    roles = ['admin', 'admin', 'user', 'user']
     for name, roles in zip(names, roles):
         newuser(name, passw, roles)
 def makethreads():
