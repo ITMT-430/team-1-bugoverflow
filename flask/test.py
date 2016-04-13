@@ -26,14 +26,18 @@ def index():
 def login():
     error = None
     message = "" 
-    if mydb.isvalidlogin(request.form['username'], request.form['password']):
-        session['username'] = request.form['username']
+    valid, user = mydb.isvalidlogin(request.form['username'], request.form['password'])
+    if valid:
+        session['username'] = user.username
+        session['role'] = user.role
         session['logged_in'] = True
     return redirect(url_for('index'))
         
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
+    session.pop('username', None)
+    session.pop('role', None)
     return redirect(url_for('index'))
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -46,6 +50,7 @@ def signup():
         role = 'user'
         newuser(username, password, role)
         session['username'] = username
+        session['role'] = user.role
         session['logged_in'] = True
         return redirect(url_for('login'))
     ##TODO
