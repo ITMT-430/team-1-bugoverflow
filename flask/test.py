@@ -18,7 +18,7 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 def index():
     #imgnames = list(listdir('static/' + bugpath))
     images = mydb.getlast20images()
-    imgnames = [i.imagelink for i in images]
+    imgnames = [i.imagename for i in images]
     entries = [(dict(imagepath=bugpath+name, link="bug/"+name)) for name in imgnames]
     return render_template('index.html',entries=entries, index=True)
 
@@ -78,7 +78,7 @@ def upload():
     # tags = tags.split(',')
     tags = request.form['tags'] 
     thread = newthread(title, body, imagename, user, tags)
-    return redirect(url_for('bug'), path=thread.image.imagelink)
+    return redirect(url_for('bug'), path=thread.image.imagename)
     #  
 
 
@@ -110,7 +110,7 @@ bugs={
 def bug(path):
     thread = mydb.getthreadbyimagename(path)
     question = thread.title
-    bug_image = bugpath + thread.image.imagelink
+    bug_image = bugpath + thread.image.imagename
     tags = [tag.name for tag in thread.image.tags]
     body = thread.body
     
