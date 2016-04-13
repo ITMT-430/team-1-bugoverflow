@@ -21,7 +21,6 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 @app.route('/index', methods=['GET'])
 #def process_form():
 def index():
-    #imgnames = list(listdir('static/' + bugpath))
     images = mydb.getlast20images()
     imgnames = [i.imagename for i in images]
     entries = [(dict(imagepath=bugpath+name, link="bug/"+name)) for name in imgnames]
@@ -61,10 +60,7 @@ def signup():
 
 @app.route('/about', methods=['GET', 'POST'])
 def about():
-    # About.html doesn't exist
     return render_template('about.html', about=True)
-    ## TODO
-    pass
 
 def allowed_file(filename):
     # this checks if the file extension is valid
