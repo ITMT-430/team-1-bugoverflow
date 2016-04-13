@@ -139,7 +139,7 @@ def tags(path):
     images = [(dict(imagepath=bugpath+name, link="bug/"+name)) for name in imagenames]
     # get all bugs with tagname
     # pass it to the template
-    return render_template('tags.html', tag=path, images=images)
+    return render_template('tags.html',tags=True, tag=path, images=images)
     ## TODO
     pass
 
@@ -147,10 +147,10 @@ def tags(path):
 @app.route('/tags', methods=['GET', 'POST'])
 def tag():
     tags = mydb.Tag.query.all()
-    tags = sort(list({ t.name for t in tags }))
+    tags = list({ t.name for t in tags })
     # this page needs to do a word cloud or whatever
     # instead of displaying images of bugs with the given tag
-    return render_template('tag.html', tags=tags, noimg=True)
+    return render_template('tag.html', tags=True, taglist=tags, noimg=True)
     ##TODO
     pass
 
