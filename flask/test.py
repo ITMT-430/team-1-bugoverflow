@@ -138,9 +138,7 @@ bugs={
 
 @app.route('/bug/<path:path>', methods=['GET', 'POST'])
 def bug(path):
-    print path
     thread = mydb.getthreadbyimagename(path)
-    print thread
     question = thread.title
     bug_image = bugpath + thread.image.imagename
     tags = [tag.name for tag in thread.image.tags]

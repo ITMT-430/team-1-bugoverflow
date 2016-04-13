@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
-from os import listdir
+import os
+import shutil
 import unittest
 
 app = Flask(__name__)
@@ -29,10 +30,8 @@ class Thread(db.Model):
     title = db.Column(db.String(80))
     body = db.Column(db.Text)
 
-    # user col not actually necessary, as the user can be referenced by thread.p_user
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     image_id = db.Column(db.Integer, db.ForeignKey('image.id'))
-    # comments = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     comments = db.relationship('Comment', backref='thread')   # 1:many  map with comments
 
@@ -84,17 +83,15 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     thread_id = db.Column(db.Integer, db.ForeignKey('thread.id'))
+
     parent_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
     parent = db.relationship("Comment",
                                 backref="children",
                                 remote_side=[id])
-    #comments = db.relationship('Comment', backref='child')   # 1:many  map with comments
+
     body = db.Column(db.Text)
     c_time = db.Column(db.DateTime) # when the comment was created
     m_time = db.Column(db.DateTime) # when the comment was last modified
-    # would ideally have recursive comments; comments reply to comments
-    # children = db.Column([Comments]) kind of thing
-    # parent = db.Column(Comment)
 
     def __init__(self, thread, user, body, parent=None):
         self.thread = thread
@@ -126,8 +123,8 @@ def newthread(title, body, imagename, user, tags):
 
     i = Image(imagename)
     for tag in tags:
-        tag = Tag(i, tag)
-        db.session.add(tag)
+        tg = Tag(i, tag)
+        db.session.add(tg)
     t = Thread(title, body, user, i)
     # note: if you try to use bulk_save_objects instead of add, it silently fucks up.
     db.session.add(i)
@@ -185,7 +182,7 @@ def getalltestusers():
     names = ['brandon', 'neil', 'zubin', 'alfredo']
     return map(getuserbyname, names)
 def getalltestthreads():
-    imagenames = list(listdir('static/' + bugpath))
+    imagenames = list(os.listdir('static/' + bugpath))
     return map(getthreadbyimagename, imagenames) 
 
 def makeusers():
@@ -195,7 +192,13 @@ def makeusers():
     for name, roles in zip(names, roles):
         newuser(name, passw, roles)
 def makethreads():
-    imagenames = list(listdir('static/' + bugpath))
+    dummy = 'static/imgs/dummyimgs/'
+    bugs = 'static/' + bugpath
+    if os.path.isdir(bugs):
+        shutil.rmtree(bugs)
+    shutil.copytree(dummy, bugs)
+
+    imagenames = list(os.listdir('static/' + bugpath))
     users = getalltestusers()
     ts = ['ladybug', 'praying mantis']
     for i, imagename in enumerate(imagenames):
