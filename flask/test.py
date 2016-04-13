@@ -134,20 +134,23 @@ def bug(path):
 #selected tag
 @app.route('/tags/<path:path>', methods=['GET', 'POST'])
 def tags(path):
-    print path
+    imageobjs = mydb.getallimageswithtag(path)
+    imagenames = [i.imagename for i in imageobjs]
+    images = [(dict(imagepath=bugpath+name, link="bug/"+name)) for name in imagenames]
     # get all bugs with tagname
     # pass it to the template
-    return render_template('tags.html', tags=True)
+    return render_template('tags.html', tag=path, images=images)
     ## TODO
     pass
 
 #direct to tags
 @app.route('/tags', methods=['GET', 'POST'])
 def tag():
-
+    tags = mydb.Tag.query.all()
+    tags = sort(list({ t.name for t in tags }))
     # this page needs to do a word cloud or whatever
     # instead of displaying images of bugs with the given tag
-    return render_template('tag.html', tags=True)
+    return render_template('tag.html', tags=tags, noimg=True)
     ##TODO
     pass
 

@@ -21,7 +21,15 @@
                 <center>
                     <h1><i>*** GALLERY OF TEXT-BASED TAGS GOES HERE TO FILTER SELECTION PROCESS??? ***</i></h1></center>
             </p>
+        <h2> Tag: {{ tag }} </h2>
+        {% for i in images %}
+        <div id="thumb" class="col-lg-2 thumb">
+            <a href="{{ i.link }}">
+                <img class="img-responsive" src="{{url_for('static',filename=i.imagepath)}}">
+            </a>
         </div>
+        {% endfor %}
+    </div>
 
 
         <br>

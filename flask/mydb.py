@@ -50,17 +50,17 @@ class Thread(db.Model):
 
 class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    imagelink = db.Column(db.String(100))
+    imagename = db.Column(db.String(100))
     thread = db.relationship('Thread', backref='image')   # 1:1 map with an image
     tags = db.relationship('Tag', backref='image')
-    def __init__(self, imagelink):
-        self.imagelink = imagelink
+    def __init__(self, imagename):
+        self.imagename = imagename
 
     def __repr__(self):
         text = ""
         for tag in self.tags:
             text += tag.name + "|"
-        return 'Image: %s\nTags: %s' (self.imagelink, self.text)
+        return 'Image: %s\nTags: %s' (self.imagename, self.text)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -110,12 +110,12 @@ class Tag(db.Model):
         self.name = name
         image.tags.append(self)
     def __repre__(self):
-        return 'Image: %s\n Tag: %s' % (self.image.imagelink, self.name)
+        return 'Image: %s\n Tag: %s' % (self.image.imagename, self.name)
 
-def newthread(title, body, imagelink, user, tags):
+def newthread(title, body, imagename, user, tags):
     """ adds a new thread to the DB; returns a thread object and an image object """
 
-    i = Image(imagelink)
+    i = Image(imagename)
     for tag in tags:
         tag = Tag(i, tag)
         db.session.add(tag)
@@ -144,7 +144,7 @@ def newuser(username, password, role):
     return u
 
 def addtags(imagename, taglist):
-    image = Imagequery.filter_by(imagelink=imagename).first()
+    image = Imagequery.filter_by(imagename=imagename).first()
     if image:
         for tag in taglist:
             tag = Tag(image, tag)
@@ -155,12 +155,14 @@ def addtags(imagename, taglist):
 
 def getuserbyname(username):
     return User.query.filter_by(username=username).first()
-def getthreadbyimagename(imagelink):
-    return Image.query.filter_by(imagelink=imagelink).first().thread[0]
+def getthreadbyimagename(imagename):
+    return Image.query.filter_by(imagename=imagename).first().thread[0]
 def getlast20images():
     return Image.query.limit(20).all()
 def getallimageswithtag(tagname):
-    return Image.query.filter_by(tags=tagname).all()
+    images = Image.query.all()
+    return [i for i in images if tagname in [t.name for t in i.tags]]
+    #return Image.query.filter_by(tags=tagname).all()
 def isvalidlogin(username, password):
     user = getuserbyname(username)
     if user and password == user.password:
@@ -186,10 +188,11 @@ def makeusers():
 def makethreads():
     imagenames = list(listdir('static/' + bugpath))
     users = getalltestusers()
+    ts = ['ladybug', 'praying mantis']
     for i, imagename in enumerate(imagenames):
         title = 'title %s' % i
         body = 'body-text %s' % i
-        tags = ['ladybug', 'praying mantis']
+        tags = [ts[i%2]]
         newthread(title, body, imagename, users[i%4], tags)
 def makecomments():
     threads = getalltestthreads()
