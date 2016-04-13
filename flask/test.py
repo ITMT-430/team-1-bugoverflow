@@ -1,15 +1,20 @@
+import mydb
+import os
 from flask import Flask
 from flask import render_template
 from flask import request
 from flask import url_for, flash, redirect, session
+from flask import send_from_directory
 from os import listdir
-import mydb
+from werkzeug import secure_filename
 
 app = Flask(__name__)
  
 bugpath = "imgs/bugs/"
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+app.config['UPLOAD_FOLDER'] = 'static/' + bugpath
 
-## This thing is supposed to be secret
+## This thing is supposed to be secret	
 ## ~~ nyaa ~~
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 @app.route('/',methods=['GET'])
@@ -58,29 +63,44 @@ def signup():
 def about():
     # About.html doesn't exist
     return render_template('about.html', about=True)
+    ## TODO
+    pass
+
+def allowed_file(filename):
+    # this checks if the file extension is valid
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
+    # if request is GET load page
     if request.method == 'GET':
         return render_template('upload.html')
+    # if request if POST read the file and form data
+    if request.method == 'POST':
+	user = session['username']
+        file = request.files['file']
+        title = request.form['title']
+	body = request.form['body']
+    	tags = request.form['tags'] 
+	tags = tags.split(',')
+	# if the file selected is the correct format then
+	if file and allowed_file(file.filename):
+	    # setting the object imagename to the secure file  	
+	    imagename = secure_filename(file.filename)
+            # saving the file to the upload folder static/imgs/bugs
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], imagename))
+    # make a new thread
+    mydb.newthread(title, body, imagename, user, tags)
     # get everything necessary for a new thread
     # save the image to bugpath =>
     # 'static/' + bugpath + imgname
-    # make a new thread
-    user = getuserbyusername(session['username'])
-    imagename = None # this should be the name of the image itself, without any filepath
+    
+    # imagename = None # this should be the name of the image itself, without any filepath
                      # ie 'bug-img.jpg'
-    title = request.form['title']
-    body = request.form['body']
-    # tags needs to be a list of strings.
-    # if tags comes in as a comma seperated list, then do 
-    # tags = tags.split(',')
-    tags = request.form['tags'] 
-    thread = newthread(title, body, imagename, user, tags)
-    return redirect(url_for('bug'), path=thread.image.imagename)
-    #  
-
-
+    return redirect(url_for('bug', path=thread.image.imagename)) 
+	
+	
 	# return render_template('upload.html')
 	# ##TODO
 	# pass
