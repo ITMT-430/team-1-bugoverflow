@@ -38,7 +38,9 @@
             <li><a href="{{url_for('about')}}">about</a></li>
             {% endif %}
             <li>
-            <a href="{{url_for('upload')}}" id="upload-btn" class="btn btn-primary btn-md">upload</a>
+            {% if session.logged_in %}
+            <a href="{{url_for('upload')}}" id="upload-btn" class="btn btn-primary btn-md" >upload</a>
+            {% endif %} 
             </li>
         </ul> 
         
