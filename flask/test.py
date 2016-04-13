@@ -8,8 +8,6 @@ import mydb
 app = Flask(__name__)
  
 bugpath = "imgs/bugs/"
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
-app.config['UPLOAD_FOLDER'] = bugpath
 
 ## This thing is supposed to be secret
 ## ~~ nyaa ~~
@@ -64,11 +62,6 @@ def about():
     return render_template('about.html', about=True)
     ## TODO
     pass
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     # get everything necessary for a new thread
