@@ -1,10 +1,7 @@
-#!/usr/bin/env python
 from flask import Flask
 from flask import render_template
 from flask import request
 from flask import url_for, flash, redirect, session
-from flask_sqlalchemy import SQLAlchemy
-import mydb
 from os import listdir
 
 app = Flask(__name__)

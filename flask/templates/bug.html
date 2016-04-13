@@ -49,15 +49,6 @@
                                         </div>
                                     </div>
                                 </td>
-                                <!-- <td class="sidebarcell">
-                                    <div>
-                                        <ul class="list-unstyled">
-                                            <li>asked: Today</li>
-                                            <li>location:  Chicago, IL</li>
-                                            <li>views: 42</li>
-                                        </ul>
-                                    </div>
-                                </td> -->
                             </tr>
                         </tbody>
                     </table>
@@ -69,14 +60,86 @@
                         <hr>
                     </div>
                     <div class="col-md-6" id="comments-container">
-                        <div id="comments">
+                        <div id="comments-form">
                             <div class="form-group">
                                 <label for="comment">Comment:</label>
-                                <textarea class="form-control" rows="5" id="comment"></textarea>
+                                <textarea class="form-control" rows="5" id="comment" action="" method="post"></textarea>
                                 <button type="submit" class="btn btn-primary" id="submit-comment">submit</button>
                             </div>
-                            <div id="children">
-                                
+                            <div id="comments">
+                                <ul class = "media-list">
+                                    <li class = "media">
+                                    <a class = "pull-left" href = "#">
+                                        <img class = "media-object" src="http://placehold.it/64x64" alt = "Generic placeholder image">
+                                    </a>
+                                        <div class = "media-body">
+                                            <h4 class = "media-hedaing">User 1</h4>
+
+                                            This is some sample text. This is some sample text. 
+                                            This is some sample text. This is some sample text.
+                                            This is some sample text. This is some sample text. 
+                                            This is some sample text. This is some sample text.
+
+                                            <p><a href="#">Reply</a></p>
+
+                                            <!-- Nested comment -->
+                                            <div class = "media">
+                                                <a class = "pull-left" href = "#">
+                                                    <img class = "media-object" src="http://placehold.it/64x64" alt = "Generic placeholder image">
+                                                </a>
+                                                <div class = "media-body">
+                                                    <h4 class = "media-headig">User 2</h4>
+
+                                                    This is some sample text. This is some sample text. 
+                                                    This is some sample text. This is some sample text.
+                                                    This is some sample text. This is some sample text. 
+                                                    This is some sample text. This is some sample text.
+
+                                                    <p><a href="#">Reply</a></p>
+
+                                                    <!-- Nested comment -->
+                                                    <div class = "media">
+                                                        <a class = "pull-left" href = "#">
+                                                            <img class = "media-object" src="http://placehold.it/64x64" alt = "Generic placeholder image">
+                                                        </a>
+                                                        <div class = "media-body">
+                                                            <h4  class = "media-heading">User 1</h4>
+
+                                                            This is some sample text. This is some sample text. 
+                                                            This is some sample text. This is some sample text.
+                                                            This is some sample text. This is some sample text. 
+                                                            This is some sample text. This is some sample text.
+
+                                                            <p><a href="#">Reply</a></p>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <!-- Nested comment --> 
+                                            <div class = "media">
+                                                <a class = "pull-left" href = "#">
+                                                    <img class = "media-object" src="http://placehold.it/64x64" alt = "Generic placeholder image">
+                                                </a>
+                                                <div class = "media-body">
+                                                    <h4 class = "media-heading">User 3</h4>
+
+                                                    This is some sample text. This is some sample text. 
+                                                    This is some sample text. This is some sample text.
+                                                    This is some sample text. This is some sample text. 
+                                                    This is some sample text. This is some sample text.
+
+                                                    <p><a href="#">Reply</a></p>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>    
                         </div>
                     </div>

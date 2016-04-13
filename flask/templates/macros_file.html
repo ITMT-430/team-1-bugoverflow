@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src=" {{ url_for('static', filename='js/signup.js') }}"></script>
     <!-- JavaScript -->
     <script src=" {{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 {%- endmacro %}
@@ -61,7 +62,6 @@
                 <li><a href="tags">tags</a></li>
                 <li><a href="about">about</a></li>
                 <li>
-                    <!-- <span class="btn btn-primary btn-file">upload<input type="file"></span> -->
                     <a href="upload" id="upload-btn" class="btn btn-primary btn-md">upload</a>
                 </li>
             </ul>
