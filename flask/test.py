@@ -76,29 +76,40 @@ def upload():
     # if request is GET load page
     if request.method == 'GET':
         return render_template('upload.html')
-    # if request if POST read the file and form data
-    if request.method == 'POST':
-	user = session['username']
-        file = request.files['file']
-        title = request.form['title']
-	body = request.form['body']
-    	tags = request.form['tags'] 
-	tags = tags.split(',')
-	# if the file selected is the correct format then
-	if file and allowed_file(file.filename):
-	    # setting the object imagename to the secure file  	
-	    imagename = secure_filename(file.filename)
-            # saving the file to the upload folder static/imgs/bugs
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], imagename))
+    # if POST read the file and form data
+    file = request.files['file']
+    title = request.form['title']
+    body = request.form['body']
+    tags = request.form['tags'] 
+    tags = tags.split(',')
+
+    if 'logged_in' not in session:
+        errormsg = 'You must be logged in to post'
+        return redirect(url_for('index'))
+        #return redirect(url_for('error', error=errormsg))
+    if not file or not allowed_file(file.filename):
+        errormsg = 'file not allowed'
+        return redirect(url_for('index'))
+        #return redirect(url_for('error', error=errormsg))
+        #return render_template('index.html', error=errormsg)
+
+	#user = session['username']
+    user = mydb.getuserbyname(session['username'])
+
+
+    # setting the object imagename to the secure file  	
+    imagename = secure_filename(file.filename)
+    # saving the file to the upload folder static/imgs/bugs
+    file.save(os.path.join(app.config['UPLOAD_FOLDER'], imagename))
     # make a new thread
-    mydb.newthread(title, body, imagename, user, tags)
+    thread = mydb.newthread(title, body, imagename, user, tags)
     # get everything necessary for a new thread
     # save the image to bugpath =>
     # 'static/' + bugpath + imgname
     
     # imagename = None # this should be the name of the image itself, without any filepath
-                     # ie 'bug-img.jpg'
-    return redirect(url_for('bug', path=thread.image.imagename)) 
+                    # ie 'bug-img.jpg'
+    return redirect(url_for('bug', path=imagename)) 
 	
 	
 	# return render_template('upload.html')
@@ -127,7 +138,9 @@ bugs={
 
 @app.route('/bug/<path:path>', methods=['GET', 'POST'])
 def bug(path):
+    print path
     thread = mydb.getthreadbyimagename(path)
+    print thread
     question = thread.title
     bug_image = bugpath + thread.image.imagename
     tags = [tag.name for tag in thread.image.tags]

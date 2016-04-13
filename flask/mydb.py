@@ -54,6 +54,7 @@ class Image(db.Model):
     imagename = db.Column(db.String(100))
     thread = db.relationship('Thread', backref='image')   # 1:1 map with an image
     tags = db.relationship('Tag', backref='image')
+
     def __init__(self, imagename):
         self.imagename = imagename
 
@@ -61,7 +62,7 @@ class Image(db.Model):
         text = ""
         for tag in self.tags:
             text += tag.name + "|"
-        return 'Image: %s\nTags: %s' (self.imagename, self.text)
+        return 'Image: %s\nTags: %s' % (self.imagename, text)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
