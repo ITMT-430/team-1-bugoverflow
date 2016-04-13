@@ -73,12 +73,28 @@
                                             <img class="media-object" src="http://placehold.it/64x64" alt="Generic placeholder image">
                                         </a>
                                         <div class="media-body">
-                                            <h4 class="media-hedaing">{{c.user}}</h4> 
+                                            <h4 class="media-heading">{{c.user}}</h4> 
                                             {{c.body}}
                                             <p><a href="#">Reply</a></p>
+                                            {% for c2 in c.children recursive%}
+                                            <div class="media">
+                                                <a class="pull-left" href="#">
+                                                    <img class="media-object" src="http://placehold.it/64x64" alt="Generic placeholder image">
+                                                </a>
+                                                <div class="media-body">
+                                                    <h4 class="media-heading">{{c2.user.name}}</h4>
+                                                    {{c2.body}}
+                                                    <p><a href="#">Reply</a></p>
+                                                    {{ loop(c2.children) }}
+                                
+                                                </div>
+                                            </div>
+                                            {% endfor %}
                                         </div>
-                            {% endfor %}
-                        </div>
+                                        </li>
+                                    </ul>
+                                    {% endfor %}
+                                </div>
 
                                             <!-- Nested comment -->
                                             <div class="media">
@@ -121,19 +137,19 @@
 
                                             </div>
                                         </div>
-                                    </li>
-                                </ul>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
+                        <div class="col-md-6">
 
+                        </div>
                     </div>
+                    <hr>
                 </div>
-                <hr>
             </div>
         </div>
-    </div>
 
     <br>
 

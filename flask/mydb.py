@@ -83,6 +83,11 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     thread_id = db.Column(db.Integer, db.ForeignKey('thread.id'))
+    parent_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
+    parent = db.relationship("Comment",
+                                backref="children",
+                                remote_side=[id])
+    #comments = db.relationship('Comment', backref='child')   # 1:many  map with comments
     body = db.Column(db.Text)
     c_time = db.Column(db.DateTime) # when the comment was created
     m_time = db.Column(db.DateTime) # when the comment was last modified
@@ -90,10 +95,12 @@ class Comment(db.Model):
     # children = db.Column([Comments]) kind of thing
     # parent = db.Column(Comment)
 
-    def __init__(self, thread, user, body):
+    def __init__(self, thread, user, body, parent=None):
         self.thread = thread
         self.user = user
         self.body = body
+        if parent:
+            self.parent = parent 
         thread.comments.append(self)
         user.comments.append(self)
         # db.session.add(thread)
@@ -128,9 +135,9 @@ def newthread(title, body, imagename, user, tags):
     # tag shit
     return t, i
     
-def newcomment(thread, user, body):
+def newcomment(thread, user, body, parent=None):
     """ Commits a new comment; returns the comment object"""
-    c = Comment(thread, user, body)
+    c = Comment(thread, user, body, parent)
     db.session.add(c)
     db.session.commit()
     return c
@@ -200,8 +207,8 @@ def makecomments():
     users = getalltestusers()
     for i, thread in enumerate(threads):
         c = newcomment(thread, users[i%4], 'body text %s' % i)
-        c = newcomment(thread, users[(i+1)%4], 'body text %s' % (i+1,))
-        c = newcomment(thread, users[(i+2)%4], 'body text %s' % (i+2,))
+        c = newcomment(thread, users[(i+1)%4], 'body text %s' % (i+1,), c)
+        c = newcomment(thread, users[(i+2)%4], 'body text %s' % (i+2,), c)
         c = newcomment(thread, users[(i+3)%4], 'body text %s' % (i+3,))
         
 def makeall():
