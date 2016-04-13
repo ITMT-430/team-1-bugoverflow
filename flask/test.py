@@ -150,7 +150,7 @@ def tag():
     tags = list({ t.name for t in tags })
     # this page needs to do a word cloud or whatever
     # instead of displaying images of bugs with the given tag
-    return render_template('tag.html', tags=True, taglist=tags, noimg=True)
+    return render_template('tags.html', tags=True, taglist=tags, noimg=True)
     ##TODO
     pass
 

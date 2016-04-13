@@ -20,9 +20,9 @@
             <a class="navbar-brand" href="/">Bug Overflow</a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active"><a href="/">home</a></li>
-            <li><a href="tags">tags</a></li>
-            <li><a href="about">about</a></li>
+            <li class="active"><a href="{{url_for('index')}}">home</a></li>
+            <li><a href="{{url_for('tag')}}">tags</a></li>
+            <li><a href="{{url_for('tag')}}">about</a></li>
 
         </ul>
         <form class="navbar-form navbar-right" role="search" action={{url_for( 'login')}} method=post>
@@ -46,24 +46,24 @@
         <ul class="nav navbar-nav">
 
             {% if index == 'true' %}
-            <li class="active"><a href="/index.html">home</a></li>
-            <li><a href="/tags">tags</a></li>
-            <li><a href="/about">about</a></li>
+            <li class="active"><a href="{{url_for('index')}}">home</a></li>
+            <li><a href="{{url_for('tag')}}">tags</a></li>
+            <li><a href="{{url_for('about')}}">about</a></li>
             {% elif tags == 'true' %}
-            <li><a href="/index">home</a></li>
+            <li><a href="{{url_for('index')}}">home</a></li>
             <li class="/active"><a href="tags">tags</a></li>
-            <li><a href="/about">about</a></li>
+            <li><a href="{{url_for('about')}}">about</a></li>
             {% elif about == 'true' %}
-            <li><a href="/index">home</a></li>
-            <li><a href="/tags">tags</a></li>
-            <li class="/active"><a href="about">about</a></li>
+            <li><a href="{{url_for('index')}}">home</a></li>
+            <li><a href="{{url_for('tag')}}">tags</a></li>
+            <li class="/active"><a href="{{url_for('about')}}">about</a></li>
             {% else %}
             <li><a> navbar highlight value wasn't set. </a></li>
             {% endif %}
-            <li><a href="tags">tags</a></li>
-            <li><a href="about">about</a></li>
+            <li><a href="{{url_for('tag')}}">tags</a></li>
+            <li><a href="{{url_for('about')}}">about</a></li>
             <li>
-                <a href="upload" id="upload-btn" class="btn btn-primary btn-md">upload</a>
+            <a href="{{url_for('upload')}}" id="upload-btn" class="btn btn-primary btn-md">upload</a>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -72,7 +72,7 @@
                     <button id="profile-btn" type="button" class="dropbtn"><span class="glyphicon glyphicon-user"></span> {{session.username}}
                     </button>
                     <div class="dropdown-content">
-                        <a href="profile">account</a>
+                        <a href="{{url_for('profile')}}">account</a>
                         <a href="{{url_for('logout')}}">log out</a>
                     </div>
                 </div>
