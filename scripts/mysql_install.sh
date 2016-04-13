@@ -11,4 +11,4 @@ chkconfig mysqld on &&             # set to start on boot
 # to limit the allowed IPs for remote connections to only the webserver. 
 ​
 # create the reader user, remote login allowed by default
-echo "create user 'reader' identified by 'leech'" | mysql -u root -pleech;
+echo "create user 'master' identified by 'leech'" | mysql -u root -pleech;

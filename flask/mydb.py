@@ -52,8 +52,15 @@ class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     imagelink = db.Column(db.String(100))
     thread = db.relationship('Thread', backref='image')   # 1:1 map with an image
+    tags = db.relationship('Tag', backref='image')
     def __init__(self, imagelink):
         self.imagelink = imagelink
+
+    def __repr__(self):
+        text = ""
+        for tag in self.tags:
+            text += tag.name + "|"
+        return 'Image: %s\nTags: %s' (self.imagelink, self.text)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -93,12 +100,27 @@ class Comment(db.Model):
     def __repr__(self):
         return "Thread Title: %s\nPoster: %s\nText: %s\n" % (self.thread.title, self.user.username, self.body)
 
-# class Tag(db.Model):
-#     pass
+class Tag(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    image_id = db.Column(db.Integer, db.ForeignKey('image.id'))
+    name = db.Column(db.String(15))
+
+    def __init__(self, image, name):
+        self.image = image
+        self.name = name
+        image.tags.append(self)
+    def __repre__(self):
+        return 'Image: %s\n Tag: %s' % (self.image.imagelink, self.name)
+
 def newthread(title, body, imagelink, user, tags):
     """ adds a new thread to the DB; returns a thread object and an image object """
 
+    taglist = list()
     i = Image(imagelink)
+    for tag in tags:
+        tag = Tag(i, tag)
+        db.session.add(tag)
+        taglist.append(taglist)
     t = Thread(title, body, user, i)
     # note: if you try to use bulk_save_objects instead of add, it silently fucks up.
     db.session.add(i)
@@ -132,6 +154,8 @@ def getthreadbyimagename(imagelink):
     return Image.query.filter_by(imagelink=imagelink).first().thread[0]
 def getlast20images():
     return Image.query.limit(20).all()
+def getallimageswithtag(tagname):
+    return Image.query.filter_by(tags=tagname).all()
 
 
 # population functions
@@ -155,15 +179,13 @@ def makethreads():
     for i, imagename in enumerate(imagenames):
         title = 'title %s' % i
         body = 'body-text %s' % i
-        tags = None
+        tags = ['ladybug', 'praying mantis']
         newthread(title, body, imagename, users[i%4], tags)
 def makecomments():
     threads = getalltestthreads()
     users = getalltestusers()
     for i, thread in enumerate(threads):
-        print thread
         c = newcomment(thread, users[i%4], 'body text %s' % i)
-        print c
         
 def makeall():
     makeusers()
