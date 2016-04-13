@@ -5,6 +5,8 @@ import os
 import shutil
 import unittest
 
+from werkzeug.security import generate_password_hash, check_password_hash
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tmp.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -71,11 +73,14 @@ class User(db.Model):
     comments = db.relationship('Comment', backref='user')
     threads = db.relationship('Thread', backref='user')   # 1 user writes many threads
                                                             # t.p_user => gets (parent) user
+    def check_pass(self, password):
+        return check_password_hash(self.password, password)
     
     def __init__(self, username, password, role):
         self.username = username
-        self.password = password
+        self.password = generate_password_hash(password)
         self.role = role
+
     def __repr__(self):
         return "User: %s ; Pass: %s" % (self.username, self.password)
         
@@ -171,7 +176,7 @@ def getallimageswithtag(tagname):
     #return Image.query.filter_by(tags=tagname).all()
 def isvalidlogin(username, password):
     user = getuserbyname(username)
-    if user and password == user.password:
+    if user.check_pass(password):
         return True, user
     return False, None
 

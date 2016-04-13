@@ -148,6 +148,7 @@ def bug(path):
     #tags = bugs[path]
 
     return render_template('bug.html',
+            user = thread.user.username,
             tags = tags,
             question = question,
             bug_image = bug_image,
