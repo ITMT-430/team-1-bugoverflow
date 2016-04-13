@@ -115,12 +115,10 @@ class Tag(db.Model):
 def newthread(title, body, imagelink, user, tags):
     """ adds a new thread to the DB; returns a thread object and an image object """
 
-    taglist = list()
     i = Image(imagelink)
     for tag in tags:
         tag = Tag(i, tag)
         db.session.add(tag)
-        taglist.append(taglist)
     t = Thread(title, body, user, i)
     # note: if you try to use bulk_save_objects instead of add, it silently fucks up.
     db.session.add(i)
@@ -145,8 +143,15 @@ def newuser(username, password, role):
     db.session.commit()
     return u
 
-def addtags(image, taglist):
+def addtags(imagename, taglist):
+    image = Imagequery.filter_by(imagelink=imagename).first()
+    if image:
+        for tag in taglist:
+            tag = Tag(image, tag)
+            db.session.add(Tag)
+        db.session.commit()
     pass
+
 
 def getuserbyname(username):
     return User.query.filter_by(username=username).first()
