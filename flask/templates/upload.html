@@ -18,34 +18,34 @@
         <div class="content">
 
             <div class="col-md-6">
-                <form action={{url_for( 'uploader')}} method=post>
+                <form action="{{url_for('upload')}}" method="post" enctype="multipart/form-data">
                     <div class="form-group row">
-                        <label for="inputUName" class="col-sm-4 form-control-label">Question</label>
+                        <label for="title" class="col-sm-4 form-control-label">Question</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputQuestion" placeholder="what bug is this?">
+                            <input type="text" class="form-control" name="title" placeholder="what bug is this?">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputDescription" class="col-sm-4 form-control-label">Description</label>
+                        <label for="body" class="col-sm-4 form-control-label">Description</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" rows="5" id="inputDescription" placeholder="give a description"></textarea>
+                            <textarea class="form-control" rows="5" name="body" placeholder="give a description"></textarea>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputTags" class="col-sm-4 form-control-label">Tags</label>
+                        <label for="tags" class="col-sm-4 form-control-label">Tags</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputTags" placeholder="at least one tag such as (spider flying worm)">
+                            <input type="text" class="form-control" name="tags" placeholder="at least one tag such as (spider flying worm)">
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-10">
-                            <input type="file">
-                            </span>
+                            <input type="file" name="file">
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-offset-5 col-sm-10">
-                            <button type="button" class="btn btn-primary btn-md">submit</button>
+                            <input type=submit value=Upload>
+                            <!-- <button type="button" class="btn btn-primary btn-md">submit</button> -->
                         </div>
                     </div>
                 </form>
