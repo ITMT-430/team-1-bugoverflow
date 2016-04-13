@@ -73,7 +73,7 @@
                                             <img class="media-object" src="http://placehold.it/64x64" alt="Generic placeholder image">
                                         </a>
                                         <div class="media-body">
-                                            <h4 class="media-heading">{{c.user}}</h4> 
+                                            <h4 class="media-heading">{{c.user.name}}</h4> 
                                             {{c.body}}
                                             <p><a href="#">Reply</a></p>
                                             {% for c2 in c.children recursive%}
