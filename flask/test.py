@@ -26,14 +26,9 @@ def index():
 def login():
     error = None
     message = "" 
-    if request.form['username'] != 'admin':
-        message = 'Invalid username'
-    elif request.form['password'] != 'leech':
-        message = 'Invalid password'
-    else:
+    if mydb.isvalidlogin(request.form['username'], request.form['password']):
         session['username'] = request.form['username']
         session['logged_in'] = True
-        flash('login succeeded')
     return redirect(url_for('index'))
         
 @app.route('/logout')
@@ -53,11 +48,29 @@ def about():
     return render_template('about.html', about=True)
     ## TODO
     pass
-@app.route('/upload')
+@app.route('/upload', methods=['POST'])
 def upload():
-	return render_template('upload.html')
-	##TODO
-	pass
+    # get everything necessary for a new thread
+    # save the image to bugpath =>
+    # 'static/' + bugpath + imgname
+    # make a new thread
+    user = getuserbyusername(session['username'])
+    imagename = None # this should be the name of the image itself, without any filepath
+                     # ie 'bug-img.jpg'
+    title = request.form['title']
+    body = request.form['body']
+    # tags needs to be a list of strings.
+    # if tags comes in as a comma seperated list, then do 
+    # tags = tags.split(',')
+    tags = request.form['tags'] 
+    thread = newthread(title, body, imagename, user, tags)
+    return redirect(url_for('bug'), path=thread.image.imagelink)
+    #  
+
+
+	# return render_template('upload.html')
+	# ##TODO
+	# pass
 
 @app.route('/profile')
 def profile():
