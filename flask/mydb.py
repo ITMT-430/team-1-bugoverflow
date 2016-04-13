@@ -158,10 +158,9 @@ def getallimageswithtag(tagname):
     return Image.query.filter_by(tags=tagname).all()
 def isvalidlogin(username, password):
     user = getuserbyname(username)
-    print password, user.password
-    if password == user.password:
-        return True
-    return False
+    if user and password == user.password:
+        return True, user
+    return False, None
 
 
 # population functions

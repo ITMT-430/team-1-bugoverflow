@@ -26,8 +26,10 @@ def index():
 def login():
     error = None
     message = "" 
-    if mydb.isvalidlogin(request.form['username'], request.form['password']):
-        session['username'] = request.form['username']
+    valid, user = mydb.isvalidlogin(request.form['username'], request.form['password'])
+    if valid:
+        session['username'] = user.username
+        session['role'] = user.role
         session['logged_in'] = True
     return redirect(url_for('index'))
         
