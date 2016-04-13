@@ -143,7 +143,7 @@ def tag():
     # instead of displaying images of bugs with the given tag
     tags = mydb.Tag.query.all()
     tags = sorted(set([t.name for t in tags]))
-    return render_template('tags.html', tags=True, taglist=tags, noimg=True)
+    return render_template('tags.html', tags=True, taglist=tags)
 
 if __name__ == "__main__":
    app.run(host='0.0.0.0', debug=True)

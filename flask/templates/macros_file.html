@@ -13,18 +13,39 @@
 <script src=" {{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 {%- endmacro %} 
 
-{% macro navbar() -%} {% if not session.logged_in %}
+{% macro navbar(index, tags, about) -%}
+
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="/">Bug Overflow</a>
         </div>
         <ul class="nav navbar-nav">
+
+            {% if index %}
             <li class="active"><a href="{{url_for('index')}}">home</a></li>
             <li><a href="{{url_for('tag')}}">tags</a></li>
             <li><a href="{{url_for('about')}}">about</a></li>
+            {% elif tags %}
+            <li><a href="{{url_for('index')}}">home</a></li>
+            <li class="/active"><a href="{{url_for('tag')}}">tags</a></li>
+            <li><a href="{{url_for('about')}}">about</a></li>
+            {% elif about %}
+            <li><a href="{{url_for('index')}}">home</a></li>
+            <li><a href="{{url_for('tag')}}">tags</a></li>
+            <li class="/active"><a href="{{url_for('about')}}">about</a></li>
+            {% else %}
+            <li><a href="{{url_for('index')}}">home</a></li>
+            <li><a href="{{url_for('tag')}}">tags</a></li>
+            <li><a href="{{url_for('about')}}">about</a></li>
+            {% endif %}
+            <li>
+            <a href="{{url_for('upload')}}" id="upload-btn" class="btn btn-primary btn-md">upload</a>
+            </li>
+        </ul> 
+        
+        {% if not session.logged_in %}
 
-        </ul>
         <form class="navbar-form navbar-right" role="search" action={{url_for( 'login')}} method=post>
             <div class="form-group">
                 <input type="text" class="form-control" name="username" placeholder="username">
@@ -35,37 +56,9 @@
             <button type="submit" class="btn btn-default btn-sm">log in</button>
             <a href="signup" class="btn btn-primary btn-sm">sign up</a>
         </form>
-    </div>
-</nav>
-{% else %}
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">Bug Overflow</a>
-        </div>
-        <ul class="nav navbar-nav">
 
-            {% if index == 'true' %}
-            <li class="active"><a href="{{url_for('index')}}">home</a></li>
-            <li><a href="{{url_for('tag')}}">tags</a></li>
-            <li><a href="{{url_for('about')}}">about</a></li>
-            {% elif tags == 'true' %}
-            <li><a href="{{url_for('index')}}">home</a></li>
-            <li class="/active"><a href="tags">tags</a></li>
-            <li><a href="{{url_for('about')}}">about</a></li>
-            {% elif about == 'true' %}
-            <li><a href="{{url_for('index')}}">home</a></li>
-            <li><a href="{{url_for('tag')}}">tags</a></li>
-            <li class="/active"><a href="{{url_for('about')}}">about</a></li>
-            {% else %}
-            <li><a> navbar highlight value wasn't set. </a></li>
-            {% endif %}
-            <li><a href="{{url_for('tag')}}">tags</a></li>
-            <li><a href="{{url_for('about')}}">about</a></li>
-            <li>
-            <a href="{{url_for('upload')}}" id="upload-btn" class="btn btn-primary btn-md">upload</a>
-            </li>
-        </ul>
+        {% else %}
+
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <div class="dropdown">
@@ -78,9 +71,12 @@
                 </div>
             </li>
         </ul>
+        {% endif %} 
     </div>
 </nav>
-{% endif %} {%- endmacro %}
+
+
+{%- endmacro %}
 
 <!-- {% macro standard_footer() -%}
 <div id="footer">
