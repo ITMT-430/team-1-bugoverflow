@@ -64,16 +64,21 @@
                                 <textarea class="form-control" rows="5" id="comment" action="" method="post"></textarea>
                                 <button type="submit" class="btn btn-primary" id="submit-comment">submit</button>
                             </div>
+
                             <div id="comments">
+                            {% for c in comments %}
                                 <ul class="media-list">
                                     <li class="media">
                                         <a class="pull-left" href="#">
                                             <img class="media-object" src="http://placehold.it/64x64" alt="Generic placeholder image">
                                         </a>
                                         <div class="media-body">
-                                            <h4 class="media-hedaing">User 1</h4> This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text.
-
+                                            <h4 class="media-hedaing">{{c.user}}</h4> 
+                                            {{c.body}}
                                             <p><a href="#">Reply</a></p>
+                                        </div>
+                            {% endfor %}
+                        </div>
 
                                             <!-- Nested comment -->
                                             <div class="media">

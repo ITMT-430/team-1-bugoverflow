@@ -112,6 +112,16 @@ def bug(path):
     bug_image = bugpath + thread.image.imagename
     tags = [tag.name for tag in thread.image.tags]
     body = thread.body
+
+    comments = thread.comments
+    commentlist = list()
+    for c in comments:
+        com = {'user': c.user.username,
+                'body': c.body
+                #'img': c.user.imagename
+                }
+        commentlist.append(com)
+        
     
     #tags = ['ladybug', 'beetle', 'spotted']
     #question = "What bug is this??"
@@ -122,7 +132,8 @@ def bug(path):
             tags = tags,
             question = question,
             bug_image = bug_image,
-            description = body)
+            description = body,
+            comments = commentlist)
 
 #selected tag
 @app.route('/tags/<path:path>', methods=['GET', 'POST'])
