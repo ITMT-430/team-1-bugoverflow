@@ -1,3 +1,5 @@
+import mydb
+import os
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -5,8 +7,6 @@ from flask import url_for, flash, redirect, session
 from flask import send_from_directory
 from os import listdir
 from werkzeug import secure_filename
-import mydb
-import os
 
 app = Flask(__name__)
  
@@ -63,20 +63,20 @@ def signup():
 def about():
     # About.html doesn't exist
     return render_template('about.html', about=True)
-<<<<<<< HEAD
     ## TODO
     pass
 
 def allowed_file(filename):
+    # this checks if the file extension is valid
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-=======
->>>>>>> 5ba37721ad39a3b7ad309895958b66d752117ea8
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
+    # if request is GET load page
     if request.method == 'GET':
         return render_template('upload.html')
+    # if request if POST read the file and form data
     if request.method == 'POST':
 	user = session['username']
         file = request.files['file']
@@ -84,11 +84,14 @@ def upload():
 	body = request.form['body']
     	tags = request.form['tags'] 
 	tags = tags.split(',')
+	# if the file selected is the correct format then
 	if file and allowed_file(file.filename):
+	    # setting the object imagename to the secure file  	
 	    imagename = secure_filename(file.filename)
+            # saving the file to the upload folder static/imgs/bugs
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], imagename))
-        # make a new thread
-    newthread(title, body, imagename, user, tags)
+    # make a new thread
+    mydb.newthread(title, body, imagename, user, tags)
     # get everything necessary for a new thread
     # save the image to bugpath =>
     # 'static/' + bugpath + imgname
