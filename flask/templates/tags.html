@@ -7,7 +7,7 @@
 
 <body>
     <!-- Navigation -->
-    {{ macro.navbar() }}
+    {{ macro.navbar(index, tags, about) }}
 
 
     <!-- Page Container -->
@@ -21,14 +21,26 @@
                 <center>
                     <h1><i>*** GALLERY OF TEXT-BASED TAGS GOES HERE TO FILTER SELECTION PROCESS??? ***</i></h1></center>
             </p>
-        <h2> Tag: {{ tag }} </h2>
-        {% for i in images %}
-        <div id="thumb" class="col-lg-2 thumb">
-            <a href="{{ i.link }}">
-                <img class="img-responsive" src="{{url_for('static',filename=i.imagepath)}}">
-            </a>
-        </div>
-        {% endfor %}
+        {% if taglist %}
+            <h2> TAGS:
+            {% for tag in taglist %}
+                <a href="{{url_for('tags', path=tag)}}">
+                    {{tag}}
+                </a>
+            {% endfor %}
+            </h2>
+
+
+        {% else %}
+            <h2> Tag: {{ tag }} </h2>
+            {% for i in images %}
+            <div id="thumb" class="col-lg-2 thumb">
+                <a href="{{ url_for('bug', path=i.link )}}">
+                    <img class="img-responsive" src="{{url_for('static',filename=i.imagepath)}}">
+                </a>
+            </div>
+            {% endfor %}
+        {% endif %}
     </div>
 
 

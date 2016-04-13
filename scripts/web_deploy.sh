@@ -4,7 +4,7 @@ sudo yum install epel-release -y
 sudo yum install python-pip python-devel gcc nginx python -y
 sudo service nginx start
 sudo chkconfig nginx on
-sudo pip install virtualenv 
+sudo pip install virtualenv
 cd ..
 git clone https://github.com/ITMT-430/team-1-bugoverflow
 
@@ -22,13 +22,16 @@ cd team-1-bugoverflow/flask/
 
 virtualenv flaskenv
 source flaskenv/bin/activate
-pip install uwsgi flask Jinja2 Flask-SQLAlchemy
+pip install uwsgi flask Jinja2
+pip install Flask-SQLAlchemy
 yum install python-jinja2 -y
 
-echo "from test import app as application
+cd /team-1-bugoverflow/flask
 
-if __name__ == \"__main__\":
-    app.run()" > wsgi.py
+rm -f /etc/nginx/nginx.conf
+mv /team-1-bugoverflow/flask/nginx.conf /etc/nginx/nginx.conf
+service nginx restart
+chmod 655 test.conf
+mv test.conf /etc/init/test.conf
 
-uwsgi --socket 0.0.0.0:8000 --protocol=http -w wsgi
-
+sudo /etc/init/test.conf start
