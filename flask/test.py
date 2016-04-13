@@ -44,17 +44,15 @@ def logout():
 def signup():
     if request.method == 'GET':
         return render_template('signup.html')
-    else:
-        username = request.form['username']
-        password = request.form['password']
-        role = 'user'
-        newuser(username, password, role)
-        session['username'] = username
-        session['role'] = user.role
-        session['logged_in'] = True
-        return redirect(url_for('login'))
-    ##TODO
-    pass
+
+    username = request.form['username']
+    password = request.form['password']
+    role = 'user'
+    newuser(username, password, role)
+    session['username'] = username
+    session['role'] = user.role
+    session['logged_in'] = True
+    return redirect(url_for('login'))
 
 @app.route('/about', methods=['GET', 'POST'])
 def about():
@@ -62,8 +60,10 @@ def about():
     return render_template('about.html', about=True)
     ## TODO
     pass
-@app.route('/upload', methods=['POST'])
+@app.route('/upload', methods=['GET', 'POST'])
 def upload():
+    if request.method == 'GET':
+        return render_template('upload.html')
     # get everything necessary for a new thread
     # save the image to bugpath =>
     # 'static/' + bugpath + imgname
