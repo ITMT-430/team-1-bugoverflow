@@ -18,7 +18,7 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 def index():
     #imgnames = list(listdir('static/' + bugpath))
     images = mydb.getlast20images()
-    imgnames = [i.imagelink for i in images]
+    imgnames = [i.imagename for i in images]
     entries = [(dict(imagepath=bugpath+name, link="bug/"+name)) for name in imgnames]
     return render_template('index.html',entries=entries, index=True)
 
@@ -44,17 +44,15 @@ def logout():
 def signup():
     if request.method == 'GET':
         return render_template('signup.html')
-    else:
-        username = request.form['username']
-        password = request.form['password']
-        role = 'user'
-        newuser(username, password, role)
-        session['username'] = username
-        session['role'] = user.role
-        session['logged_in'] = True
-        return redirect(url_for('login'))
-    ##TODO
-    pass
+
+    username = request.form['username']
+    password = request.form['password']
+    role = 'user'
+    newuser(username, password, role)
+    session['username'] = username
+    session['role'] = user.role
+    session['logged_in'] = True
+    return redirect(url_for('login'))
 
 @app.route('/about', methods=['GET', 'POST'])
 def about():
@@ -64,6 +62,8 @@ def about():
     pass
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
+    if request.method == 'GET':
+        return render_template('upload.html')
     # get everything necessary for a new thread
     # save the image to bugpath =>
     # 'static/' + bugpath + imgname
@@ -78,7 +78,7 @@ def upload():
     # tags = tags.split(',')
     tags = request.form['tags'] 
     thread = newthread(title, body, imagename, user, tags)
-    return redirect(url_for('bug'), path=thread.image.imagelink)
+    return redirect(url_for('bug'), path=thread.image.imagename)
     #  
 
 
@@ -110,7 +110,7 @@ bugs={
 def bug(path):
     thread = mydb.getthreadbyimagename(path)
     question = thread.title
-    bug_image = bugpath + thread.image.imagelink
+    bug_image = bugpath + thread.image.imagename
     tags = [tag.name for tag in thread.image.tags]
     body = thread.body
     
@@ -134,7 +134,9 @@ def bug(path):
 #selected tag
 @app.route('/tags/<path:path>', methods=['GET', 'POST'])
 def tags(path):
-    print path
+    imageobjs = mydb.getallimageswithtag(path)
+    imagenames = [i.imagename for i in imageobjs]
+    images = [(dict(imagepath=bugpath+name, link="bug/"+name)) for name in imagenames]
     # get all bugs with tagname
     # pass it to the template
     return render_template('tags.html',tags=True, tag=path, images=images)
