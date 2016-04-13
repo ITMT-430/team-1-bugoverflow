@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-{% import 'macros_file.html' as macro %}
+<!DOCTYPE html> {% import 'macros_file.html' as macro %}
 <html lang="en">
 
 <head>
@@ -8,12 +7,12 @@
 
 <body>
     <!-- Navigation -->
-    {{ macro.navbar() }} 
+    {{ macro.navbar() }}
 
     <!-- Page Container -->
     <div class="container">
         <!-- Header -->
-        {{ macro.header_image() }} 
+        {{ macro.header_image() }}
 
         <!-- Content -->
         <div class="content">
@@ -32,8 +31,7 @@
                                         </div>
                                         <br>
                                         <div class="post-taglist">
-                                            Tags:
-                                            {% for tag in tags %}
+                                            Tags: {% for tag in tags %}
                                             <a href="#">
                                                 <mark>{{tag}}</mark>
                                             </a>
@@ -67,48 +65,33 @@
                                 <button type="submit" class="btn btn-primary" id="submit-comment">submit</button>
                             </div>
                             <div id="comments">
-                                <ul class = "media-list">
-                                    <li class = "media">
-                                    <a class = "pull-left" href = "#">
-                                        <img class = "media-object" src="http://placehold.it/64x64" alt = "Generic placeholder image">
-                                    </a>
-                                        <div class = "media-body">
-                                            <h4 class = "media-hedaing">User 1</h4>
-
-                                            This is some sample text. This is some sample text. 
-                                            This is some sample text. This is some sample text.
-                                            This is some sample text. This is some sample text. 
-                                            This is some sample text. This is some sample text.
+                                <ul class="media-list">
+                                    <li class="media">
+                                        <a class="pull-left" href="#">
+                                            <img class="media-object" src="http://placehold.it/64x64" alt="Generic placeholder image">
+                                        </a>
+                                        <div class="media-body">
+                                            <h4 class="media-hedaing">User 1</h4> This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text.
 
                                             <p><a href="#">Reply</a></p>
 
                                             <!-- Nested comment -->
-                                            <div class = "media">
-                                                <a class = "pull-left" href = "#">
-                                                    <img class = "media-object" src="http://placehold.it/64x64" alt = "Generic placeholder image">
+                                            <div class="media">
+                                                <a class="pull-left" href="#">
+                                                    <img class="media-object" src="http://placehold.it/64x64" alt="Generic placeholder image">
                                                 </a>
-                                                <div class = "media-body">
-                                                    <h4 class = "media-headig">User 2</h4>
-
-                                                    This is some sample text. This is some sample text. 
-                                                    This is some sample text. This is some sample text.
-                                                    This is some sample text. This is some sample text. 
-                                                    This is some sample text. This is some sample text.
+                                                <div class="media-body">
+                                                    <h4 class="media-headig">User 2</h4> This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text.
 
                                                     <p><a href="#">Reply</a></p>
 
                                                     <!-- Nested comment -->
-                                                    <div class = "media">
-                                                        <a class = "pull-left" href = "#">
-                                                            <img class = "media-object" src="http://placehold.it/64x64" alt = "Generic placeholder image">
+                                                    <div class="media">
+                                                        <a class="pull-left" href="#">
+                                                            <img class="media-object" src="http://placehold.it/64x64" alt="Generic placeholder image">
                                                         </a>
-                                                        <div class = "media-body">
-                                                            <h4  class = "media-heading">User 1</h4>
-
-                                                            This is some sample text. This is some sample text. 
-                                                            This is some sample text. This is some sample text.
-                                                            This is some sample text. This is some sample text. 
-                                                            This is some sample text. This is some sample text.
+                                                        <div class="media-body">
+                                                            <h4 class="media-heading">User 1</h4> This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text.
 
                                                             <p><a href="#">Reply</a></p>
 
@@ -119,18 +102,13 @@
 
                                             </div>
 
-                                            <!-- Nested comment --> 
-                                            <div class = "media">
-                                                <a class = "pull-left" href = "#">
-                                                    <img class = "media-object" src="http://placehold.it/64x64" alt = "Generic placeholder image">
+                                            <!-- Nested comment -->
+                                            <div class="media">
+                                                <a class="pull-left" href="#">
+                                                    <img class="media-object" src="http://placehold.it/64x64" alt="Generic placeholder image">
                                                 </a>
-                                                <div class = "media-body">
-                                                    <h4 class = "media-heading">User 3</h4>
-
-                                                    This is some sample text. This is some sample text. 
-                                                    This is some sample text. This is some sample text.
-                                                    This is some sample text. This is some sample text. 
-                                                    This is some sample text. This is some sample text.
+                                                <div class="media-body">
+                                                    <h4 class="media-heading">User 3</h4> This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text.
 
                                                     <p><a href="#">Reply</a></p>
 
@@ -140,11 +118,11 @@
                                         </div>
                                     </li>
                                 </ul>
-                            </div>    
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        
+
                     </div>
                 </div>
                 <hr>

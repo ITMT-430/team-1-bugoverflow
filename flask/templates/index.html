@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-{% import 'macros_file.html' as macro %}
-<html lang="en">    
+<!DOCTYPE html> {% import 'macros_file.html' as macro %}
+<html lang="en">
 
 <head>
     {{ macro.standard_header("Bug Overflow") }}
@@ -13,27 +12,27 @@
     <!-- Page Container -->
     <div class="container">
         <!-- Header -->
-        {{ macro.header_image() }} 
-         
+        {{ macro.header_image() }}
+
         <!-- Content -->
         <div class="content">
 
-        <!-- This generates our thumbnails automatically, by flask -->
+            <!-- This generates our thumbnails automatically, by flask -->
             {% for entry in entries %}
-                <div id="thumb" class="col-lg-2 thumb">
-                    <a href="{{ entry.link }}">
-                        <img class="img-responsive" src="{{url_for('static', filename=entry.imagepath )}}">
-                    </a>
-                </div>
+            <div id="thumb" class="col-lg-2 thumb">
+                <a href="{{ entry.link }}">
+                    <img class="img-responsive" src="{{url_for('static', filename=entry.imagepath )}}">
+                </a>
+            </div>
             {% endfor %}
         </div>
 
     </div>
-    
 
-        <br>
-        <!-- Footer -->
-        {{ macro.standard_footer() }}
+
+    <br>
+    <!-- Footer -->
+    {{ macro.standard_footer() }}
 </body>
 
 </html>

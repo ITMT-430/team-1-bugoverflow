@@ -5,7 +5,7 @@ from flask import url_for, flash, redirect, session
 from os import listdir
 
 app = Flask(__name__)
-
+ 
 bugpath = "imgs/bugs/"
 
 ## This thing is supposed to be secret
