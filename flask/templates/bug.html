@@ -16,9 +16,7 @@
 
         <!-- Content -->
         <div class="content">
-            <div class="question-header">
-                <h1> {{ question }} </h1>
-            </div>
+
             <div class="main">
                 <div class="question">
                     <table>
@@ -40,11 +38,14 @@
                                     </div>
                                 </td>
                                 <td class="descriptioncell">
-                                    <div>
-                                        <div class="post-desc">
-                                            <h2> Description: </h2>
-                                            <p> {{ description }} </p>
-                                        </div>
+                                    <div class="question-header">
+                                        <h1> {{ question }} <small>by {{ user }}</small></h1>
+                                        
+                                    </div>
+                                    <br>
+                                    <div class="post-desc">
+                                        <h3> Description: </h3>
+                                        <p> {{ description }} </p>
                                     </div>
                                 </td>
                             </tr>
