@@ -44,6 +44,15 @@ def signup():
     ##TODO
     pass
 
+<<<<<<< HEAD
+@app.route('/about', methods=['GET', 'POST'])
+def about():
+    # About.html doesn't exist
+    return render_template('about.html', about=True)
+    ## TODO
+    pass
+@app.route('/upload', methods=['GET', 'POST'])
+=======
 @app.route('/tags')
 def tags():
 	return render_template('tags.hmtl')
@@ -57,6 +66,7 @@ def about():
 	pass
 
 @app.route('/upload')
+>>>>>>> 5cecde9034ec33cbbe2ca8e8cec95d4eecd1f8f8
 def upload():
 	return render_template('upload.html')
 	##TODO
@@ -100,6 +110,32 @@ def bug(path):
     ## TODO
     pass
 
+<<<<<<< HEAD
+#selected tag
+@app.route('/tags/<path:path>', methods=['GET', 'POST'])
+def tags(path):
+    print path
+    # get all bugs with tagname
+    # pass it to the template
+    return render_template('tags.html',tags=True, tag=path, images=images)
+    ## TODO
+    pass
+
+#direct to tags
+@app.route('/tags', methods=['GET', 'POST'])
+def tag():
+    tags = mydb.Tag.query.all()
+    tags = list({ t.name for t in tags })
+    # this page needs to do a word cloud or whatever
+    # instead of displaying images of bugs with the given tag
+    return render_template('tag.html', tags=True, taglist=tags, noimg=True)
+    ##TODO
+    pass
+
+
+
+=======
+>>>>>>> 5cecde9034ec33cbbe2ca8e8cec95d4eecd1f8f8
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0')
