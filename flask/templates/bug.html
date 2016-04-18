@@ -60,11 +60,22 @@
                     </div>
                     <div class="col-md-6" id="comments-container">
                         <div id="comments-form">
+                        {% if not session.logged_in %}
+                            <div class="form-group">
+                                <label for="comment">Comment:</label>
+                                <textarea class="form-control" rows="5" id="comment" action="" method="post" disabled></textarea>
+                                <button type="submit" class="btn btn-primary" id="submit-comment" disabled>submit</button>
+                            </div>
+                            <div class="alert alert-danger" role="alert">
+                                You must have an <a href="{{url_for( 'signup')}}" class="alert-link">account</a> to comment.
+                            </div>
+                        {% else %} 
                             <div class="form-group">
                                 <label for="comment">Comment:</label>
                                 <textarea class="form-control" rows="5" id="comment" action="" method="post"></textarea>
                                 <button type="submit" class="btn btn-primary" id="submit-comment">submit</button>
-                            </div>                       
+                            </div>   
+                        {% endif %}
                             <div id="comments">
                             {% for c in comments %}
                                 <ul class="media-list">
