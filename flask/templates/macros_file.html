@@ -27,12 +27,12 @@
             <li><a href="{{url_for('about')}}">about</a></li>
             {% elif tags %}
             <li><a href="{{url_for('index')}}">home</a></li>
-            <li class="/active"><a href="{{url_for('tag')}}">tags</a></li>
+            <li class="active"><a href="{{url_for('tag')}}">tags</a></li>
             <li><a href="{{url_for('about')}}">about</a></li>
             {% elif about %}
             <li><a href="{{url_for('index')}}">home</a></li>
             <li><a href="{{url_for('tag')}}">tags</a></li>
-            <li class="/active"><a href="{{url_for('about')}}">about</a></li>
+            <li class="active"><a href="{{url_for('about')}}">about</a></li>
             {% else %}
             <li><a href="{{url_for('index')}}">home</a></li>
             <li><a href="{{url_for('tag')}}">tags</a></li>
