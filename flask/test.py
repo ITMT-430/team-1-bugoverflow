@@ -8,6 +8,8 @@ from flask import send_from_directory
 from os import listdir
 from werkzeug import secure_filename
 
+
+import exifread
 app = Flask(__name__)
  
 bugpath = "imgs/bugs/"
@@ -67,25 +69,32 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
+
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
-    # if request is GET load page
+    # if request is GET, load the upload form-page
     if request.method == 'GET':
         return render_template('upload.html')
+
     # if POST read the file and form data
-    file = request.files['file']
+    image = request.files['file']
     title = request.form['title']
     body = request.form['body']
     tags = request.form['tags'] 
     tags = tags.split(',')
 
+    
+    # The log-in check *should* be in the 'GET' side of things
+    # So the user doesn't do all the work, and then get informed he can't post
     if 'logged_in' not in session:
         errormsg = 'You must be logged in to post'
         return redirect(url_for('index'))
         #return redirect(url_for('error', error=errormsg))
-    if not file or not allowed_file(file.filename):
+
+    # we should probably redirect back to the 'GET' side, with the forms still filled out.
+    if not image or not allowed_file(image.filename):
         errormsg = 'file not allowed'
-        return redirect(url_for('index'))
+        return redirect(url_for('index')) 
         #return redirect(url_for('error', error=errormsg))
         #return render_template('index.html', error=errormsg)
 
@@ -94,23 +103,29 @@ def upload():
 
 
     # setting the object imagename to the secure file  	
-    imagename = secure_filename(file.filename)
+    imagename = secure_filename(image.filename)
     # saving the file to the upload folder static/imgs/bugs
-    file.save(os.path.join(app.config['UPLOAD_FOLDER'], imagename))
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], imagename)
+    image.save(filepath)
+    extension = image.filename.rsplit('.', 1)[1]
+
+    if extension in ['jpg', 'jpeg']:  # then get exif data
+        exif = exifread.process_file(open(filepath, 'rb'), details=False)
+        #'GPS GPSLatitude': (0x0002) Ratio=[46, 3803/100, 0] @ 850
+        #'GPS GPSLongitude': (0x0004) Ratio=[13, 2429/100, 0] @ 874,
+        if 'GPS GPSLatitude' in exif and 'GPS GPSLongitude' in exif:
+            lat = exif['GPS GPSLatitude'].values() #[46, 3803/100, 0]
+            lon = exif['GPS GPSLongitude'].values() #[13, 2429/100, 0]
+            # then store lat/long in format for gmaps, in the image table
+            # and inject into html on image loading, for js gmaps
+    
     # make a new thread
     thread = mydb.newthread(title, body, imagename, user, tags)
-    # get everything necessary for a new thread
-    # save the image to bugpath =>
-    # 'static/' + bugpath + imgname
+    # and then send the user to it
     
-    # imagename = None # this should be the name of the image itself, without any filepath
-                    # ie 'bug-img.jpg'
+    # imagename should be the name of the image itself, without any filepath
+    # ie 'bug-img.jpg'
     return redirect(url_for('bug', path=imagename)) 
-	
-	
-	# return render_template('upload.html')
-	# ##TODO
-	# pass
 
 @app.route('/profile')
 def profile():
@@ -118,23 +133,14 @@ def profile():
 	##TODO
 	pass
 
-bugs={
-"140602.png" : ['ladybug', 'beetle', 'spotted'],
-"Dore-Justice.jpg" : ['parasites', 'anthill'],
-"Dore-Portrait-of-Dante.jpg" : ['mantis', 'machine'],
-"Dore-Rose.jpg": ['Borer', 'Mining'],
-"Dore-Woe's-me.jpg": ["dampwood", "drywood", "varieties"],
-"Dore-Wretched-Hands.jpg": [],
-"Dore-Writhing.jpg": [],
-"General_Winter.jpg": [],
-"akagi-3928579.jpg": [],
-"escher-babel.jpg":[]
-}
-
-
 @app.route('/bug/<path:path>', methods=['GET', 'POST'])
 def bug(path):
     thread = mydb.getthreadbyimagename(path)
+    # thread doesn't exist; throw error at user
+    if not thread:
+        return redirect(url_for('index')) 
+        #return redirect(url_for('error', error=errormsg))
+
     question = thread.title
     bug_image = bugpath + thread.image.imagename
     tags = [tag.name for tag in thread.image.tags]
