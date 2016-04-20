@@ -155,16 +155,10 @@ def bug(path):
         #return redirect(url_for('error', error=errormsg))
 
     bug_image = bugpath + thread.image.imagename
-    comments = thread.comments
 
     return render_template('bug.html',
             thread=thread,
-            user = thread.user.username,
-            tags = tags,
-            question = question,
-            bug_image = bug_image,
-            description = body,
-            comments = comments)
+            bug_image = bug_image)
 
 @app.route('/bug/<path:path>/postcomment', methods=['GET', 'POST'])
 def postcomment(path):
