@@ -53,6 +53,8 @@ def signup():
 
     username = request.form['username']
     password = request.form['password']
+
+
     role = 'user'
     user = mydb.newuser(username, password, role)
     session['username'] = username
@@ -160,6 +162,7 @@ def bug(path):
             bug_image = bug_image,
             description = body,
             comments = comments)
+		
 
 #selected tag
 @app.route('/tags/<path:path>', methods=['GET', 'POST'])
