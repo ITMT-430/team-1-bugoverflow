@@ -91,7 +91,7 @@ def upload():
     # So the user doesn't do all the work, and then get informed he can't post
     if 'logged_in' not in session:
         errormsg = 'You must be logged in to post'
-        return redirect(url_for('index'))
+        return redirect(url_for('403.html'))
         #return redirect(url_for('error', error=errormsg))
 
     # we should probably redirect back to the 'GET' side, with the forms still filled out.
@@ -188,6 +188,14 @@ def tag():
     tags = mydb.Tag.query.all()
     tags = sorted(set([t.name for t in tags]))
     return render_template('tags.html', tags=True, taglist=tags)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+@app.errorhandler(403)
+def page_not_found(e):
+    return render_template('403.html'), 403
 
 if __name__ == "__main__":
    app.run(host='0.0.0.0', debug=True)
