@@ -123,14 +123,14 @@ class Tag(db.Model):
     def __repre__(self):
         return 'Image: %s\n Tag: %s' % (self.image.imagename, self.name)
 
-def newthread(title, body, imagename, user, tags):
+def newthread(title, body, imagename, userobj, tags):
     """ adds a new thread to the DB; returns a thread object and an image object """
 
     i = Image(imagename)
     for tag in tags:
         tg = Tag(i, tag)
         db.session.add(tg)
-    t = Thread(title, body, user, i)
+    t = Thread(title, body, userobj, i)
     # note: if you try to use bulk_save_objects instead of add, it silently fucks up.
     db.session.add(i)
     db.session.add(t)
@@ -138,9 +138,9 @@ def newthread(title, body, imagename, user, tags):
     # tag shit
     return t, i
     
-def newcomment(thread, user, body, parent=None):
+def newcomment(threadobj, user, body, parent=None):
     """ Commits a new comment; returns the comment object"""
-    c = Comment(thread, user, body, parent)
+    c = Comment(threadobj, user, body, parent)
     db.session.add(c)
     db.session.commit()
     return c
