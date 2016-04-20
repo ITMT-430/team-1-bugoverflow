@@ -157,15 +157,11 @@ def bug(path):
     return render_template('bug.html',
             thread=thread,
             user = thread.user.username,
-<<<<<<< HEAD
             tags = tags,
             question = question,
             bug_image = bug_image,
             description = body,
             comments = comments)
-		
-=======
-            bug_image = bug_image)
 
 @app.route('/bugs/<path:path>/postcomment', methods=['GET', 'POST'])
 def postcomment(path):
@@ -174,9 +170,6 @@ def postcomment(path):
     thread = mydb.getthreadbyimagename(path)
     c = newcomment(thread, user, body)
     return redirect(url_for('bug', path=path))
-
-    
->>>>>>> 926b090fd25f7bfaba5ca9c12f79474b694622fe
 
 #selected tag
 @app.route('/tags/<path:path>', methods=['GET', 'POST'])
