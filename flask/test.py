@@ -54,6 +54,8 @@ def signup():
 
     username = request.form['username']
     password = request.form['password']
+
+
     role = 'user'
     user = mydb.newuser(username, password, role)
     session['username'] = username
@@ -158,7 +160,11 @@ def bug(path):
     return render_template('bug.html',
             thread=thread,
             user = thread.user.username,
-            bug_image = bug_image)
+            tags = tags,
+            question = question,
+            bug_image = bug_image,
+            description = body,
+            comments = comments)
 
 @app.route('/bug/<path:path>/postcomment', methods=['GET', 'POST'])
 def postcomment(path):
