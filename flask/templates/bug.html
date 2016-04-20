@@ -27,7 +27,7 @@
                                         <div class="post-image">
                                             <img src="{{url_for('static', filename=bug_image)}}" alt="">
                                             {% if thread.image.geoloc %}
-                                            <img src="https://maps.googleapis.com/maps/api/staticmap?center={{ geoloc }}&zoom=8&size=512x512&key=AIzaSyBB3o_tLwpc9tvBuoFF0S-bdv934mrmhv4">
+                                            <img src="https://maps.googleapis.com/maps/api/staticmap?center={{ thread.image.geoloc }}&zoom=8&size=512x512&key=AIzaSyBB3o_tLwpc9tvBuoFF0S-bdv934mrmhv4">
                                             {% endif %}
                                         </div>
                                         <br>

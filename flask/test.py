@@ -116,9 +116,12 @@ def upload():
         #'GPS GPSLatitude': (0x0002) Ratio=[46, 3803/100, 0] @ 850
         #'GPS GPSLongitude': (0x0004) Ratio=[13, 2429/100, 0] @ 874,
         if 'GPS GPSLatitude' in exif and 'GPS GPSLongitude' in exif:
-            lat = exif['GPS GPSLatitude'].values() #[46, 3803/100, 0]
-            lon = exif['GPS GPSLongitude'].values() #[13, 2429/100, 0]
+            lat = exif['GPS GPSLatitude'].values #[46, 3803/100, 0]
+            lon = exif['GPS GPSLongitude'].values #[13, 2429/100, 0]
             # degree + minutes + seconds to decimal
+            lat = map(lambda x: x.num * 1. / x.den, lat)
+            lon = map(lambda x: x.num * 1. / x.den, lon)
+
             lat = lat[0] + (lat[1]*1. /60) + (lat[2]*1. /3600)
             lon = lon[0] + (lon[1]*1. /60) + (lon[2]*1. /3600)
             lat = round(lat, 6)
@@ -128,12 +131,12 @@ def upload():
             # and inject into html on image loading, for js gmaps
     
     # make a new thread
-    thread = mydb.newthread(title, body, imagename, user, tags, geoloc)
+    thread,image = mydb.newthread(title, body, imagename, user, tags, geoloc)
     # and then send the user to it
     
     # imagename should be the name of the image itself, without any filepath
     # ie 'bug-img.jpg'
-    return redirect(url_for('bug', path=imagename)) 
+    return redirect(url_for('bug', path=image.imagename)) 
 
 @app.route('/profile')
 def profile():
@@ -157,15 +160,13 @@ def bug(path):
             user = thread.user.username,
             bug_image = bug_image)
 
-@app.route('/bugs/<path:path>/postcomment', methods=['GET', 'POST'])
+@app.route('/bug/<path:path>/postcomment', methods=['GET', 'POST'])
 def postcomment(path):
     body = request.form['body']
     user = mydb.getuserbyname(session['username'])
     thread = mydb.getthreadbyimagename(path)
     c = newcomment(thread, user, body)
     return redirect(url_for('bug', path=path))
-
-    
 
 #selected tag
 @app.route('/tags/<path:path>', methods=['GET', 'POST'])
