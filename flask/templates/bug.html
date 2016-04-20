@@ -26,12 +26,15 @@
                                     <div>
                                         <div class="post-image">
                                             <img src="{{url_for('static', filename=bug_image)}}" alt="">
+                                            {% if thread.image.geoloc %}
+                                            <img src="https://maps.googleapis.com/maps/api/staticmap?center={{ geoloc }}&zoom=8&size=512x512&key=AIzaSyBB3o_tLwpc9tvBuoFF0S-bdv934mrmhv4">
+                                            {% endif %}
                                         </div>
                                         <br>
                                         <div class="post-taglist">
-                                            Tags: {% for tag in tags %}
+                                            Tags: {% for tag in thread.image.tags %}
                                             <a href="{{url_for('tags', path=tag)}}">
-                                                <mark>{{tag}}</mark>
+                                                <mark>{{ tag.name }}</mark>
                                             </a>
                                             {% endfor %}
                                         </div>
@@ -39,13 +42,13 @@
                                 </td>
                                 <td class="descriptioncell">
                                     <div class="question-header">
-                                        <h1> {{ question }} <br><small>by {{ user }}</small></h1>
+                                        <h1> {{ thread.title }} <br><small>by {{ user }}</small></h1>
                                         
                                     </div>
                                     <br>
                                     <div class="post-desc">
                                         <h3> Description: </h3>
-                                        <p> {{ description }} </p>
+                                        <p> {{ thread.body }} </p>
                                     </div>
                                 </td>
                             </tr>
@@ -58,6 +61,10 @@
                         <h2>Discussion</h2>
                         <hr>
                     </div>
+
+
+
+            <!-- Comments Section -->
                     <div class="col-md-6" id="comments-container">
                         <div id="comments-form">
                         {% if not session.logged_in %}
@@ -82,7 +89,7 @@
                         </form>   
                         {% endif %}
                             <div id="comments">
-                            {% for c in comments %}
+                            {% for c in thread.comments%}
                                 <ul class="media-list">
                                     <li class="media">
                                         <a class="pull-left" href="#">

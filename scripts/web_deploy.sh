@@ -22,7 +22,7 @@ cd team-1-bugoverflow/flask/
 
 virtualenv flaskenv
 source flaskenv/bin/activate
-pip install uwsgi flask Jinja2
+pip install uwsgi flask Jinja2 exifread
 pip install Flask-SQLAlchemy
 yum install python-jinja2 -y
 
