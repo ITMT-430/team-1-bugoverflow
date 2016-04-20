@@ -19,7 +19,7 @@
 
             <!-- This generates our thumbnails automatically, by flask -->
             {% for entry in entries %}
-            <div id="thumb" class="col-lg-2 thumb">
+            <div id="thumb" class="col-md-2 col-xs-2 thumb">
                 <a href="{{ entry.link }}">
                     <img class="img-responsive" src="{{url_for('static', filename=entry.imagepath )}}">
                 </a>
