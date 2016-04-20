@@ -8,6 +8,7 @@ from flask import send_from_directory
 from os import listdir
 from werkzeug import secure_filename
 
+gmaps_key = 'AIzaSyBB3o_tLwpc9tvBuoFF0S-bdv934mrmhv4'
 
 import exifread
 app = Flask(__name__)
@@ -109,6 +110,7 @@ def upload():
     image.save(filepath)
     extension = image.filename.rsplit('.', 1)[1]
 
+    geoloc = None
     if extension in ['jpg', 'jpeg']:  # then get exif data
         exif = exifread.process_file(open(filepath, 'rb'), details=False)
         #'GPS GPSLatitude': (0x0002) Ratio=[46, 3803/100, 0] @ 850
@@ -116,11 +118,17 @@ def upload():
         if 'GPS GPSLatitude' in exif and 'GPS GPSLongitude' in exif:
             lat = exif['GPS GPSLatitude'].values() #[46, 3803/100, 0]
             lon = exif['GPS GPSLongitude'].values() #[13, 2429/100, 0]
+            # degree + minutes + seconds to decimal
+            lat = lat[0] + (lat[1]*1. /60) + (lat[2]*1. /3600)
+            lon = lon[0] + (lon[1]*1. /60) + (lon[2]*1. /3600)
+            lat = round(lat, 6)
+            lon = round(lon, 6)
+            geoloc = "%s,%s" % (lat, lon)
             # then store lat/long in format for gmaps, in the image table
             # and inject into html on image loading, for js gmaps
     
     # make a new thread
-    thread = mydb.newthread(title, body, imagename, user, tags)
+    thread = mydb.newthread(title, body, imagename, user, tags, geoloc)
     # and then send the user to it
     
     # imagename should be the name of the image itself, without any filepath
@@ -141,25 +149,23 @@ def bug(path):
         return redirect(url_for('index')) 
         #return redirect(url_for('error', error=errormsg))
 
-    question = thread.title
     bug_image = bugpath + thread.image.imagename
-    tags = [tag.name for tag in thread.image.tags]
-    body = thread.body
-
     comments = thread.comments
-    
-    #tags = ['ladybug', 'beetle', 'spotted']
-    #question = "What bug is this??"
-    #bug_image = bugpath+path
-    #tags = bugs[path]
 
     return render_template('bug.html',
+            thread=thread,
             user = thread.user.username,
-            tags = tags,
-            question = question,
-            bug_image = bug_image,
-            description = body,
-            comments = comments)
+            bug_image = bug_image)
+
+@app.route('/bugs/<path:path>/postcomment', methods=['GET', 'POST'])
+def postcomment(path):
+    body = request.form['body']
+    user = mydb.getuserbyname(session['username'])
+    thread = mydb.getthreadbyimagename(path)
+    c = newcomment(thread, user, body)
+    return redirect(url_for('bug', path=path))
+
+    
 
 #selected tag
 @app.route('/tags/<path:path>', methods=['GET', 'POST'])

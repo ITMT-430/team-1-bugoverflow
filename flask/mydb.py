@@ -53,11 +53,13 @@ class Thread(db.Model):
 class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     imagename = db.Column(db.String(100))
+    geoloc = db.Column(db.String(25))
     thread = db.relationship('Thread', backref='image')   # 1:1 map with an image
     tags = db.relationship('Tag', backref='image')
 
-    def __init__(self, imagename):
+    def __init__(self, imagename, geoloc=None):
         self.imagename = imagename
+        self.geoloc = geoloc
 
     def __repr__(self):
         text = ""
@@ -123,10 +125,10 @@ class Tag(db.Model):
     def __repre__(self):
         return 'Image: %s\n Tag: %s' % (self.image.imagename, self.name)
 
-def newthread(title, body, imagename, userobj, tags):
+def newthread(title, body, imagename, userobj, tags, geoloc=None):
     """ adds a new thread to the DB; returns a thread object and an image object """
 
-    i = Image(imagename)
+    i = Image(imagename, geoloc)
     for tag in tags:
         tg = Tag(i, tag)
         db.session.add(tg)
