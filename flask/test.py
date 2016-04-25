@@ -143,10 +143,11 @@ def bug(path):
 @app.route('/bug/<path:path>/postcomment', methods=['GET', 'POST'])
 def postcomment(path):
     body = request.form['cbody']
+    print request.form
     if body.strip():
         user = mydb.getuserbyname(session['username'])
         thread = mydb.getthreadbyimagename(path)
-        c = newcomment(thread, user, body)
+        c = mydb.newcomment(thread, user, body)
     return redirect(url_for('bug', path=path))
 
 #selected tag

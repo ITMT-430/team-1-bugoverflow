@@ -69,10 +69,10 @@
                         <div id="comments-form">
                         {% if not session.logged_in %}
                         <!-- CHECKS IF LOGGED IN, IF NOT THEN DISABLE COMMENTING -->
-                        <form action="../postcomment" method="post">
+                        <form action="" method="post">
                             <div class="form-group">
-                                <label for="body">Comment:</label>
-                                <textarea class="form-control" rows="5" id="body" method="post" disabled></textarea>
+                                <label for="cbody">Comment:</label>
+                                <textarea class="form-control" rows="5" name="cbody" id="cbody" method="post" disabled></textarea>
                                 <button type="submit" class="btn btn-primary" id="submit-comment" disabled>submit</button>
                             </div>
                             <div class="alert alert-danger" role="alert">
@@ -80,10 +80,10 @@
                             </div>
                         </form>
                         {% else %}
-                        <form action="" method="post"> 
+                        <form action="{{url_for('postcomment', path=thread.image.imagename)}}" method="post"> 
                             <div class="form-group">
                                 <label for="cbody">Comment:</label>
-                                <textarea class="form-control" rows="5" id="cbody"></textarea>
+                                <textarea class="form-control" rows="5" name="cbody" id="cbody"></textarea>
                                 <button type="submit" class="btn btn-primary" id="submit-comment">submit</button>
                             </div>
                         </form>   
@@ -106,7 +106,7 @@
                                                 </a>
                                                 <div class="media-body">
                                                     <h4 class="media-heading">{{c2.user.username}}</h4>
-                                                    {{c2.body}}  LOREM  IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUM
+                                                    {{c2.body}}
                                                     <p><a href="#">Reply</a></p>
                                                     {{ loop(c2.children) }}
                                 
@@ -122,22 +122,21 @@
                                             <!-- Nested comment -->
                                             <div class="media">
                                                 <a class="pull-left" href="#">
-                                                    <img class="media-object" src="http://placehold.it/64x64" alt="Generic placeholder image">
+                                                    
                                                 </a>
                                                 <div class="media-body">
-                                                    <h4 class="media-headig">User 2</h4> This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text.
 
-                                                    <p><a href="#">Reply</a></p>
+                                                   
 
                                                     <!-- Nested comment -->
                                                     <div class="media">
                                                         <a class="pull-left" href="#">
-                                                            <img class="media-object" src="http://placehold.it/64x64" alt="Generic placeholder image">
+                                                            
                                                         </a>
                                                         <div class="media-body">
-                                                            <h4 class="media-heading">User 1</h4> This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text.
+                                                           
 
-                                                            <p><a href="#">Reply</a></p>
+                                                            
 
                                                         </div>
 
@@ -149,12 +148,11 @@
                                             <!-- Nested comment -->
                                             <div class="media">
                                                 <a class="pull-left" href="#">
-                                                    <img class="media-object" src="http://placehold.it/64x64" alt="Generic placeholder image">
+                                                    
                                                 </a>
                                                 <div class="media-body">
-                                                    <h4 class="media-heading">User 3</h4> This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text.
-
-                                                    <p><a href="#">Reply</a></p>
+                                                    
+                                                    
 
                                                 </div>
 

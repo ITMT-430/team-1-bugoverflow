@@ -263,15 +263,15 @@ def makecomments():
     threads = getalltestthreads()
     users = getalltestusers()
     for i, thread in enumerate(threads):
-        c = newcomment(thread, users[i%4], 'body text %s' % i)
-        c = newcomment(thread, users[(i+1)%4], 'body text %s' % (i+1,), c)
+        c = newcomment(thread, users[i%4], 'body text HELP %s' % i)
+        c = newcomment(thread, users[(i+1)%4], 'body text HELP2 %s' % (i+1,), c)
         c = newcomment(thread, users[(i+2)%4], 'body text %s' % (i+2,), c)
         c = newcomment(thread, users[(i+3)%4], 'body text %s' % (i+3,))
         
 def makeall():
     makeusers()
     makethreads()
-    makecomments()
+    #makecomments()
 
     
 # u = newuser('neil', 'pass', 'admin')
