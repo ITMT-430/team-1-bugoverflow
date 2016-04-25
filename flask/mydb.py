@@ -35,6 +35,11 @@ class Thread(db.Model):
         many:1 user:thread
         1:many thread:comments
         1:1    thread:image
+
+        :param int id: unique id
+        :param str title: thread title
+        :param str body: OP's body text
+        :param user: points to the user table-object
         Fields: 
             Title TEXT
             Body  TEXT
@@ -43,7 +48,6 @@ class Thread(db.Model):
             Comments (object list)
     """
 
-        title; body; user_id;  
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(80))
     body = db.Column(db.Text)

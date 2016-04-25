@@ -140,9 +140,8 @@ def upload():
 @app.route('/profile')
 def profile():
     """ Just renders the user """
-	return render_template('profile.html')
-	##TODO
-	pass
+    ## TODO 
+    return render_template('profile.html')
 
 @app.route('/bug/<path:path>', methods=['GET', 'POST'])
 def bug(path):
