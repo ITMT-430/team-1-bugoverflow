@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <!-- Header -->
     {{ macro.standard_header("Bug Overflow") }}
 </head>
 
@@ -24,6 +25,7 @@
                             <tr>
                                 <td class="postcell">
                                     <div>
+                                    <!-- Uploaded Image -->
                                         <div class="post-image">
                                             <img src="{{url_for('static', filename=bug_image)}}" alt="">
                                             {% if thread.image.geoloc %}
@@ -31,21 +33,25 @@
                                             {% endif %}
                                         </div>
                                         <br>
+                                        <!-- Image Tags, if any -->
                                         <div class="post-taglist">
                                             Tags: {% for tag in thread.image.tags %}
-                                            <a href="{{url_for('tags', path=tag)}}">
+                                            <a href="{{url_for('tags', path=tag.name)}}">
                                                 <mark>{{ tag.name }}</mark>
                                             </a>
                                             {% endfor %}
                                         </div>
                                     </div>
                                 </td>
+                                <!-- Thread -->
                                 <td class="descriptioncell">
+                                    <!-- Title / Question -->
                                     <div class="question-header">
-                                        <h1> {{ thread.title }} <br><small>by {{ user }}</small></h1>
+                                        <h1> {{ thread.title }} <br><small>by {{ thread.user.username }}</small></h1>
                                         
                                     </div>
                                     <br>
+                                    <!-- Description -->
                                     <div class="post-desc">
                                         <h3> Description: </h3>
                                         <p> {{ thread.body }} </p>
@@ -56,6 +62,7 @@
                     </table>
                 </div>
                 <br>
+                <!-- Discussion / Comments Section -->
                 <div class="discussion">
                     <div id="discussion-header">
                         <h2>Discussion</h2>
@@ -69,44 +76,45 @@
                         <div id="comments-form">
                         {% if not session.logged_in %}
                         <!-- CHECKS IF LOGGED IN, IF NOT THEN DISABLE COMMENTING -->
-                        <form action="" method="post">
-                            <div class="form-group">
-                                <label for="body">Comment:</label>
-                                <textarea class="form-control" rows="5" id="body" method="post" disabled></textarea>
-                                <button type="submit" class="btn btn-primary" id="submit-comment" disabled>submit</button>
-                            </div>
+                            <!-- Alert if not logged in -->
                             <div class="alert alert-danger" role="alert">
                                 You must have an <a href="{{url_for( 'signup')}}" class="alert-link">account</a> to comment.
                             </div>
-                        </form>
+                        
                         {% else %}
-                        <form action="" method="post"> 
+                        <!-- commenting form -->
+                        <form action="{{url_for('postcomment', path=thread.image.imagename)}}" method="post"> 
                             <div class="form-group">
                                 <label for="cbody">Comment:</label>
-                                <textarea class="form-control" rows="5" id="cbody"></textarea>
+                                <textarea class="form-control" rows="5" name="cbody" id="cbody"></textarea>
                                 <button type="submit" class="btn btn-primary" id="submit-comment">submit</button>
                             </div>
                         </form>   
                         {% endif %}
+                        <!-- comments displayed here, nested -->
                             <div id="comments">
                             {% for c in thread.comments%}
                                 <ul class="media-list">
                                     <li class="media">
+                                    <!-- commentors icon -->
                                         <a class="pull-left" href="#">
                                             <img class="media-object" src="http://placehold.it/64x64" alt="Generic placeholder image">
                                         </a>
                                         <div class="media-body">
+                                        <!-- commentors name -->
                                             <h4 class="media-heading">{{c.user.username}}</h4> 
                                             {{c.body}}
+                                            <!-- comment reply button -->
                                             <p><a href="#">Reply</a></p>
                                             {% for c2 in c.children recursive%}
+                                            <!-- nested comment -->
                                             <div class="media">
                                                 <a class="pull-left" href="#">
                                                     <img class="media-object" src="http://placehold.it/64x64" alt="Generic placeholder image">
                                                 </a>
                                                 <div class="media-body">
                                                     <h4 class="media-heading">{{c2.user.username}}</h4>
-                                                    {{c2.body}}  LOREM  IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUM
+                                                    {{c2.body}}
                                                     <p><a href="#">Reply</a></p>
                                                     {{ loop(c2.children) }}
                                 
@@ -120,46 +128,44 @@
                                 </div>
 
                                             <!-- Nested comment -->
-                                            <div class="media">
+<!--                                             <div class="media">
                                                 <a class="pull-left" href="#">
-                                                    <img class="media-object" src="http://placehold.it/64x64" alt="Generic placeholder image">
+                                                    
                                                 </a>
-                                                <div class="media-body">
-                                                    <h4 class="media-headig">User 2</h4> This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text.
+                                                <div class="media-body"> -->
 
-                                                    <p><a href="#">Reply</a></p>
+                                                   
 
                                                     <!-- Nested comment -->
-                                                    <div class="media">
+                 <!--                                    <div class="media">
                                                         <a class="pull-left" href="#">
-                                                            <img class="media-object" src="http://placehold.it/64x64" alt="Generic placeholder image">
+                                                            
                                                         </a>
                                                         <div class="media-body">
-                                                            <h4 class="media-heading">User 1</h4> This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text.
+                                                           
 
-                                                            <p><a href="#">Reply</a></p>
+                                                            
 
                                                         </div>
 
                                                     </div>
                                                 </div>
 
-                                            </div>
+                                            </div> -->
 
                                             <!-- Nested comment -->
-                                            <div class="media">
+       <!--                                      <div class="media">
                                                 <a class="pull-left" href="#">
-                                                    <img class="media-object" src="http://placehold.it/64x64" alt="Generic placeholder image">
+                                                    
                                                 </a>
                                                 <div class="media-body">
-                                                    <h4 class="media-heading">User 3</h4> This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text. This is some sample text.
-
-                                                    <p><a href="#">Reply</a></p>
+                                                    
+                                                    
 
                                                 </div>
 
                                             </div>
-                                        </div>
+                                        </div> -->
                                         </li>
                                     </ul>
                                 </div>

@@ -164,10 +164,11 @@ def postcomment(path):
     """ saves the comment, returns you to the thread 
         If the comment is invalid, still returns you to the thread"""
     body = request.form['cbody']
+    print request.form
     if body.strip():
         user = mydb.getuserbyname(session['username'])
         thread = mydb.getthreadbyimagename(path)
-        c = newcomment(thread, user, body)
+        c = mydb.newcomment(thread, user, body)
     return redirect(url_for('bug', path=path))
 
 #selected tag
