@@ -110,27 +110,7 @@ def upload():
     # saving the file to the upload folder static/imgs/bugs
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], imagename)
     image.save(filepath)
-    extension = image.filename.rsplit('.', 1)[1]
-
-    geoloc = None
-    if extension in ['jpg', 'jpeg']:  # then get exif data
-        exif = exifread.process_file(open(filepath, 'rb'), details=False)
-        #'GPS GPSLatitude': (0x0002) Ratio=[46, 3803/100, 0] @ 850
-        #'GPS GPSLongitude': (0x0004) Ratio=[13, 2429/100, 0] @ 874,
-        if 'GPS GPSLatitude' in exif and 'GPS GPSLongitude' in exif:
-            lat = exif['GPS GPSLatitude'].values #[46, 3803/100, 0]
-            lon = exif['GPS GPSLongitude'].values #[13, 2429/100, 0]
-            # degree + minutes + seconds to decimal
-            lat = map(lambda x: x.num * 1. / x.den, lat)
-            lon = map(lambda x: x.num * 1. / x.den, lon)
-
-            lat = lat[0] + (lat[1]*1. /60) + (lat[2]*1. /3600)
-            lon = lon[0] + (lon[1]*1. /60) + (lon[2]*1. /3600)
-            lat = round(lat, 6)
-            lon = round(lon, 6)
-            geoloc = "%s,%s" % (lat, lon)
-            # then store lat/long in format for gmaps, in the image table
-            # and inject into html on image loading, for js gmaps
+    geoloc = mydb.getgeoloc(filepath)
     
     # make a new thread
     thread,image = mydb.newthread(title, body, imagename, user, tags, geoloc)
@@ -163,9 +143,10 @@ def bug(path):
 @app.route('/bug/<path:path>/postcomment', methods=['GET', 'POST'])
 def postcomment(path):
     body = request.form['cbody']
-    user = mydb.getuserbyname(session['username'])
-    thread = mydb.getthreadbyimagename(path)
-    c = newcomment(thread, user, body)
+    if body.strip():
+        user = mydb.getuserbyname(session['username'])
+        thread = mydb.getthreadbyimagename(path)
+        c = newcomment(thread, user, body)
     return redirect(url_for('bug', path=path))
 
 #selected tag

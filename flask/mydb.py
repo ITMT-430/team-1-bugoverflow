@@ -4,6 +4,7 @@ from flask import Flask
 import os
 import shutil
 import unittest
+import exifread
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -165,6 +166,48 @@ def addtags(imagename, taglist):
         db.session.commit()
     pass
 
+# this should really be in a seperate helper module
+def getgeoloc(filepath):
+    extension = filepath.rsplit('.', 1)[1]
+
+    geoloc = None
+    if extension in ['jpg', 'jpeg']:  # then get exif data
+        try:
+            exif = exifread.process_file(open(filepath, 'rb'), details=False)
+            #'GPS GPSLatitude': (0x0002) Ratio=[46, 3803/100, 0] @ 850
+            #'GPS GPSLongitude': (0x0004) Ratio=[13, 2429/100, 0] @ 874,
+            if 'GPS GPSLatitude' in exif and 'GPS GPSLongitude' in exif:
+                print exif
+                lat = exif['GPS GPSLatitude'].values #[46, 3803/100, 0]
+                lon = exif['GPS GPSLongitude'].values #[13, 2429/100, 0]
+                
+                # degree + minutes + seconds to decimal
+                lat = map(lambda x: x.num * 1. / x.den, lat)
+                lon = map(lambda x: x.num * 1. / x.den, lon)
+
+                lat = lat[0] + (lat[1]*1. /60) + (lat[2]*1. /3600)
+                lon = lon[0] + (lon[1]*1. /60) + (lon[2]*1. /3600)
+                lat = round(lat, 6)
+                lon = round(lon, 6)
+
+                # Longitude (E): +  Latitude (N): +
+                # Longitude (W): -  Latitude (S): -
+
+                if 'GPS GPSLatitudeRef' in exif:
+                    latref = exif['GPS GPSLatitudeRef'].values
+                    if latref == 'S':
+                        lat *= -1
+                if 'GPS GPSLongitudeRef' in exif:
+                    lonref = exif['GPS GPSLongitudeRef'].values
+                    if lonref == 'W':
+                        lon *= -1
+
+                geoloc = "%s,%s" % (lat, lon)
+                # then store lat/long in format for gmaps, in the image table
+                # and inject into html on image loading, for js gmaps 
+        except UnicodeEncodeError:
+            return None
+    return geoloc
 
 def getuserbyname(username):
     return User.query.filter_by(username=username).first()
@@ -184,12 +227,12 @@ def isvalidlogin(username, password):
 
 
 # population functions
-bugpath = 'imgs/bugs/'
+bugpath = 'static/imgs/bugs/'
 def getalltestusers():
     names = ['brandon', 'neil', 'zubin', 'alfredo']
     return map(getuserbyname, names)
 def getalltestthreads():
-    imagenames = list(os.listdir('static/' + bugpath))
+    imagenames = list(os.listdir(bugpath))
     return map(getthreadbyimagename, imagenames) 
 
 def makeusers():
@@ -199,20 +242,23 @@ def makeusers():
     for name, roles in zip(names, roles):
         newuser(name, passw, roles)
 def makethreads():
+    # remove production folder, and replace with copy of dummy
+    # so we can start from scratch
     dummy = 'static/imgs/dummyimgs/'
-    bugs = 'static/' + bugpath
-    if os.path.isdir(bugs):
-        shutil.rmtree(bugs)
-    shutil.copytree(dummy, bugs)
+    if os.path.isdir(bugpath):
+        shutil.rmtree(bugpath)
+    shutil.copytree(dummy, bugpath)
 
-    imagenames = list(os.listdir('static/' + bugpath))
+    imagenames = list(os.listdir(bugpath))
     users = getalltestusers()
     ts = ['ladybug', 'praying mantis']
     for i, imagename in enumerate(imagenames):
         title = 'title %s' % i
         body = 'body-text %s' % i
         tags = [ts[i%2]]
-        newthread(title, body, imagename, users[i%4], tags)
+        print bugpath + imagename
+        geoloc = getgeoloc(bugpath + imagename)
+        newthread(title, body, imagename, users[i%4], tags, geoloc)
 def makecomments():
     threads = getalltestthreads()
     users = getalltestusers()
