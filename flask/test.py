@@ -162,7 +162,7 @@ def bug(path):
 
 @app.route('/bug/<path:path>/postcomment', methods=['GET', 'POST'])
 def postcomment(path):
-    body = request.form['body']
+    body = request.form['cbody']
     user = mydb.getuserbyname(session['username'])
     thread = mydb.getthreadbyimagename(path)
     c = newcomment(thread, user, body)

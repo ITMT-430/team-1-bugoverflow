@@ -69,7 +69,7 @@
                         <div id="comments-form">
                         {% if not session.logged_in %}
                         <!-- CHECKS IF LOGGED IN, IF NOT THEN DISABLE COMMENTING -->
-                        <form action="" method="post">
+                        <form action="../postcomment" method="post">
                             <div class="form-group">
                                 <label for="body">Comment:</label>
                                 <textarea class="form-control" rows="5" id="body" method="post" disabled></textarea>
