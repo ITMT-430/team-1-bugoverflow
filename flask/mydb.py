@@ -6,10 +6,12 @@ import shutil
 import unittest
 import exifread
 
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tmp.sqlite'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tmp.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:leech@64.131.111.26/newdatabase'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -177,7 +179,6 @@ def getgeoloc(filepath):
             #'GPS GPSLatitude': (0x0002) Ratio=[46, 3803/100, 0] @ 850
             #'GPS GPSLongitude': (0x0004) Ratio=[13, 2429/100, 0] @ 874,
             if 'GPS GPSLatitude' in exif and 'GPS GPSLongitude' in exif:
-                print exif
                 lat = exif['GPS GPSLatitude'].values #[46, 3803/100, 0]
                 lon = exif['GPS GPSLongitude'].values #[13, 2429/100, 0]
                 
