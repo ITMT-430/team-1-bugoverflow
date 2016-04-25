@@ -10,8 +10,8 @@ import exifread
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tmp.sqlite'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:leech@64.131.111.26/newdatabase'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tmp.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:leech@64.131.111.26/newdatabase'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -31,6 +31,19 @@ db = SQLAlchemy(app)
 # => thread_t.p_user => user
 
 class Thread(db.Model):
+    """ Thread Table; 
+        many:1 user:thread
+        1:many thread:comments
+        1:1    thread:image
+        Fields: 
+            Title TEXT
+            Body  TEXT
+            User (object)
+            Image (object)
+            Comments (object list)
+    """
+
+        title; body; user_id;  
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(80))
     body = db.Column(db.Text)
@@ -54,6 +67,15 @@ class Thread(db.Model):
         return "Thread\nTitle: %s\nBody: %s\nOP: %s" % (self.title, self.body, self.user.username)
 
 class Image(db.Model):
+    """ Image Table;
+        1:1     thread:image
+        1:many  image:tags
+        Fields:
+            imagename TEXT
+            geoloc  TEXT (possibly null)
+            tags   (object list)
+    """
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     imagename = db.Column(db.String(100))
     geoloc = db.Column(db.String(25))
@@ -71,6 +93,16 @@ class Image(db.Model):
         return 'Image: %s\nTags: %s' % (self.imagename, text)
 
 class User(db.Model):
+    """ User Table;
+        1:many user:thread
+        1:many user:comments
+        Fields:
+            username  TEXT
+            password  HASHED TEXT
+            role      TEXT
+            comments (object list)
+            thread (object list)
+    """
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(20), unique=True)
     password = db.Column(db.String(160))
@@ -90,6 +122,16 @@ class User(db.Model):
         return "User: %s ; Pass: %s" % (self.username, self.password)
         
 class Comment(db.Model):
+    """ Comments table;
+        1:many user:comments
+        1:many thread:comments
+        Field:
+            user (object)
+            thread (object)
+            parent (object) => points to a comment object
+            body TEXT
+    """
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     thread_id = db.Column(db.Integer, db.ForeignKey('thread.id'))
@@ -117,6 +159,12 @@ class Comment(db.Model):
         return "Thread Title: %s\nPoster: %s\nText: %s\n" % (self.thread.title, self.user.username, self.body)
 
 class Tag(db.Model):
+    """ Tag table;
+        many:1 tags:image
+        Field:
+            image (object)
+            name TEXT
+    """
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     image_id = db.Column(db.Integer, db.ForeignKey('image.id'))
     name = db.Column(db.String(15))
@@ -211,16 +259,21 @@ def getgeoloc(filepath):
     return geoloc
 
 def getuserbyname(username):
+    """ Returns the user object affiliated with the username """
     return User.query.filter_by(username=username).first()
 def getthreadbyimagename(imagename):
+    """ Returns an image object affiliated with the image name """
     return Image.query.filter_by(imagename=imagename).first().thread[0]
 def getlast20images():
+    """ Returns a list image objects"""
     return Image.query.limit(20).all()
 def getallimageswithtag(tagname):
+    """ Returns a list of image objects associated with the tag """
     images = Image.query.all()
     return [i for i in images if tagname in [t.name for t in i.tags]]
-    #return Image.query.filter_by(tags=tagname).all()
 def isvalidlogin(username, password):
+    """ returns True, user-object if login succeeded
+        returns False, None otherwise """
     user = getuserbyname(username)
     if user.check_pass(password):
         return True, user
@@ -270,6 +323,7 @@ def makecomments():
         c = newcomment(thread, users[(i+3)%4], 'body text %s' % (i+3,))
         
 def makeall():
+    """ Autogenerates dummy data """
     makeusers()
     makethreads()
     makecomments()

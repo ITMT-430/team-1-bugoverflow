@@ -31,6 +31,13 @@ def index():
 
 @app.route('/login', methods=['POST'])
 def login():
+    """ Attempts to login the user. Redirects to index.
+        If it fails, nothing happens
+        If it succeeeds, a session cookie is generated with the following attributes:
+            username TEXT
+            role TEXT
+            logged_in BOOLEAN
+    """
     error = None
     message = "" 
     valid, user = mydb.isvalidlogin(request.form['username'], request.form['password'])
@@ -42,6 +49,7 @@ def login():
         
 @app.route('/logout')
 def logout():
+    """ logs the user out, by popping the session's attributes """
     session.pop('logged_in', None)
     session.pop('username', None)
     session.pop('role', None)
@@ -49,12 +57,12 @@ def logout():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    """ Creates a new user """ 
     if request.method == 'GET':
         return render_template('signup.html')
 
     username = request.form['username']
     password = request.form['password']
-
 
     role = 'user'
     user = mydb.newuser(username, password, role)
@@ -75,6 +83,17 @@ def allowed_file(filename):
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
+    """ If GET, returns the upload form
+        If POST, attempts to create the new thread
+            It will read the form data, and create relevant records
+            save the image
+            if the image is a jpg
+                Read the EXIF data, try to pull out geolocation data
+                Display a google maps image of the location, if possible
+            redirects you to the thread page 
+            
+            if any of this fails, it just redirects you to the index and commits nothing."""
+
     # if request is GET, load the upload form-page
     if request.method == 'GET':
         return render_template('upload.html')
@@ -85,8 +104,6 @@ def upload():
     body = request.form['body']
     tags = request.form['tags'] 
     tags = tags.split(',')
-
-    
     # The log-in check *should* be in the 'GET' side of things
     # So the user doesn't do all the work, and then get informed he can't post
     if 'logged_in' not in session:
@@ -122,12 +139,14 @@ def upload():
 
 @app.route('/profile')
 def profile():
+    """ Just renders the user """
 	return render_template('profile.html')
 	##TODO
 	pass
 
 @app.route('/bug/<path:path>', methods=['GET', 'POST'])
 def bug(path):
+    """ grabs the thread based on the image name, returns the page """
     thread = mydb.getthreadbyimagename(path)
     # thread doesn't exist; throw error at user
     if not thread:
@@ -142,6 +161,8 @@ def bug(path):
 
 @app.route('/bug/<path:path>/postcomment', methods=['GET', 'POST'])
 def postcomment(path):
+    """ saves the comment, returns you to the thread 
+        If the comment is invalid, still returns you to the thread"""
     body = request.form['cbody']
     if body.strip():
         user = mydb.getuserbyname(session['username'])
@@ -152,6 +173,7 @@ def postcomment(path):
 #selected tag
 @app.route('/tags/<path:path>', methods=['GET', 'POST'])
 def tags(path):
+    """ Returns all images tagged with the path """
     imageobjs = mydb.getallimageswithtag(path)
     imagenames = [i.imagename for i in imageobjs]
     images = [(dict(imagepath=bugpath+name, link=name)) for name in imagenames]
@@ -164,6 +186,7 @@ def tags(path):
 #direct to tags
 @app.route('/tags', methods=['GET', 'POST'])
 def tag():
+    """ Returns the list of all tags """
     # this page needs to do a word cloud or whatever
     # instead of displaying images of bugs with the given tag
     tags = mydb.Tag.query.all()
@@ -172,10 +195,12 @@ def tag():
 
 @app.errorhandler(404)
 def page_not_found(e):
+    """ EVERYTHING IS BROKEN, NOTHING WORKS """
     return render_template('404.html'), 404
 
 @app.errorhandler(403)
 def page_not_found(e):
+    """ We got lost """
     return render_template('403.html'), 403
 
 if __name__ == "__main__":
