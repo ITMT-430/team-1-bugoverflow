@@ -31,12 +31,16 @@ def index():
 
 @app.route('/login', methods=['POST'])
 def login():
-    """ Attempts to login the user. Redirects to index.
-        If it fails, nothing happens
-        If it succeeeds, a session cookie is generated with the following attributes:
-            username TEXT
-            role TEXT
-            logged_in BOOLEAN
+    """ 
+    Attempts to login the user. Redirects to index.
+
+    If it fails, nothing happens.
+
+    If it succeeeds, a session cookie is generated with the following attributes:
+
+    :param str username: user's username
+    :param str role: user's role from ['user', 'admin']
+    :param bool logged_in: if this variable exists, it should always be true..
     """
     error = None
     message = "" 
@@ -57,7 +61,11 @@ def logout():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    """ Creates a new user """ 
+    """
+    If GET, display signup page. If POST, attempt to create the user.
+    
+    Currently doesn't handle bad signup. 
+    """ 
     if request.method == 'GET':
         return render_template('signup.html')
 
@@ -71,7 +79,7 @@ def signup():
     session['logged_in'] = True
     return redirect(url_for('index'))
 
-@app.route('/about', methods=['GET', 'POST'])
+@app.route('/about', methods=['GET'])
 def about():
     return render_template('about.html', about=True)
 
@@ -83,16 +91,22 @@ def allowed_file(filename):
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
-    """ If GET, returns the upload form
-        If POST, attempts to create the new thread
-            It will read the form data, and create relevant records
-            save the image
-            if the image is a jpg
-                Read the EXIF data, try to pull out geolocation data
-                Display a google maps image of the location, if possible
-            redirects you to the thread page 
-            
-            if any of this fails, it just redirects you to the index and commits nothing."""
+    """ 
+    If GET, returns the upload form. 
+
+    If POST, attempts to create the new thread:
+
+    * It will read the form data, and create relevant records
+    * save the image
+    * if the image is a jpg
+    
+       * Read the EXIF data, try to pull out geolocation data
+       * Display a google maps image of the location, if possible
+       
+    * redirects you to the thread page 
+           
+    if any of this fails, it just redirects you to the index and commits nothing.
+    """
 
     # if request is GET, load the upload form-page
     if request.method == 'GET':
@@ -139,13 +153,13 @@ def upload():
 
 @app.route('/profile')
 def profile():
-    """ Just renders the user """
+    """ Just renders the user's information """
     ## TODO 
     return render_template('profile.html')
 
-@app.route('/bug/<path:path>', methods=['GET', 'POST'])
+@app.route('/bug/<path:path>', methods=['GET'])
 def bug(path):
-    """ grabs the thread based on the image name, returns the page """
+    """ grabs the thread for the imagename, from the path, returns the page """
     thread = mydb.getthreadbyimagename(path)
     # thread doesn't exist; throw error at user
     if not thread:
@@ -161,9 +175,9 @@ def bug(path):
 @app.route('/bug/<path:path>/postcomment', methods=['GET', 'POST'])
 def postcomment(path):
     """ saves the comment, returns you to the thread 
+
         If the comment is invalid, still returns you to the thread"""
     body = request.form['cbody']
-    print request.form
     if body.strip():
         user = mydb.getuserbyname(session['username'])
         thread = mydb.getthreadbyimagename(path)
@@ -171,7 +185,7 @@ def postcomment(path):
     return redirect(url_for('bug', path=path))
 
 #selected tag
-@app.route('/tags/<path:path>', methods=['GET', 'POST'])
+@app.route('/tags/<path:path>', methods=['GET'])
 def tags(path):
     """ Returns all images tagged with the path """
     imageobjs = mydb.getallimageswithtag(path)
@@ -184,7 +198,7 @@ def tags(path):
     pass
 
 #direct to tags
-@app.route('/tags', methods=['GET', 'POST'])
+@app.route('/tags', methods=['GET'])
 def tag():
     """ Returns the list of all tags """
     # this page needs to do a word cloud or whatever
@@ -204,4 +218,5 @@ def page_not_found(e):
     return render_template('403.html'), 403
 
 if __name__ == "__main__":
-   app.run(host='0.0.0.0', debug=True)
+    mydb.rebuilddb()
+    app.run(host='0.0.0.0', debug=True)

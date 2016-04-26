@@ -30,21 +30,23 @@ db = SQLAlchemy(app)
 # => thread_t.p_user => user
 
 class Thread(db.Model):
-    """ Thread Table; 
-        many:1 user:thread
-        1:many thread:comments
-        1:1    thread:image
+    """ 
+    Thread Table 
+    
+    ============= ======
+    Relationships Tables
+    ============= ======
+    many:1        user:thread
+    1:many        thread:comments
+    1:1           thread:image
+    ============= ======
 
-        :param int id: unique id
-        :param str title: thread title
-        :param str body: OP's body text
-        :param user: points to the user table-object
-        Fields: 
-            Title TEXT
-            Body  TEXT
-            User (object)
-            Image (object)
-            Comments (object list)
+    :param int id: unique id
+    :param str title: thread title
+    :param str body: OP's body text
+    :param User user: parent user object (1:many thread:user)
+    :param Image image: image object (1:1 image:thread)
+    :param Comment comments: list of children comment objects (1:many thrad: comments)
     """
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -70,13 +72,19 @@ class Thread(db.Model):
         return "Thread\nTitle: %s\nBody: %s\nOP: %s" % (self.title, self.body, self.user.username)
 
 class Image(db.Model):
-    """ Image Table;
-        1:1     thread:image
-        1:many  image:tags
-        Fields:
-            imagename TEXT
-            geoloc  TEXT (possibly null)
-            tags   (object list)
+    """ 
+    Image Table
+
+    ============= ======
+    Relationships Tables
+    ============= ======
+    1:1           thread:image
+    many:1        tags:image 
+    ============= ======
+
+    :param str imagename: The name of the image, stored on disk
+    :param str geoloc: The X,Y coordinates for Google maps. May be *null*
+    :param Tag tags: list of children tag objects
     """
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -96,16 +104,23 @@ class Image(db.Model):
         return 'Image: %s\nTags: %s' % (self.imagename, text)
 
 class User(db.Model):
-    """ User Table;
-        1:many user:thread
-        1:many user:comments
-        Fields:
-            username  TEXT
-            password  HASHED TEXT
-            role      TEXT
-            comments (object list)
-            thread (object list)
+    """ 
+    User Table
+
+    ============= ======
+    Relationships Tables
+    ============= ======
+    1:many        user:thread
+    1:many        user:comments
+    ============= ======
+
+    :param str username: User's username
+    :param str password: User's hashed + salted password
+    :param str role: User's role ['user', 'admin']
+    :param Comment comments: list of comments the user has made
+    :param Thread thread: list of threads the user has made
     """
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(20), unique=True)
     password = db.Column(db.String(160))
@@ -125,14 +140,20 @@ class User(db.Model):
         return "User: %s ; Pass: %s" % (self.username, self.password)
         
 class Comment(db.Model):
-    """ Comments table;
-        1:many user:comments
-        1:many thread:comments
-        Field:
-            user (object)
-            thread (object)
-            parent (object) => points to a comment object
-            body TEXT
+    """ 
+    Comments table
+
+    ============= ======
+    Relationships Tables
+    ============= ======
+    1:many        user:comments
+    1:many        thread:comments
+    ============= ======
+
+    :param User user: The user that created this comment
+    :param Thread thread: The thread this comment lives in
+    :param Comment parent: If this comment is a reply, this is set to the parent comment. Otherwise, None
+    :param str body: The body text of the comment
     """
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -162,11 +183,17 @@ class Comment(db.Model):
         return "Thread Title: %s\nPoster: %s\nText: %s\n" % (self.thread.title, self.user.username, self.body)
 
 class Tag(db.Model):
-    """ Tag table;
-        many:1 tags:image
-        Field:
-            image (object)
-            name TEXT
+    """ 
+    Tag table
+
+    ============= ======
+    Relationships Tables
+    ============= ======
+    many:1        tags:image
+    ============= ======
+
+    :param Image image: The image this tag is associated with
+    :param str name: The text of this tag
     """
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     image_id = db.Column(db.Integer, db.ForeignKey('image.id'))
@@ -180,7 +207,18 @@ class Tag(db.Model):
         return 'Image: %s\n Tag: %s' % (self.image.imagename, self.name)
 
 def newthread(title, body, imagename, userobj, tags, geoloc=None):
-    """ adds a new thread to the DB; returns a thread object and an image object """
+    """ 
+    adds a new thread to the DB and commits
+    
+    :param str title: title of the thread
+    :param str body: body text for the OP
+    :param str imagename: name of the image stored on disk
+    :param User userobj: the user making the thread
+    :param Tag tags: list of tags associated with the image
+    :param str geoloc: geoloc for the image, if available. Otherwise None
+
+    :return: (Thread, Image) tuple. The Thread and Image objects created.
+    """
 
     i = Image(imagename, geoloc)
     for tag in tags:
@@ -195,14 +233,30 @@ def newthread(title, body, imagename, userobj, tags, geoloc=None):
     return t, i
     
 def newcomment(threadobj, user, body, parent=None):
-    """ Commits a new comment; returns the comment object"""
+    """ 
+    Commits a new comment
+
+    :param Thread threadobj: the thread owning this comment
+    :param User user: the user posting this comment
+    :param str body: the body text
+    :param Comment parent: the comment this comment replies to, if relevant. Otherwise, None
+
+    :return: the Comment object"""
     c = Comment(threadobj, user, body, parent)
     db.session.add(c)
     db.session.commit()
     return c
 
 def newuser(username, password, role):   
-    """ Adds a new user; Returns -1 if username was taken; Returns the committed user object otherwise """
+    """ 
+    Adds a new user
+    :param str username:
+    :param str password: plaintext password
+    :param str role: user's role from ['user', 'admin']
+
+    :return: -1 if username was taken
+    :return: Otherwise, the User object.
+    """
     # this would be the point to hash the pass
     # and do a try/catch to validate username uniqueness
     u = User(username, password, role)
@@ -211,6 +265,13 @@ def newuser(username, password, role):
     return u
 
 def addtags(imagename, taglist):
+    """
+    Appends tags to the given image
+
+    :param str imagename: name of image stored on disk
+    :param [Tag] taglist: list of tags to be appended
+    :return: Nothing
+    """
     image = Imagequery.filter_by(imagename=imagename).first()
     if image:
         for tag in taglist:
@@ -221,6 +282,14 @@ def addtags(imagename, taglist):
 
 # this should really be in a seperate helper module
 def getgeoloc(filepath):
+    """
+    Finds the geolocation for the given file, by reading the EXIF data. Only useful for jpg files.
+
+    :param str filepath: full filepath for the target image
+    
+    :return: geolocation (str) if found
+    :return: None otherwise
+    """
     extension = filepath.rsplit('.', 1)[1]
 
     geoloc = None
@@ -262,21 +331,30 @@ def getgeoloc(filepath):
     return geoloc
 
 def getuserbyname(username):
-    """ Returns the user object affiliated with the username """
+    """ 
+    :param str username:
+    :return: the user object affiliated with the username """
     return User.query.filter_by(username=username).first()
 def getthreadbyimagename(imagename):
-    """ Returns an image object affiliated with the image name """
+    """ 
+    :param str imagename:
+    :return: an image object affiliated with the image name """
     return Image.query.filter_by(imagename=imagename).first().thread[0]
 def getlast20images():
-    """ Returns a list image objects"""
+    """ :return: a list of image objects"""
     return Image.query.limit(20).all()
 def getallimageswithtag(tagname):
-    """ Returns a list of image objects associated with the tag """
+    """ 
+    :param str tagname:
+    :return: a list of image objects associated with the tag """
     images = Image.query.all()
     return [i for i in images if tagname in [t.name for t in i.tags]]
 def isvalidlogin(username, password):
-    """ returns True, user-object if login succeeded
-        returns False, None otherwise """
+    """ 
+    :param str username:
+    :param str password: plaintext password
+    :return: True, user-object if login succeeded
+    :return: False, None otherwise """
     user = getuserbyname(username)
     if user.check_pass(password):
         return True, user
@@ -340,6 +418,8 @@ def makeall():
 
 
 # from script import User, Image, Comment, Thread, db; u = User('neil', 'password'); u2 = User('nathan', 'password'); i = Image('image.jpg'); t = Thread("title", "body text", u, i); c1 = Comment(t, u, "body text1"); c2 = Comment(t, u2, "body text 2");db.session.add(u);db.session.add(u2);db.session.add(t);db.session.add(c1);db.session.add(c2);db.session.add(i);db.commit();
-db.drop_all()
-db.create_all()
-makeall()
+def rebuilddb():
+    """ Dumps the DB, rebuilds it, and inserts dummy data """ 
+    db.drop_all()
+    db.create_all()
+    makeall()
