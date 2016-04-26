@@ -418,8 +418,7 @@ def makeall():
 
 
 # from script import User, Image, Comment, Thread, db; u = User('neil', 'password'); u2 = User('nathan', 'password'); i = Image('image.jpg'); t = Thread("title", "body text", u, i); c1 = Comment(t, u, "body text1"); c2 = Comment(t, u2, "body text 2");db.session.add(u);db.session.add(u2);db.session.add(t);db.session.add(c1);db.session.add(c2);db.session.add(i);db.commit();
-def rebuilddb():
-    """ Dumps the DB, rebuilds it, and inserts dummy data """ 
-    db.drop_all()
-    db.create_all()
-    makeall()
+""" Dumps the DB, rebuilds it, and inserts dummy data """ 
+db.drop_all()
+db.create_all()
+makeall()
