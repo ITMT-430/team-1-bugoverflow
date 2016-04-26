@@ -10,7 +10,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tmp.sqlite'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://masters1:leech@64.131.111.26/newdatabase'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://master:leech@64.131.111.27/newdatabase'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
