@@ -5,6 +5,7 @@ from flask import render_template
 from flask import request
 from flask import url_for, flash, redirect, session
 from flask import send_from_directory
+from flask_recaptcha import ReCaptcha
 from os import listdir
 from werkzeug import secure_filename
 
@@ -12,10 +13,12 @@ gmaps_key = 'AIzaSyBB3o_tLwpc9tvBuoFF0S-bdv934mrmhv4'
 
 import exifread
 app = Flask(__name__)
- 
+recaptcha = ReCaptcha(app=app)
+
 bugpath = "imgs/bugs/"
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 app.config['UPLOAD_FOLDER'] = 'static/' + bugpath
+
 
 ## This thing is supposed to be secret	
 ## ~~ nyaa ~~
