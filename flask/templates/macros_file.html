@@ -54,6 +54,9 @@
             <div class="form-group">
                 <input type="password" class="form-control" name="password" placeholder="password">
             </div>
+            {% if error %}
+                <p class=error><strong>Error:</strong> {{ error }}
+            {% endif %}
             <button type="submit" class="btn btn-default btn-sm">log in</button>
             <a href="{{url_for( 'signup')}}" class="btn btn-primary btn-sm">sign up</a>
         </form>
