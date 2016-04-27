@@ -35,7 +35,7 @@ def ishuman():
     human = True
     if not session['human']:
         for i in xrange(3):
-            if recaptcha.verify():
+            if reCaptcha.verfiy():
                 session['human'] = True
                 human = True
         human = False
