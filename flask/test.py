@@ -207,15 +207,19 @@ def tag():
     tags = sorted(set([t.name for t in tags]))
     return render_template('tags.html', tags=True, taglist=tags)
 
+@app.errorhandler(403)
+def page_not_found(e):
+    """ We got lost """
+    return render_template('403.html'), 403
+
 @app.errorhandler(404)
 def page_not_found(e):
     """ EVERYTHING IS BROKEN, NOTHING WORKS """
     return render_template('404.html'), 404
 
-@app.errorhandler(403)
-def page_not_found(e):
-    """ We got lost """
-    return render_template('403.html'), 403
+@app.errorhandler(500)
+def internal_error(e):
+    return render_template('500.html'), 500 
 
 if __name__ == "__main__":
     mydb.rebuilddb()
