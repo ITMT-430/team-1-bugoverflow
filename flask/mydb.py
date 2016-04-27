@@ -356,7 +356,7 @@ def isvalidlogin(username, password):
     :return: True, user-object if login succeeded
     :return: False, None otherwise """
     user = getuserbyname(username)
-    if user.check_pass(password):
+    if user and user.check_pass(password):
         return True, user
     return False, None
 
