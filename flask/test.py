@@ -33,7 +33,7 @@ def index():
 
 def ishuman():
     human = True
-    if not session['human']:
+    if human not in session or (human in session and not session['human']):
         for i in xrange(3):
             if reCaptcha.verfiy():
                 session['human'] = True
