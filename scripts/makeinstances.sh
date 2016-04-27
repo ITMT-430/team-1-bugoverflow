@@ -25,25 +25,25 @@ euca-version
 outputWS="$(euca-run-instances emi-b6ecd5f1 -n 1 -k 'BugKey' -g 'BugSecurity' -t m1.medium)"
 instanceWS="$(echo "${outputWS}" | grep -o 'i-.\{0,8\}' | head -1)"
 ipadWS="$(euca-describe-instances | grep ${instanceWS} | grep -o '64\.131\.111\..\{0,3\}' | tr -s [:space:])"
-sleep 10
+sleep 30
 outputDR="$(euca-run-instances emi-b6ecd5f1 -n 1 -k 'BugKey' -g 'BugSQL' -t m1.medium)"
 instanceDR="$(echo "${outputDR}" | grep -o 'i-.\{0,8\}' | head -1)"
 ipadDR="$(euca-describe-instances | grep ${instanceDW} | grep -o '64\.131\.111\..\{0,3\}' | tr -s [:space:])"
-sleep 20
+sleep 30
 outputDW="$(euca-run-instances emi-b6ecd5f1 -n 1 -k 'BugKey' -g 'BugSQL' -t m1.medium)"
 instanceDW="$(echo "${outputDW}" | grep -o 'i-.\{0,8\}' | head -1)"
 ipadDW="$(euca-describe-instances | grep ${instanceDW} | grep -o '64\.131\.111\..\{0,3\}' | tr -s [:space:])"
-
-newipWS="$(euca-associate-address -i ${instanceWS} 64.131.111.79)"
-newipDR="$(euca-associate-address -i ${instanceDR} 64.131.111.83)"
-newipDW="$(euca-associate-address -i ${instanceDW} 64.131.111.84)"
-
+echo "wait 15 secs, IPs are being added"
+sleep 15
+newipWS="$(euca-associate-address -i ${instanceWS} 64.131.111.95)"
+newipDR="$(euca-associate-address -i ${instanceDR} 64.131.111.96)"
+newipDW="$(euca-associate-address -i ${instanceDW} 64.131.111.97)"
+echo "wait 10 secs, Servers are being named"
+sleep 10
 euca-create-tags ${instanceWS} --tag Name=Team1_BugWS
 euca-create-tags ${instanceDR} --tag Name=Team1_BugRead
 euca-create-tags ${instanceDW} --tag Name=Team1_BugWrite
 
-echo "wait 15 secs"
-sleep 15
 echo ""
 echo "${instanceWS}"
 read -p "Please open a new window and ssh into ${newipWS} and verify the connection works." nothing
