@@ -22,7 +22,6 @@ app.config['UPLOAD_FOLDER'] = 'static/' + bugpath
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 @app.route('/',methods=['GET'])
 @app.route('/index', methods=['GET'])
-#def process_form():
 def index():
     images = mydb.getlast20images()
     imgnames = [i.imagename for i in images]
@@ -33,11 +32,13 @@ def index():
 def login():
     error = None
     message = "" 
-    valid, user = mydb.isvalidlogin(request.form['username'], request.form['password'])
-    if valid:
-        session['username'] = user.username
-        session['role'] = user.role
-        session['logged_in'] = True
+    username, password  = request.form['username'], request.form['password']
+    if username and password:
+        valid, user = mydb.isvalidlogin(username, password)
+        if valid:
+            session['username'] = user.username
+            session['role'] = user.role
+            session['logged_in'] = True
     return redirect(url_for('index'))
         
 @app.route('/logout')
@@ -50,6 +51,10 @@ def logout():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
+        if not session['logged_in']:
+            return redirect(url_for('index'))
+            # errormsg = 'You must be logged in to post'
+            # return redirect(url_for('403.html'))
         return render_template('signup.html')
 
     username = request.form['username']
