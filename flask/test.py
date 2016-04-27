@@ -34,11 +34,12 @@ def index():
 def ishuman():
     human = True
     if human not in session or (human in session and not session['human']):
+        human = False
         for i in xrange(3):
-            if reCaptcha.verfiy():
+            if recaptcha.verify():
                 session['human'] = True
                 human = True
-        human = False
+        
     return human
 
 @app.route('/login', methods=['POST'])
@@ -47,7 +48,7 @@ def login():
     message = "" 
     username, password  = request.form['username'], request.form['password']
 
-    if ishuman() and username and password:
+    if username and password:
         valid, user = mydb.isvalidlogin(username, password)
         if valid:
             session['username'] = user.username
@@ -60,6 +61,7 @@ def logout():
     session.pop('logged_in', None)
     session.pop('username', None)
     session.pop('role', None)
+    session.pop('human', None)
     return redirect(url_for('index'))
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -70,17 +72,17 @@ def signup():
             # errormsg = 'You must be logged in to post'
             # return redirect(url_for('403.html'))
         return render_template('signup.html')
+    if ishuman():
+        username = request.form['username']
+        password = request.form['password']
 
-    username = request.form['username']
-    password = request.form['password']
 
-
-    role = 'user'
-    user = mydb.newuser(username, password, role)
-    session['username'] = username
-    session['role'] = user.role
-    session['logged_in'] = True
-    return redirect(url_for('index'))
+        role = 'user'
+        user = mydb.newuser(username, password, role)
+        session['username'] = username
+        session['role'] = user.role
+        session['logged_in'] = True
+        return redirect(url_for('index'))
 
 @app.route('/about', methods=['GET', 'POST'])
 def about():
