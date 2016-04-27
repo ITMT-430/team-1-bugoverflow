@@ -65,7 +65,7 @@ def logout():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
-        if not session['logged_in']:
+        if 'logged_in' in session and not session['logged_in']:
             return redirect(url_for('index'))
             # errormsg = 'You must be logged in to post'
             # return redirect(url_for('403.html'))
