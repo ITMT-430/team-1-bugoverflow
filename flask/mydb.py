@@ -9,8 +9,8 @@ import exifread
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tmp.sqlite'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://master:leech@64.131.111.27/newdatabase'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tmp.sqlite'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://master:leech@64.131.111.80/newdatabase'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -410,15 +410,8 @@ def makeall():
     #makecomments()
 
     
-# u = newuser('neil', 'pass', 'admin')
-# u2 = newuser('alfredo', 'pass', 'user')
-# t, i = newthread('title', 'body', 'file.jpg', u, None)
-# c = newcomment(t, u, 'bodytext')
-# addtags(i, ['ladybug', 'enemy-of-the-state')
-
-
-# from script import User, Image, Comment, Thread, db; u = User('neil', 'password'); u2 = User('nathan', 'password'); i = Image('image.jpg'); t = Thread("title", "body text", u, i); c1 = Comment(t, u, "body text1"); c2 = Comment(t, u2, "body text 2");db.session.add(u);db.session.add(u2);db.session.add(t);db.session.add(c1);db.session.add(c2);db.session.add(i);db.commit();
 """ Dumps the DB, rebuilds it, and inserts dummy data """ 
-db.drop_all()
-db.create_all()
-makeall()
+def rebuilddb():
+    db.drop_all()
+    db.create_all()
+    makeall()
