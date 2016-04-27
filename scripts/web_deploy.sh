@@ -1,7 +1,5 @@
 #!/bin/bash
-sudo yum install vim git -y
-sudo yum install epel-release -y
-sudo yum install python-pip python-devel gcc nginx python -y
+sudo yum install vim git epel-release python-pip python-devel gcc nginx python mysql mysql-server -y
 sudo service nginx start
 sudo chkconfig nginx on
 sudo pip install virtualenv
@@ -22,11 +20,8 @@ cd team-1-bugoverflow/flask/
 
 virtualenv flaskenv
 source flaskenv/bin/activate
-pip install uwsgi flask Jinja2 exifread
-pip install Flask-SQLAlchemy
+pip install uwsgi flask Jinja2 Flask-SQLAlchemy exifread pymysql
 yum install python-jinja2 -y
-
-cd /team-1-bugoverflow/flask
 
 rm -f /etc/nginx/nginx.conf
 mv /team-1-bugoverflow/flask/nginx.conf /etc/nginx/nginx.conf
