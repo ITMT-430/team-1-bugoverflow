@@ -28,6 +28,16 @@ def index():
     entries = [(dict(imagepath=bugpath+name, link="bug/"+name)) for name in imgnames]
     return render_template('index.html',entries=entries, index=True)
 
+def ishuman():
+    human = True
+    if not session['human']:
+        for i in xrange(3):
+            if recaptcha.verify():
+                session['human'] = True
+                human = True
+        human = False
+    return human
+
 @app.route('/login', methods=['POST'])
 def login():
     """ 
@@ -44,7 +54,8 @@ def login():
     error = None
     message = "" 
     username, password  = request.form['username'], request.form['password']
-    if username and password:
+
+    if ishuman() and username and password:
         valid, user = mydb.isvalidlogin(username, password)
         if valid:
             session['username'] = user.username
