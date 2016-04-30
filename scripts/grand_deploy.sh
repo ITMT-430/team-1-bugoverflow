@@ -8,5 +8,6 @@ if [ ! -s EUCA-BUG-OVERFLOW.pem ]; then
         exit 0;
 fi
 
-/bin/bash web_ssh_deploy.sh
 /bin/bash mysql_ssh.sh
+/bin/bash web_ssh_deploy.sh
+
