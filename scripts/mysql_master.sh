@@ -31,3 +31,4 @@ c='ssh -i /root/EUCA-BUG-OVERFLOW.pem root@64.131.111.26 -o StrictHostKeyCheckin
 ssh -i /root/EUCA-BUG-OVERFLOW.pem root@64.131.111.26 -o StrictHostKeyChecking=no "mysql -u root -pleech -e \"RESET SLAVE;\""
 eval $c
 ssh -i /root/EUCA-BUG-OVERFLOW.pem root@64.131.111.26 -o StrictHostKeyChecking=no "mysql -u root -pleech -e \"START SLAVE;\""
+
