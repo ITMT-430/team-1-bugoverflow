@@ -20,7 +20,7 @@ cd team-1-bugoverflow/flask/
 
 virtualenv flaskenv
 source flaskenv/bin/activate
-pip install uwsgi flask Jinja2 Flask-SQLAlchemy exifread pymysql
+pip install uwsgi flask Jinja2 Flask-SQLAlchemy exifread pymysql flask_recaptcha
 yum install python-jinja2 -y
 
 rm -f /etc/nginx/nginx.conf
