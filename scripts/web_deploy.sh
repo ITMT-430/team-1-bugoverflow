@@ -30,3 +30,5 @@ chmod 655 test.conf
 mv test.conf /etc/init/test.conf
 
 /etc/init/test.conf start
+
+cd /team-1-bugoverflow/flask && python -c "import mydb; mydb.rebuilddb()"
