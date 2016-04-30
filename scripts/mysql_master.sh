@@ -26,7 +26,9 @@ a=$(mysql -u root -pleech -e "SHOW MASTER STATUS" | sed -n 2p | awk '{print $1}'
 b=$(mysql -u root -pleech -e "SHOW MASTER STATUS" | sed -n 2p | awk '{print $2}')
 mysql -u root -pleech -e "UNLOCK TABLES;"
 
-c='ssh -i /team-1-bugoverflow/scripts/EUCA-BUG-OVERFLOW.pem root@64.131.111.26 -o StrictHostKeyChecking=no "mysql -u root -pleech -e \"CHANGE MASTER TO MASTER_HOST='"'64.131.111.27'"',MASTER_USER='"'root'"', MASTER_PASSWORD='"'leech'"', MASTER_LOG_FILE='"'$a'"', MASTER_LOG_POS=  '$b';\""'
-ssh -i /team-1-bugoverflow/scripts/EUCA-BUG-OVERFLOW.pem root@64.131.111.26 -o StrictHostKeyChecking=no "mysql -u root -pleech -e \"RESET SLAVE;\""
+chmod 400 /root/EUCA-BUG-OVERFLOW.pem
+c='ssh -i /root/EUCA-BUG-OVERFLOW.pem root@64.131.111.26 -o StrictHostKeyChecking=no "mysql -u root -pleech -e \"CHANGE MASTER TO MASTER_HOST='"'64.131.111.27'"',MASTER_USER='"'root'"', MASTER_PASSWORD='"'leech'"', MASTER_LOG_FILE='"'$a'"', MASTER_LOG_POS=  '$b';\""'
+ssh -i /root/EUCA-BUG-OVERFLOW.pem root@64.131.111.26 -o StrictHostKeyChecking=no "mysql -u root -pleech -e \"RESET SLAVE;\""
 eval $c
-ssh -i /team-1-bugoverflow/scripts/EUCA-BUG-OVERFLOW.pem root@64.131.111.26 -o StrictHostKeyChecking=no "mysql -u root -pleech -e \"START SLAVE;\""
+ssh -i /root/EUCA-BUG-OVERFLOW.pem root@64.131.111.26 -o StrictHostKeyChecking=no "mysql -u root -pleech -e \"START SLAVE;\""
+
