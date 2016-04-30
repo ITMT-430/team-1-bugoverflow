@@ -3,6 +3,7 @@ sudo yum install git vim mysql-server -y    		 #Install msql clients/server and 
 cd ..							 
 git clone https://github.com/ITMT-430/team-1-bugoverflow #Pull repo
 rm -f /etc/my.cnf					 #Removes SQL config
+touch /var/lib/mysql/mysql-bin.log
 cp /team-1-bugoverflow/Nginx/Master.cnf /etc/my.cnf      #Replace SQL config
 mkdir /var/log/mysql					 #Creates log file
 chown -R mysql:mysql /var/log/mysql			 #Grant SQL access log file
@@ -18,7 +19,7 @@ mysql -u root -pleech -e "GRANT ALL PRIVILEGES ON * . * TO 'master'@'64.131.111.
 mysql -u root -pleech -e "GRANT ALL PRIVILEGES ON * . * TO 'master'@'localhost' IDENTIFIED BY 'leech';"
 mysql -u root -pleech -e "FLUSH PRIVILEGES;"
 mysql -u root -pleech -e "CREATE DATABASE newdatabase;"
-mysql -u root -pleech -e "GRANT REPLICATION SLAVE ON *.* TO 'root'@'64.131.111.26' IDENTIFIED BY 'leech';"
+mysql -u root -pleech -e "GRANT REPLICATION SLAVE ON *.* TO 'root'@'64.131.111.88' IDENTIFIED BY 'leech';"
 mysql -u root -pleech -e "FLUSH PRIVILEGES;"
 mysql -u root -pleech -e "USE newdatabase;"
 mysql -u root -pleech -e "FLUSH TABLES WITH READ LOCK;"
