@@ -23,6 +23,8 @@ source flaskenv/bin/activate
 pip install uwsgi flask Jinja2 Flask-SQLAlchemy exifread pymysql flask_recaptcha
 yum install python-jinja2 -y
 
+cd /team-1-bugoverflow/flask && source flaskenv/bin/activate && python -c "import mydb; mydb.rebuilddb()"
+
 rm -f /etc/nginx/nginx.conf
 mv /team-1-bugoverflow/flask/nginx.conf /etc/nginx/nginx.conf
 service nginx restart
@@ -31,4 +33,3 @@ mv test.conf /etc/init/test.conf
 
 /etc/init/test.conf start
 
-cd /team-1-bugoverflow/flask && source flaskenv/bin/activate && python -c "import mydb; mydb.rebuilddb()"
