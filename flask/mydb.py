@@ -12,6 +12,23 @@ app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tmp.sqlite'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://master:leech@64.131.111.27/newdatabase'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# master = SQLAlchemy.create_engine("mysql+pymysql://master:leech@64.131.111.27/newdatabase")
+# slave = SQLAlchemy.create_engine("mysql+pymysql://master:leech@64.131.111.26/newdatabase")
+# Session = SQLAlchemy.scoped_session(SQLAlchemy.sessionmaker(bind=master))
+
+def with_slave(fn):
+    def go(*arg, **kw):
+        s = Session()
+        oldbind = s.bind
+        s.bind = slave
+        try:
+            return fn(*arg, **kw)
+        finally:
+            s.bind = oldbind
+    return go
+
+
 db = SQLAlchemy(app)
 
 # many:1 user : thread
@@ -330,25 +347,34 @@ def getgeoloc(filepath):
             return None
     return geoloc
 
+@with_slave
 def getuserbyname(username):
     """ 
     :param str username:
     :return: the user object affiliated with the username """
     return User.query.filter_by(username=username).first()
+
+@with_slave
 def getthreadbyimagename(imagename):
     """ 
     :param str imagename:
     :return: an image object affiliated with the image name """
     return Image.query.filter_by(imagename=imagename).first().thread[0]
+
+@with_slave
 def getlast20images():
     """ :return: a list of image objects"""
     return Image.query.limit(20).all()
+
+@with_slave
 def getallimageswithtag(tagname):
     """ 
     :param str tagname:
     :return: a list of image objects associated with the tag """
     images = Image.query.all()
     return [i for i in images if tagname in [t.name for t in i.tags]]
+
+@with_slave
 def isvalidlogin(username, password):
     """ 
     :param str username:
