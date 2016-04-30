@@ -18,3 +18,4 @@ mysql -u root -pleech -e "GRANT ALL PRIVILEGES ON * . * TO 'slave'@'64.131.111.3
 mysql -u root -pleech -e "GRANT ALL PRIVILEGES ON * . * TO 'slave'@'localhost' IDENTIFIED BY 'leech';"
 mysql -u root -pleech -e "FLUSH PRIVILEGES;"
 mysql -u root -pleech -e "CREATE DATABASE newdatabase;"
+
