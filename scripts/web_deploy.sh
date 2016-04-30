@@ -31,4 +31,4 @@ mv test.conf /etc/init/test.conf
 
 /etc/init/test.conf start
 
-cd /team-1-bugoverflow/flask && python -c "import mydb; mydb.rebuilddb()"
+cd /team-1-bugoverflow/flask && source flaskenv/bin/activate && python -c "import mydb; mydb.rebuilddb()"
