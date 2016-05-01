@@ -433,7 +433,7 @@ def makeall():
     """ Autogenerates dummy data """
     makeusers()
     makethreads()
-    #makecomments()
+    makecomments()
 
     
 """ Dumps the DB, rebuilds it, and inserts dummy data """ 
