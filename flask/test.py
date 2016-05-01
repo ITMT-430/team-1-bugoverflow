@@ -26,6 +26,8 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 @app.route('/',methods=['GET'])
 @app.route('/index', methods=['GET'])
 def index():
+    if 'logged_in' in session and not session['logged_in']:
+        return logout()
     images = mydb.getlast20images()
     imgnames = [i.imagename for i in images]
     entries = [(dict(imagepath=bugpath+name, link="bug/"+name)) for name in imgnames]
@@ -101,6 +103,8 @@ def allowed_file(filename):
 def upload():
     # if request is GET, load the upload form-page
     if request.method == 'GET':
+        if 'logged_in' in session and not session['logged_in']:
+            return logout()
         if 'logged_in' not in session:
             return errorpage('You must be logged in to post')
         return render_template('upload.html')
@@ -162,17 +166,26 @@ def bug(path):
 
 @app.route('/bug/<path:path>/postcomment', methods=['GET', 'POST'])
 def postcomment(path):
+    if 'logged_in' in session and not session['logged_in']:
+        return logout()
+
     body = request.form['cbody']
-    print request.form
     if body.strip():
         user = mydb.getuserbyname(session['username'])
+        if not user:
+            return errorpage('You must be logged in to post')
         thread = mydb.getthreadbyimagename(path)
+        if not thread:
+            return errorpage('Thread does not exist')
         c = mydb.newcomment(thread, user, body)
     return redirect(url_for('bug', path=path))
 
 #selected tag
 @app.route('/tags/<path:path>', methods=['GET', 'POST'])
 def tags(path):
+    if 'logged_in' in session and not session['logged_in']:
+        return logout()
+
     imageobjs = mydb.getallimageswithtag(path)
     imagenames = [i.imagename for i in imageobjs]
     images = [(dict(imagepath=bugpath+name, link=name)) for name in imagenames]
@@ -185,6 +198,9 @@ def tags(path):
 #direct to tags
 @app.route('/tags', methods=['GET', 'POST'])
 def tag():
+    if 'logged_in' in session and not session['logged_in']:
+        return logout()
+
     # this page needs to do a word cloud or whatever
     # instead of displaying images of bugs with the given tag
     tags = mydb.Tag.query.all()
