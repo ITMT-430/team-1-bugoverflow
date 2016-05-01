@@ -19,7 +19,7 @@ mysql -u root -pleech -e "GRANT ALL PRIVILEGES ON * . * TO 'master'@'64.131.111.
 mysql -u root -pleech -e "GRANT ALL PRIVILEGES ON * . * TO 'master'@'localhost' IDENTIFIED BY 'leech';"
 mysql -u root -pleech -e "FLUSH PRIVILEGES;"
 mysql -u root -pleech -e "CREATE DATABASE newdatabase;"
-mysql -u root -pleech -e "GRANT REPLICATION SLAVE ON *.* TO 'root'@'64.131.111.88' IDENTIFIED BY 'leech';"
+mysql -u root -pleech -e "GRANT REPLICATION SLAVE ON *.* TO 'root'@'64.131.111.26' IDENTIFIED BY 'leech';"
 mysql -u root -pleech -e "FLUSH PRIVILEGES;"
 mysql -u root -pleech -e "USE newdatabase;"
 mysql -u root -pleech -e "FLUSH TABLES WITH READ LOCK;"
