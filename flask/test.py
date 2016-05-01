@@ -31,6 +31,9 @@ def index():
     entries = [(dict(imagepath=bugpath+name, link="bug/"+name)) for name in imgnames]
     return render_template('index.html',entries=entries, index=True)
 
+def errorpage(error):
+    return render_template('error.html', error_message=error)
+
 def ishuman():
     human = True
     if human not in session or (human in session and not session['human']):
@@ -67,11 +70,11 @@ def logout():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
+        # logged in forgot to pop??
         if 'logged_in' in session and not session['logged_in']:
-            return redirect(url_for('index'))
-            # errormsg = 'You must be logged in to post'
-            # return redirect(url_for('403.html'))
+            return logout()
         return render_template('signup.html')
+
     if ishuman():
         username = request.form['username']
         password = request.form['password']
@@ -98,6 +101,8 @@ def allowed_file(filename):
 def upload():
     # if request is GET, load the upload form-page
     if request.method == 'GET':
+        if 'logged_in' not in session:
+            return errorpage('You must be logged in to post')
         return render_template('upload.html')
 
     # if POST read the file and form data
@@ -111,16 +116,12 @@ def upload():
     # The log-in check *should* be in the 'GET' side of things
     # So the user doesn't do all the work, and then get informed he can't post
     if 'logged_in' not in session:
-        errormsg = 'You must be logged in to post'
-        return redirect(url_for('403.html'))
-        #return redirect(url_for('error', error=errormsg))
+        return errorpage('You must be logged in to post')
 
     # we should probably redirect back to the 'GET' side, with the forms still filled out.
     if not image or not allowed_file(image.filename):
         errormsg = 'file not allowed'
-        return redirect(url_for('index')) 
-        #return redirect(url_for('error', error=errormsg))
-        #return render_template('index.html', error=errormsg)
+        return errorpage('filetype not allowed')
 
 	#user = session['username']
     user = mydb.getuserbyname(session['username'])
@@ -144,16 +145,14 @@ def upload():
 @app.route('/profile')
 def profile():
 	return render_template('profile.html')
-	##TODO
-	pass
 
 @app.route('/bug/<path:path>', methods=['GET', 'POST'])
 def bug(path):
     thread = mydb.getthreadbyimagename(path)
+
     # thread doesn't exist; throw error at user
     if not thread:
-        return redirect(url_for('index')) 
-        #return redirect(url_for('error', error=errormsg))
+        return errorpage('thread does not exist')
 
     bug_image = bugpath + thread.image.imagename
 

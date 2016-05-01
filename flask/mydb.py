@@ -359,7 +359,11 @@ def getthreadbyimagename(imagename):
     """ 
     :param str imagename:
     :return: an image object affiliated with the image name """
-    return Image.query.filter_by(imagename=imagename).first().thread[0]
+    try:
+        val = Image.query.filter_by(imagename=imagename).first().thread[0]
+    except AttributeError:
+        val = None
+    return val
 
 #@with_slave
 def getlast20images():
