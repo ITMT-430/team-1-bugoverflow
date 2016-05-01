@@ -12,4 +12,4 @@ log_bin = /var/lib/mysql/mysql-bin.log
 [mysqld_safe]
 log-error=/var/log/mysqld.log
 pid-file=/var/run/mysqld/mysqld.pid
-bind-address = 64.131.111.82
+bind-address = 64.131.111.27
