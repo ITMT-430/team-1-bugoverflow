@@ -14,28 +14,28 @@ git checkout origin/maint-3.1
 python setup.py install
 read -p "Verify there are no errors up to this point, then press any key to continue." nothing
 clear
-gpg --passphrase leech -o /euca2ools/creds.zip -d /team-1-bugoverflow/scripts/creds.zip.gpg
+gpg -o /euca2ools/creds.zip -d /team-1-bugoverflow/scripts/creds.zip.gpg
 unzip -d creds creds.zip
 source /euca2ools/creds/eucarc
 echo "source /euca2ools/creds/eucarc">>~/.bashrc
 echo "source /euca2ools/creds/eucarc">>~/.zshrc
-euca-version
 
+euca-version
+echo "Deploying instances now, please wait."
 outputWS="$(euca-run-instances emi-b6ecd5f1 -n 1 -k 'BugKey' -g 'BugSecurity' -t m1.xlarge)"
-echo ${outputWS}
 instanceWS="$(echo "${outputWS}" | grep -o 'i-.\{0,8\}' | head -1)"
 ipadWS="$(euca-describe-instances | grep ${instanceWS} | grep -o '64\.131\.111\..\{0,3\}' | tr -s [:space:])"
 sleep 25
 
-outputDR="$(euca-run-instances emi-b6ecd5f1 -n 1 -k 'BugKey' -g 'BugSQL' -t m3.xlarge)"
+outputDR="$(euca-run-instances emi-b6ecd5f1 -n 1 -k 'BugKey' -g 'BugSQL' -t m1.xlarge)"
 instanceDR="$(echo "${outputDR}" | grep -o 'i-.\{0,8\}' | head -1)"
-ipadDR="$(euca-describe-instances | grep ${instanceDW} | grep -o '64\.131\.111\..\{0,3\}' | tr -s [:space:])"
+ipadDR="$(euca-describe-instances | grep ${instanceDR} | grep -o '64\.131\.111\..\{0,3\}' | tr -s [:space:])"
 sleep 25
 
-outputDW="$(euca-run-instances emi-b6ecd5f1 -n 1 -k 'BugKey' -g 'BugSQL' -t m3.xlarge)"
+outputDW="$(euca-run-instances emi-b6ecd5f1 -n 1 -k 'BugKey' -g 'BugSQL' -t m1.xlarge)"
 instanceDW="$(echo "${outputDW}" | grep -o 'i-.\{0,8\}' | head -1)"
 ipadDW="$(euca-describe-instances | grep ${instanceDW} | grep -o '64\.131\.111\..\{0,3\}' | tr -s [:space:])"
-sleep 25
+sleep 35
 
 echo "wait 10 secs, IPs are being added"
 sleep 1
@@ -60,7 +60,10 @@ sleep 3
 
 echo "Instances should be up and running now, check the Eucalyptus web page. Running the next script soon."
 
-sleep 15
+sleep 20
+ssh-keygen -f "/root/.ssh/known_hosts" -R 64.131.111.26
+ssh-keygen -f "/root/.ssh/known_hosts" -R 64.131.111.27
+ssh-keygen -f "/root/.ssh/known_hosts" -R 64.131.111.32
 
 
 /bin/bash /team-1-bugoverflow/scripts/copy.sh
