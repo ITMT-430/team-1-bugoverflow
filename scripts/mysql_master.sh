@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-yum install git vim mysql-server -y    		 #Install msql clients/server and git
-cd ..							 
-git clone https://github.com/ITMT-430/team-1-bugoverflow #Pull repo
+yum install vim mysql-server -y    		 #Install msql clients/server and git
+#cd ..							 
+#git clone https://github.com/ITMT-430/team-1-bugoverflow #Pull repo
 rm -f /etc/my.cnf					 #Removes SQL config
 touch /var/lib/mysql/mysql-bin.log
 cp /team-1-bugoverflow/Nginx/Master.cnf /etc/my.cnf      #Replace SQL config
