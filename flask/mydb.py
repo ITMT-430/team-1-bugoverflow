@@ -6,6 +6,9 @@ import shutil
 import unittest
 import exifread
 
+import requests
+import re
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
@@ -384,11 +387,25 @@ def isvalidlogin(username, password):
     :param str username:
     :param str password: plaintext password
     :return: True, user-object if login succeeded
+    :return: True, user-object if iit-login succeeded; creates new user(name, pass, role="iit")
     :return: False, None otherwise """
+    # try to validate through our db
     user = getuserbyname(username)
+    success = False
     if user and user.check_pass(password):
+        success = True
+    # try to validate through iit
+    if not user:
+        r = requests.get('http://my.iit.edu/cp/home/login?pass=%s&user=%s' % (password, username))
+        ok = re.compile('loginok.html', re.MULTILINE)
+        if re.search(ok, r.text):
+            success = True
+            user = newuser(username, password, 'iit')
+
+    if success:
         return True, user
-    return False, None
+    else: 
+        return False, None
 
 
 # population functions

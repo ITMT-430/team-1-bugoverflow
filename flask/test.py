@@ -9,6 +9,7 @@ from flask_recaptcha import ReCaptcha
 from os import listdir
 from werkzeug import secure_filename
 
+
 gmaps_key = 'AIzaSyBB3o_tLwpc9tvBuoFF0S-bdv934mrmhv4'
 
 import exifread
@@ -57,6 +58,8 @@ def login():
             session['username'] = user.username
             session['role'] = user.role
             session['logged_in'] = True
+        else:
+            return errorpage('Invalid username/password')
     return redirect(url_for('index'))
         
 @app.route('/logout')
