@@ -82,7 +82,6 @@ def signup():
         username = request.form['username']
         password = request.form['password']
 
-
         role = 'user'
         user = mydb.newuser(username, password, role)
         session['username'] = username
@@ -114,7 +113,8 @@ def upload():
     body = request.form['body']
     tags = request.form['tags'] 
     tags = tags.split(',')
-
+    if not image or not title or not body or not tags:
+        return errorpage('Please fill out all sections of the form.')
     
     # The log-in check *should* be in the 'GET' side of things
     # So the user doesn't do all the work, and then get informed he can't post
@@ -126,12 +126,12 @@ def upload():
         errormsg = 'file not allowed'
         return errorpage('filetype not allowed')
 
-	#user = session['username']
     user = mydb.getuserbyname(session['username'])
-
-
-    # setting the object imagename to the secure file  	
+    filetype = image.filename.rsplit('.', 1)[1]
+    # secure_filename alters filename to not match drivers and such
     imagename = secure_filename(image.filename)
+    if not imagename: #secure_filename may return no string at all, so generate a random one
+        imagename = str(int(os.urandom(4).encode('hex'), 16)) + filetype
     # saving the file to the upload folder static/imgs/bugs
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], imagename)
     image.save(filepath)

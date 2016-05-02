@@ -458,12 +458,102 @@ def makeall():
     makethreads()
     makecomments()
 
+def makethread1(users):
+    imagename = 'QK2CXrHybdE2oz25y7dfknpOQ2RcchvZlmQQayNFzkE.jpg'
+    tags = ['colorful', 'desert']
+    op = users[0]
+    title = 'Who\'s this cool looking bug? [Tucson, AZ]'
+    body = 'LOOK AT ALL THESE DESERT BUGS!'
+    geoloc = getgeoloc(bugpath + imagename)
+    thread = newthread(title, body, imagename, op, tags, geoloc)
+
+    c1 = newcomment(thread, users[1],
+            'An iron cross blister beetle, Tegrodera sp')
+    c2 = newcomment(thread, users[2],
+            'Also, do not touch it. You can get painful blisters. And do not eat it, the same chemical that causes the blisters is poisonous to us, and can be fatal.',
+            c1)
+    c3 = newcomment(thread, users[1],
+            'The coloring is definitely a sign.',
+            c2)
+    c4 = newcomment(thread, users[3],
+            'citation?',
+            c2)
+    c5 = newcomment(thread, users[2],
+            '"It has drawn a lot of attention due to its toxicity to humans and the painful/fatal diseases it inflicts upon certain livestock. This chemical, C10H12O4, causes severe skin blisters (dermatosis) to humans within hours of exposure to it; it is not known how much of this substance it takes to cause a skin blister. The insect secretes this substance as a defense mechanism, or it can happen if it is crushed and comes in contact with skin. (Ghoneim, Karem S.)"
+            http://en.m.wikipedia.org/wiki/Iron_Cross_Beetle',
+            c3)
+    return None
+
+def makethread2(users)
+    imagename = '3d67e9b8e32e4e5e984b4413db2407f3.jpeg'
+    tags = ['centipede', 'upside-down']
+    op = users[3]
+    title = '[Southwestern US] Centipede'
+    body = 'Found in reddit\'s r/creepy'
+    geoloc = getgeoloc(bugpath + imagename)
+    thread = newthread(title, body, imagename, op, tags, geoloc)
+
+    c1 = newcomment(thread, users[0],
+            'I\'m not sure how useful a belly shot is to others who may have more experience with centipedes than me, but it looks like something in Scolopendra, maybe a common desert centipede or something approximating that. Not one you\'d want to fondle.')
+    c2 = newcomment(thread, users[3],
+            'Okay thanks!',
+            c1)
+    c3 = newcomment(thread, users[2],
+            'I think I\'d die right on the spot if I saw that in person!')
+    return None
+
+def makethread3(users):
+    imagename = 'Ot_rXXcnnNtBPm2NeDBtSzNy5f7WA-H90-KKuGPfNAA.jpg'
+    tags = ['SPIDERS', 'EVERYWHERE']
+    op = users[1]
+    title = 'Everywhere! Spiders !!!'
+    body = 'Hey, these spiders are everywhere in my house and I started freaking myself out that it is a Brown Recluse.. I need to know the type of spider!!!! What do you guys think??'
+    geoloc = getgeoloc(bugpath + imagename)
+    thread = newthread(title, body, imagename, op, tags, geoloc)
+
+    c1 = newcomment(thread, users[2],
+            'Fairly sure it\'s Tegenaria domestica, the barn funnel weaver/eruopean house spider. Very common all across North America. Harmless and common.')
+    c2 = newcomment(thread, users[3],
+            'You got it. Those overlapping pentagons are usually diagnostic.',
+            c1)
+    c3 = newcomment(thread, users[0],
+            'You might have better luck posting this guy over at /r/spiders!
+            I can promise it's not a brown recluse though, they're smaller and have much lighter bodies. There really aren\'t any spiders in that area that you need to be super worried about as far as danger goes, but I can\'t give you a confident ID! Sorry!')
+    c4 = newcomment(thread, users[1],
+            'Thank you that's honestly all I needed. I'm considering burning the fucking place. I swear I kill at least three of these huge assholes every day and it\'s disgusting.',
+            c3)
+    c5 = newcomment(thread, users[2],
+            'For the most part, most of the breeds of spiders in North America aren\'t dangerous to humans, with the exception of Black Widows and Brown Recluses, and even then if you can get a positive ID and medical attention quickly enough you\'ll be fine.',
+            c4)
+    c6 = newcomment(thread, users[3],
+            'Fine kill the spiders. Have fun with the swarms of small pests theyve been keeping at bay.',
+            c4)
+    return None
+
+def makethreads_real():
+    dummy = 'static/imgs/real_dummyimgs/'
+    if os.path.isdir(bugpath):
+        shutil.rmtree(bugpath)
+    shutil.copytree(dummy, bugpath)
+
+    users = getalltestusers()
+    makethread1(users)
+    makethread2(users)
+    makethread3(users)
+
+def makeall_real():
+    """ Autogenerates dummy data based on reddit threads """
+    makeusers()
+    makethreads_real()
+
+
     
 """ Dumps the DB, rebuilds it, and inserts dummy data """ 
 def rebuilddb():
     db.drop_all()
     db.create_all()
-    makeall()
+    #makeall()
+    makeall_real()
 
 
 
