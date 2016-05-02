@@ -484,7 +484,7 @@ def makethread1(users):
             c3)
     return None
 
-def makethread2(users)
+def makethread2(users):
     imagename = '3d67e9b8e32e4e5e984b4413db2407f3.jpeg'
     tags = ['centipede', 'upside-down']
     op = users[3]
