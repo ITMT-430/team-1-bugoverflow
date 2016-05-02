@@ -1,6 +1,8 @@
 #!/bin/bash
 yum install vim git epel-release python-pip python-devel gcc nginx python mysql mysql-server -y
 yum install wget -y
+yum install xinetd -y
+yum install rpcbind -y
 service nginx start
 chkconfig nginx on
 pip install virtualenv
@@ -16,6 +18,9 @@ cd Python-2.7.6
 ./configure --prefix=/usr/local    
 make
 make altinstall
+service xinetd restart
+service rpcbind restart
+service rsyslog restart
 
 cd team-1-bugoverflow/flask/
 

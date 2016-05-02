@@ -35,7 +35,13 @@ sleep 25
 outputDW="$(euca-run-instances emi-b6ecd5f1 -n 1 -k 'BugKey' -g 'BugSQL' -t m1.xlarge)"
 instanceDW="$(echo "${outputDW}" | grep -o 'i-.\{0,8\}' | head -1)"
 ipadDW="$(euca-describe-instances | grep ${instanceDW} | grep -o '64\.131\.111\..\{0,3\}' | tr -s [:space:])"
-sleep 35
+sleep 25
+
+outputL="$(euca-run-instances emi-b6ecd5f1 -n 1 -k 'BugKey' -g 'BugSecurity' -t m1.xlarge)"
+instanceL="$(echo "${outputL}" | grep -o 'i-.\{0,8\}' | head -1)"
+ipadL="$(euca-describe-instances | grep ${instanceL} | grep -o '64\.131\.111\..\{0,3\}' | tr -s [:space:])"
+sleep 25
+
 
 echo "wait 10 secs, IPs are being added"
 sleep 1
@@ -48,6 +54,9 @@ sleep 3
 newipDW="$(euca-associate-address -i ${instanceDW} 64.131.111.27)"
 echo ${newipDW}
 sleep 3
+newipL="$(euca-associate-address -i ${instanceL} 64.131.111.30)"
+echo ${newipL}
+sleep 3
 
 echo "wait 10 secs, Servers are being named"
 sleep 1
@@ -57,6 +66,8 @@ euca-create-tags ${instanceDR} --tag Name=Team1_BugRead
 sleep 3
 euca-create-tags ${instanceDW} --tag Name=Team1_BugWrite
 sleep 3
+euca-create-tags ${instanceL} --tag Name=Team1_BugLog
+sleep 3
 
 echo "Instances should be up and running now, check the Eucalyptus web page. Running the next script soon."
 
@@ -64,6 +75,7 @@ sleep 20
 ssh-keygen -f "/root/.ssh/known_hosts" -R 64.131.111.26
 ssh-keygen -f "/root/.ssh/known_hosts" -R 64.131.111.27
 ssh-keygen -f "/root/.ssh/known_hosts" -R 64.131.111.32
+ssh-keygen -f "/root/.ssh/known_hosts" -R 64.131.111.30
 
 
 /bin/bash /team-1-bugoverflow/scripts/copy.sh
