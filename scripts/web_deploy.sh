@@ -22,8 +22,10 @@ virtualenv flaskenv
 source flaskenv/bin/activate
 pip install uwsgi flask Jinja2 Flask-SQLAlchemy exifread pymysql flask_recaptcha requests re
 yum install python-jinja2 -y
+python -c "import mydb; mydb.rebuilddb()"
+deactivate
 
-cd /team-1-bugoverflow/flask && source flaskenv/bin/activate && python -c "import mydb; mydb.rebuilddb()"
+#cd /team-1-bugoverflow/flask && source flaskenv/bin/activate && 
 
 rm -f /etc/nginx/nginx.conf
 mv /team-1-bugoverflow/flask/nginx.conf /etc/nginx/nginx.conf
@@ -32,4 +34,3 @@ chmod 655 test.conf
 mv test.conf /etc/init/test.conf
 
 /etc/init/test.conf start
-
