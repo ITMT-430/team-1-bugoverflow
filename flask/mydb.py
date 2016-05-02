@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy import create_engine
 from flask import Flask
 import os
 import shutil
@@ -16,9 +18,9 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://master:leech@64.131.111.27/newdatabase'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-master = SQLAlchemy.create_engine("mysql+pymysql://master:leech@64.131.111.27/newdatabase")
-slave = SQLAlchemy.create_engine("mysql+pymysql://master:leech@64.131.111.26/newdatabase")
-Session = SQLAlchemy.scoped_session(SQLAlchemy.sessionmaker(bind=master))
+master = create_engine("mysql+pymysql://master:leech@64.131.111.27/newdatabase")
+slave = create_engine("mysql+pymysql://master:leech@64.131.111.26/newdatabase")
+Session = scoped_session(sessionmaker(bind=master))
 
 def with_slave(fn):
     def go(*arg, **kw):
