@@ -10,9 +10,7 @@
 <script src="{{ url_for('static', filename='js/test.js') }}"></script>
 <!-- JavaScript -->
 <script src=" {{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-{%- endmacro %} 
-
-{% macro navbar(index, tags, about) -%}
+{%- endmacro %} {% macro navbar(index, tags, about) -%}
 
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -39,12 +37,11 @@
             <li><a href="{{url_for('about')}}">about</a></li>
             {% endif %}
             <li>
-            {% if session.logged_in %}
-            <a href="{{url_for('upload')}}" id="upload-btn" class="btn btn-primary btn-md" >upload</a>
-            {% endif %} 
+                {% if session.logged_in %}
+                <a href="{{url_for('upload')}}" id="upload-btn" class="btn btn-primary btn-md">upload</a> {% endif %}
             </li>
-        </ul> 
-        
+        </ul>
+
         {% if not session.logged_in %}
 
         <form class="navbar-form navbar-right" role="search" action="{{url_for( 'login')}}" method=post>
@@ -55,7 +52,7 @@
                 <input type="password" class="form-control" name="password" placeholder="password">
             </div>
             {% if error %}
-                <p class=error><strong>Error:</strong> {{ error }}</p>
+            <p class=error><strong>Error:</strong> {{ error }}</p>
             {% endif %}
             <button type="submit" class="btn btn-default btn-sm">log in</button>
             <a href="{{url_for( 'signup')}}" class="btn btn-primary btn-sm">sign up</a>
@@ -66,8 +63,16 @@
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <div class="dropdown">
-                    <button id="profile-btn" type="button" class="dropbtn"><span class="glyphicon glyphicon-user"></span> {{session.username}}
+                    {& if session.user.role == 'admin' &}
+                    <button id="profile-btn" type="button" class="dropbtn" class="btn btn-warning"><span class="glyphicon glyphicon-king"></span> {{session.username}}
                     </button>
+                    {& elif session.user.role == 'iit' &}
+                    <button id="profile-btn" type="button" class="dropbtn" class="btn btn-danger"><span class="glyphicon glyphicon-user"></span> {{session.username}}
+                    </button>
+                    {& else &}
+                    <button id="profile-btn" type="button" class="dropbtn" class="btn btn-success"><span class="glyphicon glyphicon-user"></span> {{session.username}}
+                    </button>
+                    {& endif &}
                     <div class="dropdown-content">
                         <a href="{{url_for('profile')}}">account</a>
                         <a href="{{url_for('logout')}}">log out</a>
@@ -75,14 +80,12 @@
                 </div>
             </li>
         </ul>
-        {% endif %} 
+        {% endif %}
     </div>
 </nav>
 
 
-{%- endmacro %}
-
-{% macro standard_footer() -%}
+{%- endmacro %} {% macro standard_footer() -%}
 <div id="footer">
     <footer>
         <div class="row">
@@ -92,11 +95,9 @@
         </div>
     </footer>
 </div>
-{%- endmacro %}
-
-{% macro header_image() -%}
+{%- endmacro %} {% macro header_image() -%}
 <div class="page-header">
-    <img id="bugicon" src="{{url_for('static', filename="imgs/Bug-512.png")}}">
+    <img id="bugicon" src="{{url_for('static', filename=" imgs/Bug-512.png ")}}">
     <p><i>"Serving your bug finding needs..."</i></p>
 </div>
 
