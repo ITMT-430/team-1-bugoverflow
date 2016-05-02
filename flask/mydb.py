@@ -465,7 +465,7 @@ def makethread1(users):
     title = 'Who\'s this cool looking bug? [Tucson, AZ]'
     body = 'LOOK AT ALL THESE DESERT BUGS!'
     geoloc = getgeoloc(bugpath + imagename)
-    thread = newthread(title, body, imagename, op, tags, geoloc)
+    thread, _ = newthread(title, body, imagename, op, tags, geoloc)
 
     c1 = newcomment(thread, users[1],
             """sn iron cross blister beetle, Tegrodera sp""")
@@ -491,7 +491,7 @@ def makethread2(users):
     title = '[Southwestern US] Centipede'
     body = 'Found in reddit\'s r/creepy'
     geoloc = getgeoloc(bugpath + imagename)
-    thread = newthread(title, body, imagename, op, tags, geoloc)
+    thread, _ = newthread(title, body, imagename, op, tags, geoloc)
 
     c1 = newcomment(thread, users[0],
             """I\'m not sure how useful a belly shot is to others who may have more experience with centipedes than me, but it looks like something in Scolopendra, maybe a common desert centipede or something approximating that. Not one you\'d want to fondle.""")
@@ -509,7 +509,7 @@ def makethread3(users):
     title = """Everywhere! Spiders !!!"""
     body = """Hey, these spiders are everywhere in my house and I started freaking myself out that it is a Brown Recluse.. I need to know the type of spider!!!! What do you guys think??"""
     geoloc = getgeoloc(bugpath + imagename)
-    thread = newthread(title, body, imagename, op, tags, geoloc)
+    thread, _ = newthread(title, body, imagename, op, tags, geoloc)
 
     c1 = newcomment(thread, users[2],
             """Fairly sure it\'s Tegenaria domestica, the barn funnel weaver/eruopean house spider. Very common all across North America. Harmless and common.""")
