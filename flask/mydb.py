@@ -192,12 +192,13 @@ class Comment(db.Model):
     m_time = db.Column(db.DateTime) # when the comment was last modified
 
     def __init__(self, thread, user, body, parent=None):
-        self.thread = thread
         self.user = user
         self.body = body
         if parent:
             self.parent = parent 
-        thread.comments.append(self)
+        else: # thread should only refer to root nodes
+            self.thread = thread
+            thread.comments.append(self)
         user.comments.append(self)
         # db.session.add(thread)
         # db.session.add(user)
