@@ -63,16 +63,16 @@
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <div class="dropdown">
-                    {& if session.user.role == 'admin' &}
-                    <button id="profile-btn" type="button" class="dropbtn" class="btn btn-warning"><span class="glyphicon glyphicon-king"></span> {{session.username}}
+                    {% if session.role == 'admin' %}
+                    <button id="profile-btn" type="button"  class="btn btn-warning" class="dropbtn"><span class="glyphicon glyphicon-king"></span> {{session.username}}
                     </button>
-                    {& elif session.user.role == 'iit' &}
-                    <button id="profile-btn" type="button" class="dropbtn" class="btn btn-danger"><span class="glyphicon glyphicon-user"></span> {{session.username}}
+                    {% elif session.role == 'iit' %}
+                    <button id="profile-btn" type="button" class="btn btn-danger" class="dropbtn" ><span class="glyphicon glyphicon-user"></span> {{session.username}}
                     </button>
-                    {& else &}
-                    <button id="profile-btn" type="button" class="dropbtn" class="btn btn-success"><span class="glyphicon glyphicon-user"></span> {{session.username}}
+                    {% else %}
+                    <button id="profile-btn" type="button" class="btn btn-success" class="dropbtn" ><span class="glyphicon glyphicon-user"></span> {{session.username}}
                     </button>
-                    {& endif &}
+                    {% endif %}
                     <div class="dropdown-content">
                         <a href="{{url_for('profile')}}">account</a>
                         <a href="{{url_for('logout')}}">log out</a>
