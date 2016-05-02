@@ -105,7 +105,7 @@
                                             <h4 class="media-heading">{{c.user.username}}</h4> 
                                             {{c.body}}
                                             <!-- comment reply button -->
-                                            <p><button type="button" class="btn btn-link" id="replybtn">Reply</button></p>
+                                            <p><button type="button" class="btn btn-link" id="replybtn">Reply</button>{% if session.role == 'admin' %}<button type="button" id="deleteCmtbtn" class="btn btn-link">Delete</button>{% endif %}</p>
                                             {% for c2 in c.children recursive%}
                                             <!-- nested comment -->
                                             <div class="media">
@@ -115,7 +115,7 @@
                                                 <div class="media-body">
                                                     <h4 class="media-heading">{{c2.user.username}}</h4>
                                                     {{c2.body}}
-                                                    <p><button type="button" class="btn btn-link" id="replybtnnested">Reply</button></p>
+                                                    <p><button type="button" class="btn btn-link" id="replybtnnested">Reply</button>{% if session.role == 'admin' %}<button type="button" id="deleteCmtbtn" class="btn btn-link">Delete</button>{% endif %}</p>
                                                     {{ loop(c2.children) }}
                                 
                                                 </div>
@@ -206,6 +206,14 @@
             });
         });
     </script>
+<!--     <script type="text/javascript">
+        $(function() {
+            $("#deleteCmtbtn").click(function(){
+                $('#deleteCmtbtn').text("Are you sure?");
+                $('span').html("<button type='button' id='deleteCmtbtnYes' class='btn btn-link'>Yes</button>");
+            });
+        });
+    </script> -->
 </body>
 
 </html>

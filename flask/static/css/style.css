@@ -104,3 +104,8 @@ img.media-object {
 /*.dropdown:hover .dropbtn {
     background-color: #3e8e41;
 }*/
+
+p > .btn {
+    padding: 1px;
+    margin: inherit;
+}
