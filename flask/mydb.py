@@ -19,7 +19,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://master:leech@64.131.111
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 master = create_engine("mysql+pymysql://master:leech@64.131.111.27/newdatabase")
-slave = create_engine("mysql+pymysql://master:leech@64.131.111.26/newdatabase")
+slave = create_engine("mysql+pymysql://slave:leech@64.131.111.26/newdatabase")
 Session = scoped_session(sessionmaker(bind=master))
 
 def with_slave(fn):
