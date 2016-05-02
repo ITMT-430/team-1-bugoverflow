@@ -468,7 +468,7 @@ def makethread1(users):
     thread, _ = newthread(title, body, imagename, op, tags, geoloc)
 
     c1 = newcomment(thread, users[1],
-            """sn iron cross blister beetle, Tegrodera sp""")
+            """An iron cross blister beetle, Tegrodera sp""")
     c2 = newcomment(thread, users[2],
             """Also, do not touch it. You can get painful blisters. And do not eat it, the same chemical that causes the blisters is poisonous to us, and can be fatal.""",
             c1)
@@ -481,7 +481,7 @@ def makethread1(users):
     c5 = newcomment(thread, users[2],
             """\"It has drawn a lot of attention due to its toxicity to humans and the painful/fatal diseases it inflicts upon certain livestock. This chemical, C10H12O4, causes severe skin blisters (dermatosis) to humans within hours of exposure to it; it is not known how much of this substance it takes to cause a skin blister. The insect secretes this substance as a defense mechanism, or it can happen if it is crushed and comes in contact with skin. (Ghoneim, Karem S.)\"
             http://en.m.wikipedia.org/wiki/Iron_Cross_Beetle""",
-            c3)
+            c4)
     return None
 
 def makethread2(users):
