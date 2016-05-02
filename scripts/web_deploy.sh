@@ -1,5 +1,6 @@
 #!/bin/bash
 yum install vim git epel-release python-pip python-devel gcc nginx python mysql mysql-server -y
+yum install wget -y
 service nginx start
 chkconfig nginx on
 pip install virtualenv
@@ -22,10 +23,8 @@ virtualenv flaskenv
 source flaskenv/bin/activate
 pip install uwsgi flask Jinja2 Flask-SQLAlchemy exifread pymysql flask_recaptcha requests re
 yum install python-jinja2 -y
-python -c "import mydb; mydb.rebuilddb()"
-deactivate
 
-#cd /team-1-bugoverflow/flask && source flaskenv/bin/activate && 
+cd /team-1-bugoverflow/flask && source flaskenv/bin/activate && python -c "import mydb; mydb.rebuilddb()"
 
 rm -f /etc/nginx/nginx.conf
 mv /team-1-bugoverflow/flask/nginx.conf /etc/nginx/nginx.conf
