@@ -228,12 +228,13 @@ def backup():
     text = mydb.dumpdb()
     return opspage(text)
 
-@app.route('/restore', methods=['POST'])
-def restore(backup_id):
+@app.route('/restore', methods=['GET','POST'])
+def restore():
     if not admincheck():
         return errorpage('you must be an admin to be here.')
+    backup_id = request.form['id']
     
-    if str(backup_id) in mydb.getids():
+    if str(backup_id) in map(lambda x: x[1], mydb.getids()):
         text = mydb.restoredb(backup_id)
     else:
         return errorpage('that backup does not exist')
