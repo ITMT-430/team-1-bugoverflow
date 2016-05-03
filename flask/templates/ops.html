@@ -21,7 +21,12 @@
                 <center><a href="{{url_for('index')}}" class="btn btn-danger">Backup DB</a></center>
             </div>
             <div class="col-md-6">
-                <center><a href="{{url_for('index')}}" class="btn btn-success">Reload DB</a></center>
+                <center><a href="{{url_for('index')}}" class="btn btn-success">Restore DB</a></center>
+                {% for id in backup_ids %}
+                    <ul>
+                        <li><a href="{{ id.link }}"></a></li>
+                    </ul>
+                {% endfor %}
             </div>
             {% else %}
             <emphasize>You don't belong here...</emphasize>
