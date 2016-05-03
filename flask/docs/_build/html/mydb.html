@@ -255,18 +255,9 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="mydb.getallimageswithtag">
-<code class="descclassname">mydb.</code><code class="descname">getallimageswithtag</code><span class="sig-paren">(</span><em>tagname</em><span class="sig-paren">)</span><a class="headerlink" href="#mydb.getallimageswithtag" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tagname</strong> (<em>str</em>) &#8211; </td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of image objects associated with the tag</td>
-</tr>
-</tbody>
-</table>
+<dt id="mydb.dumpdb">
+<code class="descclassname">mydb.</code><code class="descname">dumpdb</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mydb.dumpdb" title="Permalink to this definition">¶</a></dt>
+<dd><p>retores the database, returns text to give back to the user</p>
 </dd></dl>
 
 <dl class="function">
@@ -288,75 +279,21 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="mydb.getlast20images">
-<code class="descclassname">mydb.</code><code class="descname">getlast20images</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mydb.getlast20images" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of image objects</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="mydb.getthreadbyimagename">
-<code class="descclassname">mydb.</code><code class="descname">getthreadbyimagename</code><span class="sig-paren">(</span><em>imagename</em><span class="sig-paren">)</span><a class="headerlink" href="#mydb.getthreadbyimagename" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>imagename</strong> (<em>str</em>) &#8211; </td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an image object affiliated with the image name</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="mydb.getuserbyname">
-<code class="descclassname">mydb.</code><code class="descname">getuserbyname</code><span class="sig-paren">(</span><em>username</em><span class="sig-paren">)</span><a class="headerlink" href="#mydb.getuserbyname" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>username</strong> (<em>str</em>) &#8211; </td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the user object affiliated with the username</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="mydb.isvalidlogin">
-<code class="descclassname">mydb.</code><code class="descname">isvalidlogin</code><span class="sig-paren">(</span><em>username</em>, <em>password</em><span class="sig-paren">)</span><a class="headerlink" href="#mydb.isvalidlogin" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>username</strong> (<em>str</em>) &#8211; </li>
-<li><strong>password</strong> (<em>str</em>) &#8211; plaintext password</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True, user-object if login succeeded</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">False, None otherwise</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dt id="mydb.getids">
+<code class="descclassname">mydb.</code><code class="descname">getids</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mydb.getids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of (backup_ids, full_text)</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="mydb.makeall">
 <code class="descclassname">mydb.</code><code class="descname">makeall</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mydb.makeall" title="Permalink to this definition">¶</a></dt>
 <dd><p>Autogenerates dummy data</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="mydb.makeall_real">
+<code class="descclassname">mydb.</code><code class="descname">makeall_real</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mydb.makeall_real" title="Permalink to this definition">¶</a></dt>
+<dd><p>Autogenerates dummy data based on reddit threads</p>
 </dd></dl>
 
 <dl class="function">
@@ -427,9 +364,17 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="mydb.rebuilddb">
-<code class="descclassname">mydb.</code><code class="descname">rebuilddb</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mydb.rebuilddb" title="Permalink to this definition">¶</a></dt>
-<dd><p>Dumps the DB, rebuilds it, and inserts dummy data</p>
+<dt id="mydb.restoredb">
+<code class="descclassname">mydb.</code><code class="descname">restoredb</code><span class="sig-paren">(</span><em>num</em><span class="sig-paren">)</span><a class="headerlink" href="#mydb.restoredb" title="Permalink to this definition">¶</a></dt>
+<dd><p>restores the database; returns text to give back to the user</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="mydb.with_slave">
+<code class="descclassname">mydb.</code><code class="descname">with_slave</code><span class="sig-paren">(</span><em>fn</em><span class="sig-paren">)</span><a class="headerlink" href="#mydb.with_slave" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator</p>
+<p>Forces the decorated function to use the slave session, instead of the master.</p>
+<p>Returns the session to the master at the end of the function.</p>
 </dd></dl>
 
 </div>
