@@ -643,7 +643,7 @@ def dumpdb():
     command = "python manage.py dump create".split(" ")
     try:
         output = subprocess.check_output(command).strip()
-    except CalledProcessError:
+    except subprocess.CalledProcessError:
         return "We broke!"
     return [o[4:] for o in output.split('\n')]
 
@@ -652,7 +652,7 @@ def getids():
     command = "python manage.py dump history".split(" ")
     try:
         output = subprocess.check_output(command).strip().split("\n")
-    except CalledProcessError:
+    except subprocess.CalledProcessError:
         return None
     output = [o[4:] for o in output if "ID" in o][::-1]
     backupids = map(lambda x: re.search('ID: (\d+?) ', x).group(1), output)
@@ -664,7 +664,7 @@ def restoredb(num):
     command = command.split(" ")
     try:
         output = subprocess.check_output(command).strip().split("\n")
-    except CalledProcessError:
+    except subprocess.CalledProcessError:
         return "we broke it!"
     output = map(lambda x: re.search('-(.*\.gz.*)', x).group(1), output)
     return output
