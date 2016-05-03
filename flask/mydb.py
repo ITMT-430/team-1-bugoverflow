@@ -16,11 +16,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tmp.sqlite'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://master:leech@64.131.111.27/newdatabase'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://master:leech@64.131.111.93/newdatabase'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-master = create_engine("mysql+pymysql://master:leech@64.131.111.27/newdatabase")
-slave = create_engine("mysql+pymysql://slave:leech@64.131.111.26/newdatabase")
+master = create_engine("mysql+pymysql://master:leech@64.131.111.93/newdatabase")
+slave = create_engine("mysql+pymysql://slave:leech@64.131.111.95/newdatabase")
 Session = scoped_session(sessionmaker(bind=master))
 
 def with_slave(fn):

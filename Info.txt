@@ -9,7 +9,7 @@ HTTP (anywhere incoming) HTTP (established only outgoing)
 SSH, HTTP, HTTPS, TCP 5000, ICMP
 
 MySQL Server (Read)
-IP: 64.131.111.26
+IP: 64.131.111.95
 Software: MySql Server
 Hardware: m1.large (with elastic 40GB hard drive)
 Security: 
@@ -17,7 +17,7 @@ MySql (port 3306, only 64.131.111.32),
  SSH (port 22)
 
 MySQL Server (Write)
-IP: 64.131.111.27
+IP: 64.131.111.93
 Hardware: m1.large (with elastic 40GB hard drive)
 Software: MySql
 Security: 
