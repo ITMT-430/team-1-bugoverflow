@@ -15,31 +15,31 @@ import subprocess
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tmp.sqlite'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://master:leech@64.131.111.27/newdatabase'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tmp.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://master:leech@64.131.111.27/newdatabase'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-#master = create_engine("mysql+pymysql://master:leech@64.131.111.27/newdatabase")
-#slave = create_engine("mysql+pymysql://slave:leech@64.131.111.26/newdatabase")
-#Session = scoped_session(sessionmaker(bind=master))
-#
-#def with_slave(fn):
-#    """
-#    Decorator
-#
-#    Forces the decorated function to use the slave session, instead of the master.
-#
-#    Returns the session to the master at the end of the function.
-#    """
-#    def go(*arg, **kw):
-#        s = Session()
-#        oldbind = s.bind
-#        s.bind = slave
-#        try:
-#            return fn(*arg, **kw)
-#        finally:
-#            s.bind = oldbind
-#    return go
+master = create_engine("mysql+pymysql://master:leech@64.131.111.27/newdatabase")
+slave = create_engine("mysql+pymysql://slave:leech@64.131.111.26/newdatabase")
+Session = scoped_session(sessionmaker(bind=master))
+
+def with_slave(fn):
+    """
+    Decorator
+
+    Forces the decorated function to use the slave session, instead of the master.
+
+    Returns the session to the master at the end of the function.
+    """
+    def go(*arg, **kw):
+        s = Session()
+        oldbind = s.bind
+        s.bind = slave
+        try:
+            return fn(*arg, **kw)
+        finally:
+            s.bind = oldbind
+    return go
 
 db = SQLAlchemy(app)
 
