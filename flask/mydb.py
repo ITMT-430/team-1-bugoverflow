@@ -648,7 +648,7 @@ def getids():
     """ Returns a list of (backup_ids, full_text) """
     command = "python manage.py dump history".split(" ")
     output = subprocess.check_output(command).strip().split("\n")
-    output = [o for o in output if "ID" in o]
+    output = [o[4:] for o in output if "ID" in o][::-1]
     backupids = map(lambda x: re.search('ID: (\d+?) ', x).group(1), output)
     return zip(output, backupids)
 
