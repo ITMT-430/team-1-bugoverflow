@@ -641,13 +641,19 @@ def rebuilddb():
 def dumpdb():
     """ retores the database, returns text to give back to the user """
     command = "python manage.py dump create".split(" ")
-    output = subprocess.check_output(command).strip()
+    try:
+        output = subprocess.check_output(command).strip()
+    except CalledProcessError:
+        return "We broke!"
     return [o[4:] for o in output.split('\n')]
 
 def getids():
     """ Returns a list of (backup_ids, full_text) """
     command = "python manage.py dump history".split(" ")
-    output = subprocess.check_output(command).strip().split("\n")
+    try:
+        output = subprocess.check_output(command).strip().split("\n")
+    except CalledProcessError:
+        return None
     output = [o[4:] for o in output if "ID" in o][::-1]
     backupids = map(lambda x: re.search('ID: (\d+?) ', x).group(1), output)
     return zip(output, backupids)
@@ -656,7 +662,10 @@ def restoredb(num):
     """ restores the database; returns text to give back to the user """
     command = "python manage.py dump restore -d %s" % str(num)
     command = command.split(" ")
-    output = subprocess.check_output(command).strip().split("\n")
+    try:
+        output = subprocess.check_output(command).strip().split("\n")
+    except CalledProcessError:
+        return "we broke it!"
     output = map(lambda x: re.search('-(.*\.gz.*)', x).group(1), output)
     return output
 
