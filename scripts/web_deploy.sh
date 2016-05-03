@@ -26,7 +26,7 @@ cd team-1-bugoverflow/flask/
 
 virtualenv flaskenv
 source flaskenv/bin/activate
-pip install uwsgi flask Jinja2 Flask-SQLAlchemy exifread pymysql flask_recaptcha requests Flask-AlchemyDumps Flask-Script
+pip install uwsgi flask Jinja2 Flask-SQLAlchemy exifread pymysql flask_recaptcha requests Flask-AlchemyDumps
 yum install python-jinja2 -y
 cd /team-1-bugoverflow/flask && source flaskenv/bin/activate && python -c "import mydb; mydb.rebuilddb()"
 
