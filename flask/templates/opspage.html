@@ -1,0 +1,22 @@
+<!DOCTYPE html>{% import 'macros_file.html' as macro %}
+<html lang="en">
+<head>
+	<title>You messed up</title>
+	    {{ macro.standard_header("Bug Overflow") }}
+</head>
+<body>
+<div class="container">
+	<div class="content">
+	<center>
+		<h1>DevOp Output</h1>
+        {% for o in output %}
+            <p>{{o}}</p>
+        {% endfor %}
+  		<p>
+  		<a href="{{ url_for('index') }}" class="btn btn-primary"><span class="glyphicon glyphicon-home"></span> go back home</a>
+	</center>
+	</div>
+</div>
+
+</body>
+</html>
