@@ -18,13 +18,13 @@
                 <p>This page is for <strong>admins</strong> <i>only</i></p>
             </div>
             <div class="col-md-6">
-                <center><a href="{{url_for('index')}}" class="btn btn-danger">Backup DB</a></center>
+                <center><a href="#" class="btn btn-danger">Dump DB</a></center>
             </div>
             <div class="col-md-6">
-                <center><a href="{{url_for('index')}}" class="btn btn-success">Restore DB</a></center>
+                <center><a href="#" class="btn btn-success">Restore DB</a></center>
                 {% for id in backup_ids %}
                     <ul>
-                        <li><a href="{{ id.link }}"></a></li>
+                        <li><a href="{{ url_for('restore', backupid=id[1]) }}">{{id[0]}}</a></li>
                     </ul>
                 {% endfor %}
             </div>
