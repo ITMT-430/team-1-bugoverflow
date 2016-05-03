@@ -22,7 +22,7 @@ service xinetd restart
 service rpcbind restart
 service rsyslog restart
 
-cd team-1-bugoverflow/flask/
+cd /team-1-bugoverflow/flask/
 
 virtualenv flaskenv
 source flaskenv/bin/activate
