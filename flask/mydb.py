@@ -658,6 +658,6 @@ def restoredb(num):
     command = command.split(" ")
     output = subprocess.check_output(command).strip().split("\n")
     output = map(lambda x: re.search('-(.*\.gz.*)', x).group(1), output)
-    return output
+    return "\n".join(output)
 
 
