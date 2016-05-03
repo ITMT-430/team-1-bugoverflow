@@ -50,7 +50,7 @@ sleep 3
 newipDR="$(euca-associate-address -i ${instanceDR} 64.131.111.95)"
 echo ${newipDR}
 sleep 3
-newipDW="$(euca-associate-address -i ${instanceDW} 64.131.111.93)"
+newipDW="$(euca-associate-address -i ${instanceDW} 64.131.111.94)"
 echo ${newipDW}
 sleep 3
 
@@ -69,7 +69,7 @@ echo "Instances should be up and running now, check the Eucalyptus web page. Run
 
 sleep 20
 ssh-keygen -f "/root/.ssh/known_hosts" -R 64.131.111.95
-ssh-keygen -f "/root/.ssh/known_hosts" -R 64.131.111.93
+ssh-keygen -f "/root/.ssh/known_hosts" -R 64.131.111.94
 ssh-keygen -f "/root/.ssh/known_hosts" -R 64.131.111.32
 
 

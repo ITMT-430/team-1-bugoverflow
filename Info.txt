@@ -17,7 +17,7 @@ MySql (port 3306, only 64.131.111.32),
  SSH (port 22)
 
 MySQL Server (Write)
-IP: 64.131.111.93
+IP: 64.131.111.94
 Hardware: m1.large (with elastic 40GB hard drive)
 Software: MySql
 Security: 
