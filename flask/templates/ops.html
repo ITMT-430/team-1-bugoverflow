@@ -1,0 +1,38 @@
+<!DOCTYPE html> {% import 'macros_file.html' as macro %}
+<html lang="en">
+
+<head>
+    {{ macro.standard_header("Bug Overflow") }}
+</head>
+
+<body>
+    {{ macro.navbar(index,tags,about) }}
+
+    <!-- Page Container -->
+    <div class="container">
+        <!-- content -->
+        <div class="content">
+        {% if session.role == 'admin' %}
+            <div class="jumbotron text-center">
+                <h1>Operations</h1>
+                <p>This page is for <strong>admins</strong> <i>only</i></p>
+            </div>
+            <div class="col-md-6">
+                <center><a href="{{url_for('index')}}" class="btn btn-danger">Backup DB</a></center>
+            </div>
+            <div class="col-md-6">
+                <center><a href="{{url_for('index')}}" class="btn btn-success">Restore DB</a></center>
+                {% for id in backup_ids %}
+                    <ul>
+                        <li><a href="{{ id.link }}"></a></li>
+                    </ul>
+                {% endfor %}
+            </div>
+            {% else %}
+            <emphasize>You don't belong here...</emphasize>
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+</html>

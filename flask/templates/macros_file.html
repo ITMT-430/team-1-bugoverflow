@@ -75,6 +75,9 @@
                     {% endif %}
                     <div class="dropdown-content">
                         <a href="{{url_for('profile')}}">account</a>
+                        {% if session.role == 'admin' %}
+                        <a href="{{url_for('ops')}}">ops</a>
+                        {% endif %}
                         <a href="{{url_for('logout')}}">log out</a>
                     </div>
                 </div>
