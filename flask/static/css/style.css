@@ -63,14 +63,14 @@ img.media-object {
       background-color: #286090;
 }
 
-.dropbtn {
-    background-color: #4CAF50;
-    color: white;
+.btn-success, .btn-warning, .btn-danger {
+    /*background-color: inherit;*/
+    /*color: white;*/
     padding: 14px;
     margin-right: 80px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
+    /*font-size: 16px;*/
+    /*border: none;*/
+    /*cursor: pointer;*/
 }
 
 .dropdown {
@@ -101,6 +101,11 @@ img.media-object {
     display: block;
 }
 
-.dropdown:hover .dropbtn {
+/*.dropdown:hover .dropbtn {
     background-color: #3e8e41;
+}*/
+
+p > .btn {
+    padding: 1px;
+    margin: inherit;
 }

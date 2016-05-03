@@ -537,6 +537,75 @@ def makethread3(users):
             c4)
     return None
 
+def makethread4(users):
+    imagename = '20160428_090635.jpg'
+    tags = ['wasp', 'hornet', 'scary', 'florida', 'winged']
+    op = users[2]
+    title = '[Florida US] Wasp or Hornet?'
+    body = 'Saw this out by my shed! Wasp or Hornet? How do I get rid of the nest!?'
+    geoloc = getgeoloc(bugpath + imagename)
+    thread, _ = newthread(title, body, imagename, op, tags, geoloc)
+
+    c1 = newcomment(thread, users[3],
+            """Looks like a hornet to me!""")
+    c2 = newcomment(thread, users[0],
+            """Actually its a umbrella wasp...very common in places like Florida""",
+            c1)
+    c3 = newcomment(thread, users[1],
+            """Keep your kids away from there!""")
+    return None
+
+def makethread5(users):
+    imagename = '20160428_090810.jpg'
+    tags = ['gross', 'cockroach', 'brown', 'hairy legs', 'florida']
+    op = users[1]
+    title = '[Florida US] Cockroach?'
+    body = 'Is this a cockroach? I cant tell!'
+    geoloc = getgeoloc(bugpath + imagename)
+    thread, _ = newthread(title, body, imagename, op, tags, geoloc)
+
+    c1 = newcomment(thread, users[3],
+            """Those are a pain to get rid of if they get in your house!""")
+    c2 = newcomment(thread, users[0],
+            """Looks like a cockroach to me...""")
+    return None
+
+def makethread6(users):
+    imagename = '20160428_094037.jpg'
+    tags = ['dragonfly', 'black', 'florida', 'winged']
+    op = users[0]
+    title = '[Florida US] Dragonfly'
+    body = 'This dragonfly is cool! What kind is it?'
+    geoloc = getgeoloc(bugpath + imagename)
+    thread, _ = newthread(title, body, imagename, op, tags, geoloc)
+
+    c1 = newcomment(thread, users[2],
+            """Calopteryx maculata""")
+    c2 = newcomment(thread, users[1],
+            """adult Calopteryx maculata, a damselfly. The species is in the family Calopterygidae""")
+    c3 = newcomment(thread, users[3],
+            """adult damselfly from the family Coenagrionidae""")
+    return None
+
+def makethread7(users):
+    imagename = '20160428_090755.jpg'
+    tags = ['beetle', 'brown', 'florida']
+    op = users[3]
+    title = '[Florida US] beetle'
+    body = 'found this beetle under a rock'
+    geoloc = getgeoloc(bugpath + imagename)
+    thread, _ = newthread(title, body, imagename, op, tags, geoloc)
+
+    c1 = newcomment(thread, users[0],
+            """small and cute!""")
+    c2 = newcomment(thread, users[1],
+            """i think it may be a hister beetle""")
+    c3 = newcomment(thread, users[2],
+            """those don't normally live under rocks though""", c2) 
+    c4 = newcomment(thread, users[1],
+            """oh okay my bad""", c3)
+    return None
+
 def makethreads_real():
     dummy = 'static/imgs/real_dummyimgs/'
     if os.path.isdir(bugpath):
@@ -547,6 +616,10 @@ def makethreads_real():
     makethread1(users)
     makethread2(users)
     makethread3(users)
+    makethread4(users)
+    makethread5(users)
+    makethread6(users)
+    makethread7(users)
 
 def makeall_real():
     """ Autogenerates dummy data based on reddit threads """
