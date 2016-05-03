@@ -15,31 +15,31 @@ import subprocess
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tmp.sqlite'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://master:leech@64.131.111.27/newdatabase'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tmp.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://master:leech@64.131.111.27/newdatabase'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-#master = create_engine("mysql+pymysql://master:leech@64.131.111.27/newdatabase")
-#slave = create_engine("mysql+pymysql://slave:leech@64.131.111.26/newdatabase")
-# Session = scoped_session(sessionmaker(bind=master))
+master = create_engine("mysql+pymysql://master:leech@64.131.111.27/newdatabase")
+slave = create_engine("mysql+pymysql://slave:leech@64.131.111.26/newdatabase")
+Session = scoped_session(sessionmaker(bind=master))
 
-# def with_slave(fn):
-#     """
-#     Decorator
+def with_slave(fn):
+    """
+    Decorator
 
-#     Forces the decorated function to use the slave session, instead of the master.
+    Forces the decorated function to use the slave session, instead of the master.
 
-#     Returns the session to the master at the end of the function.
-#     """
-#     def go(*arg, **kw):
-#         s = Session()
-#         oldbind = s.bind
-#         s.bind = slave
-#         try:
-#             return fn(*arg, **kw)
-#         finally:
-#             s.bind = oldbind
-#     return go
+    Returns the session to the master at the end of the function.
+    """
+    def go(*arg, **kw):
+        s = Session()
+        oldbind = s.bind
+        s.bind = slave
+        try:
+            return fn(*arg, **kw)
+        finally:
+            s.bind = oldbind
+    return go
 
 db = SQLAlchemy(app)
 
@@ -360,14 +360,14 @@ def getgeoloc(filepath):
             return None
     return geoloc
 
-#@with_slave
+@with_slave
 def getuserbyname(username):
     """ 
     :param str username:
     :return: the user object affiliated with the username """
     return User.query.filter_by(username=username).first()
 
-#@with_slave
+@with_slave
 def getthreadbyimagename(imagename):
     """ 
     :param str imagename:
@@ -378,12 +378,12 @@ def getthreadbyimagename(imagename):
         val = None
     return val
 
-#@with_slave
+@with_slave
 def getlast20images():
     """ :return: a list of image objects"""
     return Image.query.limit(20).all()
 
-#@with_slave
+@with_slave
 def getallimageswithtag(tagname):
     """ 
     :param str tagname:
@@ -391,7 +391,7 @@ def getallimageswithtag(tagname):
     images = Image.query.all()
     return [i for i in images if tagname in [t.name for t in i.tags]]
 
-#@with_slave
+@with_slave
 def isvalidlogin(username, password):
     """ 
     :param str username:
@@ -644,7 +644,7 @@ def dumpdb():
     try:
         output = subprocess.check_output(command).strip()
     except subprocess.CalledProcessError:
-        return "We broke!"
+        return ["We broke!"]
     return [o[4:] for o in output.split('\n')]
 
 def getids():
@@ -665,8 +665,6 @@ def restoredb(num):
     try:
         output = subprocess.check_output(command).strip().split("\n")
     except subprocess.CalledProcessError:
-        return "we broke it!"
+        return ["we broke it!"]
     output = map(lambda x: re.search('-(.*\.gz.*)', x).group(1), output)
     return output
-
-
