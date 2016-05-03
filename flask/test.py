@@ -221,11 +221,11 @@ def ops():
 def opspage(text):
     return render_template('opspage.html', output=text)
 
-@app.route('/backup', methods=['POST'])
+@app.route('/backup', methods=['GET'])
 def backup():
     if not admincheck():
         return errorpage('you must be an admin to be here.')
-    text = dumpdb()
+    text = mydb.dumpdb()
     return opspage(text)
 
 @app.route('/restore', methods=['POST'])

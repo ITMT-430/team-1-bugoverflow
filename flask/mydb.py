@@ -642,7 +642,7 @@ def dumpdb():
     """ retores the database, returns text to give back to the user """
     command = "python manage.py dump create".split(" ")
     output = subprocess.check_output(command).strip()
-    return output
+    return [o[4:] for o in output.split('\n')]
 
 def getids():
     """ Returns a list of (backup_ids, full_text) """
@@ -658,6 +658,6 @@ def restoredb(num):
     command = command.split(" ")
     output = subprocess.check_output(command).strip().split("\n")
     output = map(lambda x: re.search('-(.*\.gz.*)', x).group(1), output)
-    return "\n".join(output)
+    return output
 
 
