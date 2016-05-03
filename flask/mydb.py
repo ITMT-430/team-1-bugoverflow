@@ -23,6 +23,13 @@ slave = create_engine("mysql+pymysql://slave:leech@64.131.111.26/newdatabase")
 Session = scoped_session(sessionmaker(bind=master))
 
 def with_slave(fn):
+    """
+    Decorator
+
+    Forces the decorated function to use the slave session, instead of the master.
+
+    Returns the session to the master at the end of the function.
+    """
     def go(*arg, **kw):
         s = Session()
         oldbind = s.bind
@@ -32,7 +39,6 @@ def with_slave(fn):
         finally:
             s.bind = oldbind
     return go
-
 
 db = SQLAlchemy(app)
 
