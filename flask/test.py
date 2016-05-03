@@ -205,6 +205,10 @@ def tag():
     tags = sorted(set([t.name for t in tags]))
     return render_template('tags.html', tags=True, taglist=tags)
 
+@app.route('/ops')
+def ops():
+    return render_template('ops.html')
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
