@@ -18,15 +18,26 @@
                 <p>This page is for <strong>admins</strong> <i>only</i></p>
             </div>
             <div class="col-md-6">
-                <center><a href="{{ url_for('dump') }}" class="btn btn-danger">Dump DB</a></center>
+                <center><a href="{{ url_for('backup') }}" class="btn btn-danger">Dump DB</a></center>
             </div>
             <div class="col-md-6">
-                <center><a href="{{ url_for('backup') }}" class="btn btn-success">Restore DB</a></center>
+            <form action="{{url_for('restore')}}" method="post">
+                <center>
+                <button type="submit" class="btn btn-success">Reload DB</button>
+                </center>
+            </form>
+<!--                 <center><a href="{{ url_for('restore') }}" class="btn btn-success">Restore DB</a></center> -->
+                
+                {% if backup_ids %}
                 {% for id in backup_ids %}
                     <ul>
                         <li><a href="{{ url_for('restore', backupid=id[1]) }}">{{id[0]}}</a></li>
                     </ul>
+<!--                     <div class="radio">
+                        <label><input type="radio" name="backup"></label>
+                    </div> -->
                 {% endfor %}
+                {% endif %}
             </div>
             {% else %}
             <emphasize>You don't belong here...</emphasize>
