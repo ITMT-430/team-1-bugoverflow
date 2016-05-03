@@ -83,7 +83,7 @@
                         
                         {% else %}
                         <!-- commenting form -->
-                        <form action="{{url_for('postcomment', path=thread.image.imagename)}}" method="post"> 
+                        <form action="{{url_for('postcomment', path=thread.image.imagename)}}" method="post" id="commentform"> 
                             <div class="form-group">
                                 <label for="cbody">Comment:</label>
                                 <textarea class="form-control" rows="5" name="cbody" id="cbody"></textarea>
@@ -105,7 +105,7 @@
                                             <h4 class="media-heading">{{c.user.username}}</h4> 
                                             {{c.body}}
                                             <!-- comment reply button -->
-                                            <p><a href="#">Reply</a></p>
+                                            <p><button type="button" class="btn btn-link" id="replybtn">Reply</button>{% if session.role == 'admin' %}<button type="button" id="deleteCmtbtn" class="btn btn-link">Delete</button>{% endif %}</p>
                                             {% for c2 in c.children recursive%}
                                             <!-- nested comment -->
                                             <div class="media">
@@ -115,7 +115,7 @@
                                                 <div class="media-body">
                                                     <h4 class="media-heading">{{c2.user.username}}</h4>
                                                     {{c2.body}}
-                                                    <p><a href="#">Reply</a></p>
+                                                    <p><button type="button" class="btn btn-link" id="replybtnnested">Reply</button>{% if session.role == 'admin' %}<button type="button" id="deleteCmtbtn" class="btn btn-link">Delete</button>{% endif %}</p>
                                                     {{ loop(c2.children) }}
                                 
                                                 </div>
@@ -185,6 +185,35 @@
 
     <!-- Footer -->
     {{ macro.standard_footer() }}
+
+    <script type="text/javascript">
+        $(function() {
+            $("#replybtn").click(function(evt){
+            var form = $('#commentform').clone();
+            var target = $(evt.target);
+            var isFormAvailable = $("#commentform", target).length > 0;
+            if(!isFormAvailable) {
+                $(evt.target).after(form);
+            }                
+            });
+            $("#replybtnnested").click(function(evt){
+            var form = $('#commentform').clone();
+            var target = $(evt.target);
+            var isFormAvailable = $("#commentform", target).length > 0;
+            if(!isFormAvailable) {
+                $(evt.target).after(form);
+            }                
+            });
+        });
+    </script>
+<!--     <script type="text/javascript">
+        $(function() {
+            $("#deleteCmtbtn").click(function(){
+                $('#deleteCmtbtn').text("Are you sure?");
+                $('span').html("<button type='button' id='deleteCmtbtnYes' class='btn btn-link'>Yes</button>");
+            });
+        });
+    </script> -->
 </body>
 
 </html>

@@ -35,6 +35,11 @@ def index():
 def errorpage(error):
     return render_template('error.html', error_message=error)
 
+def admincheck():
+    if 'role' not in session or session['role'] != 'admin':
+        return False
+    return True
+
 def ishuman():
     human = True
     if human not in session or (human in session and not session['human']):
@@ -204,6 +209,36 @@ def tag():
     tags = mydb.Tag.query.all()
     tags = sorted(set([t.name for t in tags]))
     return render_template('tags.html', tags=True, taglist=tags)
+
+@app.route('/ops', methods=['GET'])
+def ops():
+    if not admincheck():
+        return errorpage('you must be an admin to be here.')
+
+    ids = mydb.getids()
+    return render_template('ops.html', backup_ids = ids)
+
+def opspage(text):
+    return render_template('opspage.html', output=text)
+
+@app.route('/backup', methods=['GET'])
+def backup():
+    if not admincheck():
+        return errorpage('you must be an admin to be here.')
+    text = mydb.dumpdb()
+    return opspage(text)
+
+@app.route('/restore', methods=['POST'])
+def restore(backup_id):
+    if not admincheck():
+        return errorpage('you must be an admin to be here.')
+    
+    if str(backup_id) in mydb.getids():
+        text = mydb.restoredb(backup_id)
+    else:
+        return errorpage('that backup does not exist')
+    return opspage(text)
+    
 
 @app.errorhandler(404)
 def page_not_found(e):
