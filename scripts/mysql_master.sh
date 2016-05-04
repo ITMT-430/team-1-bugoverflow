@@ -22,8 +22,8 @@ chkconfig mysqld on            				 # set to start on boot
 
 
 #SQL Configuration
-mysql -u root -pleech -e "CREATE USER 'master'@'64.131.111.32' IDENTIFIED BY 'leech';"
-mysql -u root -pleech -e "GRANT ALL PRIVILEGES ON * . * TO 'master'@'64.131.111.32' IDENTIFIED BY 'leech';"
+mysql -u root -pleech -e "CREATE USER 'master'@'64.131.111.33' IDENTIFIED BY 'leech';"
+mysql -u root -pleech -e "GRANT ALL PRIVILEGES ON * . * TO 'master'@'64.131.111.33' IDENTIFIED BY 'leech';"
 mysql -u root -pleech -e "GRANT ALL PRIVILEGES ON * . * TO 'master'@'localhost' IDENTIFIED BY 'leech';"
 mysql -u root -pleech -e "FLUSH PRIVILEGES;"
 mysql -u root -pleech -e "CREATE DATABASE newdatabase;"
