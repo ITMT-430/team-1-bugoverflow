@@ -34,8 +34,8 @@ pip install exifread
 pip install pymysql
 pip install flask_recaptcha
 pip install requests
-pip install Flask-AlchemyDumps
-
+#pip install Flask-AlchemyDumps
+#Flask-AlchemyDumps require python 2.7+
 yum install python-jinja2 -y
 #cd /team-1-bugoverflow/flask && source flaskenv/bin/activate && 
 python -c "import mydb; mydb.rebuilddb()"
